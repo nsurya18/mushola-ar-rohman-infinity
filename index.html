@@ -1266,7 +1266,119 @@ padding-bottom:80px;
 }
 
 }
-   
+
+/* =========================
+   SAFE MOBILE FIX
+========================= */
+
+@media(max-width:768px){
+
+/* NAV */
+
+.menu-toggle{
+
+display:block !important;
+
+position:relative;
+z-index:100000;
+
+font-size:2rem;
+
+color:#f7d774;
+
+cursor:pointer;
+
+}
+
+nav ul{
+
+position:absolute;
+
+top:78px;
+left:5%;
+right:5%;
+
+display:none;
+flex-direction:column;
+
+padding:18px;
+
+border-radius:24px;
+
+background:
+rgba(5,15,15,.96);
+
+backdrop-filter:blur(20px);
+
+z-index:99999;
+
+}
+
+nav ul.active{
+display:flex;
+}
+
+/* HERO */
+
+.hero h1{
+font-size:2.2rem;
+}
+
+/* GALLERY */
+
+.multi-preview{
+display:flex;
+overflow-x:auto;
+gap:6px;
+padding:6px;
+}
+
+.multi-preview img,
+.multi-preview video{
+
+min-width:140px;
+height:120px;
+
+object-fit:cover;
+
+border-radius:14px;
+
+flex-shrink:0;
+
+}
+
+/* CAROUSEL */
+
+.carousel{
+overflow-x:auto;
+}
+
+/* CARD */
+
+.carousel .card{
+min-width:280px;
+}
+
+/* VIEWER */
+
+.event-slide img,
+.event-slide video{
+
+max-width:100%;
+max-height:85vh;
+
+object-fit:contain;
+
+}
+
+/* PUSTAKA */
+
+.pustaka-content{
+max-height:85vh;
+overflow:auto;
+}
+
+}
 
 </style>
 </head>
