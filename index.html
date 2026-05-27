@@ -572,7 +572,7 @@ Lihat Galeri
 
 <div class="section-title">
 <h2>Jadwal Pengajian</h2>
-<p>Kegiatan rutin mushola</p>
+<p>Kegiatan rutin Mushola</p>
 </div>
 
 <div class="carousel">
@@ -598,6 +598,14 @@ Lihat Galeri
 <h3>TPQ Anak</h3>
 <p>Belajar iqro dan Al-Qur'an.</p>
 <div class="date">Rabu 16:00 WIB</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Maghrib Mengaji</h3>
+<p>Belajar iqro dan Al-Qur'an.</p>
+<div class="date">Ba'da Maghrib</div>
 </div>
 </div>
 
@@ -768,6 +776,69 @@ Tutup
 <div id="dashboard"></div>
 
 </div>
+
+</div>
+
+<!-- PUSTAKA ILMU -->
+
+<section id="pustaka">
+
+  <div class="section-title">
+    <h2>Pustaka Ilmu</h2>
+    <p>Doa, dzikir, kisah islami dan ilmu bermanfaat</p>
+  </div>
+
+  <div class="carousel-wrapper">
+
+    <div class="card pustaka-card" onclick="openPustaka('Dzikir Pagi','Dzikir pagi memberi ketenangan hati, perlindungan dan keberkahan sepanjang hari bagi umat muslim.')">
+      <div class="card-content">
+        <h3>Dzikir Pagi</h3>
+        <p>Membiasakan dzikir pagi untuk menjaga hati tetap tenang dan dekat kepada Allah.</p>
+        <div class="date">Dzikir Harian</div>
+      </div>
+    </div>
+
+    <div class="card pustaka-card" onclick="openPustaka('Doa Sebelum Tidur','Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ sebagai bentuk tawakal kepada Allah سبحانه وتعالى.')">
+      <div class="card-content">
+        <h3>Doa Sebelum Tidur</h3>
+        <p>Doa sebelum tidur sebagai bentuk perlindungan dan tawakal kepada Allah.</p>
+        <div class="date">Doa Harian</div>
+      </div>
+    </div>
+
+    <div class="card pustaka-card" onclick="openPustaka('Adab Masuk Masjid','Masuk masjid dengan kaki kanan dan membaca doa agar ibadah lebih khusyuk.')">
+      <div class="card-content">
+        <h3>Adab Masuk Masjid</h3>
+        <p>Menjaga adab dan kesopanan ketika memasuki rumah Allah سبحانه وتعالى.</p>
+        <div class="date">Adab Islami</div>
+      </div>
+    </div>
+
+    <div class="card pustaka-card" onclick="openPustaka('Kisah Nabi Muhammad ﷺ','Keteladanan Rasulullah ﷺ menjadi pedoman hidup umat muslim dalam akhlak dan ibadah.')">
+      <div class="card-content">
+        <h3>Kisah Nabi ﷺ</h3>
+        <p>Belajar keteladanan Rasulullah ﷺ dalam kehidupan sehari-hari.</p>
+        <div class="date">Cerita Islami</div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- PUSTAKA MODAL -->
+
+<div class="pustaka-modal" id="pustakaModal">
+
+  <div class="pustaka-content">
+
+    <span class="pustaka-close" onclick="closePustaka()">✕</span>
+
+    <h2 id="pustakaTitle"></h2>
+
+    <p id="pustakaText"></p>
+
+  </div>
 
 </div>
 
