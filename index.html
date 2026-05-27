@@ -91,9 +91,177 @@ box-shadow:
 color:rgba(255,255,255,.78);
 }
 
-/* FOOTER */
+/* =========================
+   PREMIUM FOOTER
+========================= */
 
 footer{
+
+position:relative;
+
+padding:
+60px 5% 40px;
+
+text-align:center;
+
+background:
+linear-gradient(
+180deg,
+rgba(7,19,19,.96),
+rgba(3,10,10,1)
+);
+
+border-top:
+1px solid rgba(212,175,55,.18);
+
+overflow:hidden;
+
+}
+
+/* GLOW */
+
+footer::before{
+
+content:"";
+
+position:absolute;
+top:-120px;
+left:50%;
+
+transform:translateX(-50%);
+
+width:420px;
+height:420px;
+
+background:
+radial-gradient(
+circle,
+rgba(20,184,166,.12),
+transparent 70%
+);
+
+pointer-events:none;
+
+}
+
+/* TEXT */
+
+footer p{
+
+position:relative;
+
+line-height:2;
+
+color:
+rgba(255,255,255,.82);
+
+font-size:.95rem;
+
+z-index:2;
+
+}
+
+/* TITLE */
+
+.footer-title{
+
+font-size:1.25rem;
+font-weight:700;
+
+margin-bottom:12px;
+
+color:#fff;
+
+text-shadow:
+0 0 12px rgba(212,175,55,.25);
+
+}
+
+/* ADDRESS */
+
+.footer-address{
+
+color:
+rgba(255,255,255,.7);
+
+margin-bottom:20px;
+
+}
+
+/* COPYRIGHT */
+
+.footer-copy{
+
+margin-top:20px;
+
+padding-top:20px;
+
+border-top:
+1px solid rgba(255,255,255,.08);
+
+font-size:.88rem;
+
+color:
+rgba(255,255,255,.55);
+
+}
+
+/* SOCIAL */
+
+.footer-social{
+
+display:flex;
+justify-content:center;
+gap:14px;
+
+margin-top:22px;
+
+}
+
+.footer-social a{
+
+width:48px;
+height:48px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border-radius:50%;
+
+text-decoration:none;
+
+font-size:1.2rem;
+
+color:white;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+transition:.35s;
+
+}
+
+.footer-social a:hover{
+
+transform:
+translateY(-4px) scale(1.08);
+
+background:
+linear-gradient(
+135deg,
+#14b8a6,
+#d4af37
+);
+
+box-shadow:
+0 0 18px rgba(20,184,166,.35);
+
+}
+
 
 background:
 rgba(255,255,255,.04);
@@ -1221,25 +1389,28 @@ Tutup
 
 <footer>
 
-<p>
-Mushola AR-ROHMAN<br>
+<div class="footer-title">
+🕌 Mushola AR-ROHMAN
+</div>
+
+<p class="footer-address">
 Dusun Pahing RT 06 RW 02<br>
 Desa Bandorasa Kulon<br>
 Kecamatan Cilimus - Kabupaten Kuningan
 </p>
 
-<br>
-
-<p>
-© 2026 Mushola AR-ROHMAN<br>By Zayn DNA
-</p>
-<div class="social-footer">
+<div class="footer-social">
 
 <a href="https://instagram.com/arrohmanpahing" target="_blank">
-📸 Instagram @arrohmanpahing
+📸
 </a>
 
 </div>
+
+<p class="footer-copy">
+© 2026 Mushola AR-ROHMAN Infinity
+</p>
+
 </footer>
 
 <script>
