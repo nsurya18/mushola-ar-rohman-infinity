@@ -553,6 +553,38 @@ min-width:280px;
 
 }
 
+  .preview-slider{
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+width:100%;
+height:230px;
+}
+
+.preview-slider::-webkit-scrollbar{
+height:4px;
+}
+
+.preview-slider::-webkit-scrollbar-thumb{
+background:#14b8a6;
+border-radius:20px;
+}
+
+.preview-item{
+min-width:100%;
+height:230px;
+scroll-snap-align:start;
+flex-shrink:0;
+background:black;
+}
+
+.preview-item img,
+.preview-item video{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
 </style>
 </head>
 <body>
@@ -1018,15 +1050,19 @@ item.media.forEach((media)=>{
 if(media.type==="image"){
 
 mediaHTML += `
+<div class="preview-item">
 <img src="${media.url}">
+</div>
 `;
 
 }else{
 
 mediaHTML += `
-<video muted>
+<div class="preview-item">
+<video muted playsinline>
 <source src="${media.url}">
 </video>
+</div>
 `;
 
 }
@@ -1038,7 +1074,9 @@ wrap.innerHTML += `
 <div class="card">
 
 <div class="preview-slider">
+
 ${mediaHTML}
+
 </div>
 
 <div class="card-content">
