@@ -3,301 +3,336 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola Ar-Rohman V3 Cloudinary</title>
+<title>Mushola V3 Clean Fix</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
   margin:0;
-  font-family:Poppins;
+  font-family:'Poppins',sans-serif;
   background:#eef7f6;
-  color:#103434;
+  color:#0f2f2f;
 }
 
 nav{
   position:fixed;
   top:0;
   width:100%;
-  background:white;
-  padding:15px;
+  background:rgba(255,255,255,.9);
   display:flex;
   justify-content:space-between;
-  z-index:999;
+  padding:14px 20px;
+  z-index:1000;
+  backdrop-filter:blur(10px);
+}
+
+nav ul{
+  display:flex;
+  gap:15px;
+  list-style:none;
+}
+
+nav a{
+  text-decoration:none;
+  color:#0f766e;
 }
 
 .hero{
   height:100vh;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
+  background:url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1600') center/cover;
+  color:white;
 }
+
+.hero h1{font-size:3rem;}
 
 section{
-  padding:60px 6%;
+  padding:60px 20px;
 }
 
-.carousel-wrapper{
-  display:flex;
-  overflow-x:auto;
+.title{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:15px;
 }
 
 .card{
-  min-width:280px;
   background:white;
-  border-radius:16px;
+  border-radius:15px;
   overflow:hidden;
-  box-shadow:0 10px 20px rgba(0,0,0,.08);
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
 .card img, .card video{
   width:100%;
-  height:200px;
+  height:180px;
   object-fit:cover;
 }
 
-.card-content{
-  padding:12px;
+.card-body{
+  padding:10px;
 }
 
-.viewer,.admin,.login{
-  display:none;
+/* CAROUSEL */
+.carousel{
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+  scroll-snap-type:x mandatory;
+}
+
+.carousel .card{
+  min-width:250px;
+  scroll-snap-align:start;
+}
+
+/* DOT */
+.dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+.dot{
+  width:8px;height:8px;
+  background:#aaa;
+  border-radius:50%;
+}
+
+.dot.active{
+  width:20px;
+  border-radius:10px;
+  background:#14b8a6;
+}
+
+/* VIEWER */
+.viewer{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.85);
+  background:rgba(0,0,0,.9);
+  display:none;
   justify-content:center;
   align-items:center;
 }
+
+.viewer img, .viewer video{
+  max-width:90%;
+  max-height:90%;
+}
+
+/* ADMIN */
+.admin-btn{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#14b8a6;
+  border:none;
+  color:white;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  font-size:20px;
+}
+
+.panel{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.box{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  width:90%;
+  max-width:400px;
+}
+
+input,textarea{
+  width:100%;
+  margin:5px 0;
+  padding:10px;
+}
+
+button{
+  padding:10px;
+  width:100%;
+  background:#14b8a6;
+  border:none;
+  color:white;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
-  🕌 Mushola Ar-Rohman
-  <button onclick="openLogin()">⚙</button>
+  <div><b>Mushola AR-Rohman</b></div>
+  <ul>
+    <li><a href="#galeri">Galeri</a></li>
+    <li><a href="#pustaka">Pustaka</a></li>
+  </ul>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div>
-    <h1>Mushola Ar-Rohman</h1>
+    <h1>Mushola V3 CLEAN</h1>
     <p>Ibadah adalah kebutuhan</p>
   </div>
 </div>
 
 <!-- GALERI -->
-<section>
-  <h2>Galeri Kegiatan</h2>
-  <div class="carousel-wrapper" id="gallery"></div>
+<section id="galeri">
+  <div class="title"><h2>Galeri Kegiatan</h2></div>
+  <div class="carousel" id="gallery"></div>
+  <div class="dots" id="dots"></div>
+</section>
+
+<!-- PUSTAKA -->
+<section id="pustaka">
+  <div class="title"><h2>Pustaka Islami</h2></div>
+  <div class="grid" id="book"></div>
 </section>
 
 <!-- VIEWER -->
-<div class="viewer" id="viewer" onclick="this.style.display='none'">
+<div class="viewer" id="viewer" onclick="closeViewer()">
   <div id="viewerBox"></div>
 </div>
 
-<!-- LOGIN -->
-<div class="login" id="login">
-  <div style="background:white;padding:20px;border-radius:12px">
-    <input type="password" id="pass" placeholder="password">
-    <button onclick="login()">Login</button>
-  </div>
-</div>
-
 <!-- ADMIN -->
-<div class="admin" id="admin">
-  <div style="background:white;padding:20px;border-radius:12px;width:300px">
+<button class="admin-btn" onclick="openPanel()">⚙</button>
 
+<div class="panel" id="panel">
+  <div class="box">
     <h3>Upload Galeri</h3>
-
-    <input id="title" placeholder="Judul"><br><br>
-    <textarea id="desc" placeholder="Deskripsi"></textarea><br><br>
-    <input type="date" id="date"><br><br>
-    <input type="file" id="file" multiple><br><br>
-
+    <input id="title" placeholder="Judul">
+    <textarea id="desc" placeholder="Deskripsi"></textarea>
+    <input type="date" id="date">
+    <input type="file" id="file" multiple>
     <button onclick="upload()">Upload</button>
   </div>
 </div>
 
 <script>
-/* =========================
-   CLOUDINARY CONFIG
-========================= */
-const CLOUD_NAME = "dqx4y6l8l";
-const UPLOAD_PRESET = "mushola_upload";
 
-/* =========================
-   DATA GALERI LOCAL (SAFE ONLINE)
-========================= */
+/* DATA */
 let gallery = JSON.parse(localStorage.getItem("gallery")) || [];
+let pustaka = JSON.parse(localStorage.getItem("pustaka")) || [
+  {title:"Dzikir Pagi",text:"Dzikir memberi ketenangan hati"},
+  {title:"Adab Masjid",text:"Masuk dengan kaki kanan"}
+];
 
-/* =========================
-   RENDER GALERI (FIX UI)
-========================= */
+/* RENDER GALERI */
 function renderGallery(){
+  let el = document.getElementById("gallery");
+  el.innerHTML="";
 
-  const container = document.getElementById("galleryContainer");
-  container.innerHTML = "";
-
-  if(gallery.length === 0){
-    container.innerHTML = "<p style='padding:20px'>Belum ada galeri</p>";
-    return;
-  }
-
-  gallery.forEach((item, index)=>{
-
-    const media = item.type === "video"
-      ? `<video src="${item.url}" controls></video>`
-      : `<img src="${item.url}" onclick="openViewer('${item.url}','image')">`;
-
-    container.innerHTML += `
-      <div class="card">
-        ${media}
-        <div class="card-content">
-          <h3>${item.title}</h3>
-          <p>${item.desc}</p>
-          <div class="date">${item.date}</div>
-        </div>
+  gallery.forEach((g,i)=>{
+    el.innerHTML += `
+    <div class="card">
+      ${g.type=="video"
+        ? `<video src="${g.url}" controls></video>`
+        : `<img src="${g.url}" onclick="openViewer('${g.url}','img')">`
+      }
+      <div class="card-body">
+        <b>${g.title}</b><br>
+        <small>${g.date}</small>
       </div>
-    `;
+    </div>`;
+  });
+
+  renderDots();
+}
+
+/* DOT */
+function renderDots(){
+  let dot = document.getElementById("dots");
+  dot.innerHTML="";
+  gallery.forEach((_,i)=>{
+    dot.innerHTML += `<div class="dot"></div>`;
   });
 }
 
-/* =========================
-   VIEWER FIX
-========================= */
+/* VIEWER */
 function openViewer(src,type){
-
-  const viewer = document.getElementById("viewer");
-  const content = document.getElementById("viewerContent");
-
-  if(type === "image"){
-    content.innerHTML = `<img src="${src}" style="max-width:90%">`;
-  }else{
-    content.innerHTML = `<video src="${src}" controls autoplay style="max-width:90%"></video>`;
-  }
-
-  viewer.style.display = "flex";
+  let box = document.getElementById("viewerBox");
+  box.innerHTML = type=="img"
+    ? `<img src="${src}">`
+    : "";
+  document.getElementById("viewer").style.display="flex";
 }
 
 function closeViewer(){
-  document.getElementById("viewer").style.display = "none";
+  document.getElementById("viewer").style.display="none";
 }
 
-/* =========================
-   UPLOAD CLOUDINARY (FIX FINAL)
-========================= */
-async function uploadMedia(){
-
-  const title = document.getElementById("title").value;
-  const desc = document.getElementById("desc").value;
-  const date = document.getElementById("date").value;
-  const files = document.getElementById("file").files;
-
-  if(!title || !desc || !date){
-    alert("Lengkapi data");
-    return;
-  }
-
-  if(files.length === 0){
-    alert("Pilih file");
-    return;
-  }
-
-  for(let file of files){
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET);
-
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
-      { method:"POST", body:formData }
-    );
-
-    const data = await res.json();
-
-    gallery.unshift({
-      title,
-      desc,
-      date,
-      url: data.secure_url,
-      type: file.type.startsWith("video") ? "video" : "image"
-    });
-  }
-
-  localStorage.setItem("gallery", JSON.stringify(gallery));
-
-  alert("Upload sukses");
-
-  document.getElementById("title").value="";
-  document.getElementById("desc").value="";
-  document.getElementById("date").value="";
-  document.getElementById("file").value="";
-
-  closeAdmin();
-  renderGallery();
-}
-
-/* =========================
-   ADMIN CONTROL FIX
-========================= */
-function openLogin(){
-  document.getElementById("loginScreen").style.display="flex";
-}
-
-function loginAdmin(){
-  const pass = document.getElementById("adminPassword").value;
-
-  if(pass === "123456"){
-    document.getElementById("loginScreen").style.display="none";
-    document.getElementById("adminPanel").style.display="flex";
-  }else{
-    alert("Password salah");
-  }
-}
-
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display="none";
-}
-
-/* =========================
-   PUSTAKA FIX (AMAN)
-========================= */
-let pustaka = JSON.parse(localStorage.getItem("pustaka")) || [];
-
-function renderPustaka(){
-
-  const wrap = document.getElementById("pustakaCrud");
-  if(!wrap) return;
-
-  wrap.innerHTML = "";
-
-  pustaka.forEach((item,index)=>{
-
-    wrap.innerHTML += `
-      <div class="table-item">
-        <div>
-          <strong>${item.title}</strong>
-        </div>
-        <div>
-          <button onclick="editPustaka(${index})">Edit</button>
-          <button onclick="deletePustaka(${index})">Hapus</button>
-        </div>
+/* PUSTAKA */
+function renderBook(){
+  let el = document.getElementById("book");
+  el.innerHTML="";
+  pustaka.forEach(p=>{
+    el.innerHTML += `
+    <div class="card">
+      <div class="card-body">
+        <b>${p.title}</b>
+        <p>${p.text}</p>
       </div>
-    `;
+    </div>`;
   });
 }
 
-/* =========================
-   INIT
-========================= */
+/* UPLOAD */
+function upload(){
+  let t=document.getElementById("title").value;
+  let d=document.getElementById("desc").value;
+  let dt=document.getElementById("date").value;
+  let files=document.getElementById("file").files;
+
+  if(!files.length) return alert("Pilih file");
+
+  Array.from(files).forEach(f=>{
+    let reader=new FileReader();
+    reader.onload=e=>{
+      gallery.unshift({
+        title:t,
+        desc:d,
+        date:dt,
+        url:e.target.result,
+        type:f.type.startsWith("video")?"video":"image"
+      });
+
+      localStorage.setItem("gallery",JSON.stringify(gallery));
+      renderGallery();
+    };
+    reader.readAsDataURL(f);
+  });
+
+  document.getElementById("panel").style.display="none";
+}
+
+/* ADMIN */
+function openPanel(){
+  document.getElementById("panel").style.display="flex";
+}
+
+/* INIT */
 renderGallery();
-renderPustaka();
+renderBook();
 
 </script>
 
