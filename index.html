@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V5</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Mushola AR-ROHMAN V7 ULTRA CLOUDINARY</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -12,7 +13,9 @@
 :root{
 --primary:#0f766e;
 --secondary:#14b8a6;
+--gold:#d4af37;
 --bg:#eef7f6;
+--dark:#062b28;
 }
 
 *{
@@ -43,21 +46,21 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:16px 5%;
-background:rgba(255,255,255,.88);
-backdrop-filter:blur(14px);
-z-index:9999;
-box-shadow:0 4px 20px rgba(0,0,0,.05);
+background:rgba(255,255,255,.92);
+backdrop-filter:blur(12px);
+z-index:99999;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
 }
 
 .logo{
-font-size:1.1rem;
+font-size:1rem;
 font-weight:700;
 color:var(--primary);
 }
 
 .menu-toggle{
 display:none;
-font-size:1.8rem;
+font-size:1.7rem;
 cursor:pointer;
 }
 
@@ -71,6 +74,7 @@ nav a{
 text-decoration:none;
 color:#103434;
 font-size:.92rem;
+font-weight:500;
 }
 
 /* HERO */
@@ -81,7 +85,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:20px;
+padding:120px 20px 60px;
 position:relative;
 overflow:hidden;
 }
@@ -91,11 +95,11 @@ content:"";
 position:absolute;
 inset:0;
 background:
-linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.65)),
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.72)),
 url('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1600&auto=format&fit=crop');
 background-size:cover;
 background-position:center;
-animation:zoom 18s infinite alternate;
+animation:zoom 20s infinite alternate;
 }
 
 @keyframes zoom{
@@ -106,17 +110,17 @@ to{transform:scale(1.08);}
 .hero-content{
 position:relative;
 z-index:2;
-max-width:800px;
+max-width:850px;
 }
 
 .hero h1{
 font-size:4rem;
 color:white;
-margin-bottom:20px;
+margin-bottom:18px;
 }
 
 .hero p{
-color:#f3f3f3;
+color:#f4f4f4;
 line-height:1.8;
 margin-bottom:30px;
 }
@@ -125,53 +129,49 @@ margin-bottom:30px;
 display:inline-block;
 padding:14px 28px;
 border-radius:50px;
-background:linear-gradient(45deg,var(--primary),var(--secondary));
-color:white;
+background:linear-gradient(45deg,var(--gold),#f7d774);
+color:#222;
+font-weight:700;
 text-decoration:none;
-font-weight:600;
-box-shadow:0 10px 25px rgba(0,0,0,.18);
 }
 
 /* SHOLAT */
 
-.hero-jadwal .jadwal-mini{
-  width:auto !important;
-  min-width:68px !important;
-  padding:6px 10px !important;
-  border-radius:14px !important;
-
-  height:auto !important;
-  min-height:auto !important;
-
-  display:flex !important;
-  flex-direction:column !important;
-  justify-content:center !important;
-  align-items:center !important;
-
-  background:rgba(212,175,55,.16) !important;
-  border:1px solid rgba(212,175,55,.35) !important;
-
-  line-height:1.1 !important;
+.hero-jadwal{
+margin-top:35px;
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
 }
 
-.hero-jadwal .jadwal-mini h4{
-  font-size:.64rem !important;
-  margin:0 !important;
-  line-height:1 !important;
-  color:#f7d774 !important;
+.jadwal-mini{
+padding:8px 12px;
+border-radius:14px;
+background:rgba(212,175,55,.14);
+border:1px solid rgba(212,175,55,.45);
+backdrop-filter:blur(8px);
+min-width:72px;
 }
 
-.hero-jadwal .jadwal-mini p{
-  margin-top:3px !important;
-  font-size:.76rem !important;
-  line-height:1 !important;
-  color:white !important;
+.jadwal-mini h4{
+font-size:.65rem;
+color:#f7d774;
+margin-bottom:4px;
+line-height:1;
+}
+
+.jadwal-mini p{
+font-size:.8rem;
+font-weight:600;
+color:white;
+line-height:1;
 }
 
 /* SECTION */
 
 section{
-padding:70px 5%;
+padding:75px 5%;
 }
 
 .section-title{
@@ -193,7 +193,7 @@ color:#555;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:20px;
 }
 
@@ -242,11 +242,22 @@ scroll-snap-align:start;
 box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-.card img,
-.card video{
+/* GALLERY */
+
+.preview-slider{
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
 width:100%;
-height:220px;
+}
+
+.preview-slider img,
+.preview-slider video{
+min-width:100%;
+height:230px;
 object-fit:cover;
+scroll-snap-align:start;
+background:black;
 }
 
 .card-content{
@@ -270,9 +281,10 @@ color:var(--secondary);
 }
 
 .event-count{
-margin-top:12px;
+margin-top:10px;
 font-size:.82rem;
-color:#14b8a6;
+color:var(--gold);
+font-weight:600;
 }
 
 .open-btn{
@@ -344,7 +356,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 scroll-snap-align:start;
-background:#000;
+background:black;
 }
 
 .event-slide img,
@@ -352,6 +364,50 @@ background:#000;
 max-width:100%;
 max-height:100%;
 object-fit:contain;
+}
+
+/* PUSTAKA */
+
+.pustaka-card{
+cursor:pointer;
+}
+
+.pustaka-modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999999;
+}
+
+.pustaka-content{
+width:100%;
+max-width:750px;
+background:white;
+padding:30px;
+border-radius:28px;
+position:relative;
+}
+
+.pustaka-close{
+position:absolute;
+top:16px;
+right:20px;
+font-size:1.7rem;
+cursor:pointer;
+}
+
+.pustaka-content h2{
+margin-bottom:16px;
+color:var(--primary);
+}
+
+.pustaka-content p{
+line-height:1.9;
+color:#444;
 }
 
 /* ADMIN */
@@ -368,7 +424,7 @@ background:linear-gradient(45deg,var(--primary),var(--secondary));
 color:white;
 font-size:1.5rem;
 cursor:pointer;
-z-index:9999;
+z-index:99999;
 }
 
 .panel{
@@ -378,12 +434,13 @@ background:rgba(0,0,0,.82);
 display:none;
 justify-content:center;
 align-items:center;
+padding:20px;
 z-index:999999;
 }
 
 .box{
-width:95%;
-max-width:520px;
+width:100%;
+max-width:560px;
 background:white;
 padding:30px;
 border-radius:28px;
@@ -404,6 +461,12 @@ margin-bottom:15px;
 border:none;
 border-radius:14px;
 background:#f3f7f7;
+font-family:'Poppins',sans-serif;
+}
+
+.box textarea{
+min-height:120px;
+resize:none;
 }
 
 .box button{
@@ -446,13 +509,13 @@ background:#ef4444 !important;
 
 footer{
 background:#dff3f1;
-padding:40px 5%;
+padding:45px 5%;
 text-align:center;
 border-top:1px solid rgba(0,0,0,.05);
 }
 
 footer p{
-line-height:1.8;
+line-height:1.9;
 }
 
 /* MOBILE */
@@ -481,7 +544,7 @@ display:flex;
 }
 
 .hero h1{
-font-size:2.5rem;
+font-size:2.4rem;
 }
 
 .card{
@@ -535,8 +598,6 @@ melainkan kebutuhan hati dan jiwa.
 Lihat Galeri
 </a>
 
-</div>
-
 <div class="hero-jadwal">
 
 <div class="jadwal-mini">
@@ -562,6 +623,8 @@ Lihat Galeri
 <div class="jadwal-mini">
 <h4>Isya</h4>
 <p>19:00</p>
+</div>
+
 </div>
 
 </div>
@@ -721,6 +784,19 @@ Lihat Galeri
 
 </section>
 
+<!-- PUSTAKA -->
+
+<section id="pustaka">
+
+<div class="section-title">
+<h2>Pustaka Ilmu</h2>
+<p>Doa, dzikir, kisah islami dan ilmu bermanfaat</p>
+</div>
+
+<div class="carousel" id="pustakaContainer"></div>
+
+</section>
+
 <!-- VIEWER -->
 
 <div class="event-viewer" id="eventViewer">
@@ -739,6 +815,22 @@ Lihat Galeri
 
 </div>
 
+<!-- PUSTAKA MODAL -->
+
+<div class="pustaka-modal" id="pustakaModal">
+
+<div class="pustaka-content">
+
+<span class="pustaka-close" onclick="closePustaka()">✕</span>
+
+<h2 id="pustakaTitle"></h2>
+
+<p id="pustakaText"></p>
+
+</div>
+
+</div>
+
 <!-- ADMIN -->
 
 <button class="admin-btn" onclick="openPanel()">
@@ -750,9 +842,19 @@ Lihat Galeri
 <div class="box">
 
 <div id="loginForm">
+
 <h2>Login Admin</h2>
+
 <input type="password" id="adminPassword" placeholder="Masukkan password admin">
-<button onclick="loginAdmin()">Masuk Dashboard</button>
+
+<button onclick="loginAdmin()">
+Masuk Dashboard
+</button>
+
+<button class="close-btn" onclick="closePanel()">
+Tutup
+</button>
+
 </div>
 
 <div id="adminContent" style="display:none;">
@@ -761,7 +863,7 @@ Lihat Galeri
 
 <input type="text" id="title" placeholder="Judul kegiatan">
 
-<textarea id="desc" placeholder="Deskripsi"></textarea>
+<textarea id="desc" placeholder="Deskripsi kegiatan"></textarea>
 
 <input type="date" id="date">
 
@@ -771,124 +873,27 @@ Lihat Galeri
 Upload Online
 </button>
 
-<button class="close-btn" onclick="closePanel()">
-Tutup
+<h2 style="margin-top:35px;">Tambah Pustaka</h2>
+
+<input type="text" id="pustakaJudul" placeholder="Judul pustaka">
+
+<textarea id="pustakaIsi" placeholder="Isi pustaka"></textarea>
+
+<button onclick="addPustaka()">
+Tambah Pustaka
 </button>
 
 <div id="dashboard"></div>
 
-<h3 style="margin-top:25px;color:var(--primary);">Kelola Pustaka</h3>
 <div id="pustakaDashboard"></div>
 
-</div>
+<button class="close-btn" onclick="closePanel()">
+Tutup
+</button>
 
 </div>
+
 </div>
-
-<!-- PUSTAKA ILMU -->
-
-<section id="pustaka">
-
-  <div class="section-title">
-    <h2>Pustaka Ilmu</h2>
-    <p>Doa, dzikir, kisah islami dan ilmu bermanfaat</p>
-  </div>
-
-  <div class="carousel">
-
-    <div class="card pustaka-card" onclick="openPustaka('Dzikir Pagi','Dzikir pagi memberi ketenangan hati, perlindungan dan keberkahan sepanjang hari bagi umat muslim.')">
-      <div class="card-content">
-        <h3>Dzikir Pagi</h3>
-        <p>Membiasakan dzikir pagi untuk menjaga hati tetap tenang dan dekat kepada Allah.</p>
-        <div class="date">Dzikir Harian</div>
-      </div>
-    </div>
-
-    <div class="card pustaka-card" onclick="openPustaka('Doa Sebelum Tidur','Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ sebagai bentuk tawakal kepada Allah سبحانه وتعالى.')">
-      <div class="card-content">
-        <h3>Doa Sebelum Tidur</h3>
-        <p>Doa sebelum tidur sebagai bentuk perlindungan dan tawakal kepada Allah.</p>
-        <div class="date">Doa Harian</div>
-      </div>
-    </div>
-
-    <div class="card pustaka-card" onclick="openPustaka('Adab Masuk Masjid','Masuk masjid dengan kaki kanan dan membaca doa agar ibadah lebih khusyuk.')">
-      <div class="card-content">
-        <h3>Adab Masuk Masjid</h3>
-        <p>Menjaga adab dan kesopanan ketika memasuki rumah Allah سبحانه وتعالى.</p>
-        <div class="date">Adab Islami</div>
-      </div>
-    </div>
-
-    <div class="card pustaka-card" onclick="openPustaka('Kisah Nabi Muhammad ﷺ','Keteladanan Rasulullah ﷺ menjadi pedoman hidup umat muslim dalam akhlak dan ibadah.')">
-      <div class="card-content">
-        <h3>Kisah Nabi ﷺ</h3>
-        <p>Belajar keteladanan Rasulullah ﷺ dalam kehidupan sehari-hari.</p>
-        <div class="date">Cerita Islami</div>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- PUSTAKA MODAL -->
-
-<style>
-.pustaka-card{
-cursor:pointer;
-}
-
-.pustaka-modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.88);
-display:none;
-justify-content:center;
-align-items:center;
-padding:20px;
-z-index:999999;
-}
-
-.pustaka-content{
-width:100%;
-max-width:720px;
-background:white;
-padding:30px;
-border-radius:28px;
-position:relative;
-}
-
-.pustaka-close{
-position:absolute;
-top:16px;
-right:20px;
-font-size:1.7rem;
-cursor:pointer;
-}
-
-.pustaka-content h2{
-margin-bottom:14px;
-color:var(--primary);
-}
-
-.pustaka-content p{
-line-height:1.9;
-color:#444;
-}
-</style>
-
-<div class="pustaka-modal" id="pustakaModal">
-
-  <div class="pustaka-content">
-
-    <span class="pustaka-close" onclick="closePustaka()">✕</span>
-
-    <h2 id="pustakaTitle"></h2>
-
-    <p id="pustakaText"></p>
-
-  </div>
 
 </div>
 
@@ -906,7 +911,7 @@ Kecamatan Cilimus - Kabupaten Kuningan
 <br>
 
 <p>
-© 2026 Mushola AR-ROHMAN V5
+© 2026 Mushola AR-ROHMAN V7 ULTRA CLOUDINARY
 </p>
 
 </footer>
@@ -920,7 +925,33 @@ const UPLOAD_PRESET = "mushola_upload";
 
 /* STORAGE */
 
-let gallery = JSON.parse(localStorage.getItem("gallery")) || [];
+let gallery =
+JSON.parse(localStorage.getItem("gallery")) || [];
+
+let pustaka =
+JSON.parse(localStorage.getItem("pustaka")) || [
+
+{
+title:"Dzikir Pagi",
+text:"Dzikir pagi memberi ketenangan hati, perlindungan dan keberkahan sepanjang hari bagi umat muslim."
+},
+
+{
+title:"Doa Sebelum Tidur",
+text:"Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ sebagai bentuk tawakal kepada Allah سبحانه وتعالى."
+},
+
+{
+title:"Adab Masuk Masjid",
+text:"Masuk masjid dengan kaki kanan dan membaca doa agar ibadah lebih khusyuk."
+},
+
+{
+title:"Kisah Nabi ﷺ",
+text:"Keteladanan Rasulullah ﷺ menjadi pedoman hidup umat muslim dalam akhlak dan ibadah."
+}
+
+];
 
 /* MENU */
 
@@ -934,19 +965,9 @@ document.getElementById("navMenu")
 /* PANEL */
 
 function openPanel(){
-document.getElementById('panel').style.display='flex';
-}
 
-function loginAdmin(){
-
-const pass=document.getElementById('adminPassword').value;
-
-if(pass==='123456'){
- document.getElementById('loginForm').style.display='none';
- document.getElementById('adminContent').style.display='block';
-}else{
- alert('Password salah');
-}
+document.getElementById("panel")
+.style.display="flex";
 
 }
 
@@ -957,61 +978,68 @@ document.getElementById("panel")
 
 }
 
-/* RENDER */
+function loginAdmin(){
+
+const pass =
+document.getElementById("adminPassword")
+.value;
+
+if(pass==="123456"){
+
+document.getElementById("loginForm")
+.style.display="none";
+
+document.getElementById("adminContent")
+.style.display="block";
+
+}else{
+
+alert("Password salah");
+
+}
+
+}
+
+/* GALLERY */
 
 function renderGallery(){
 
-  container.innerHTML='';
+const wrap =
+document.getElementById("gallery");
 
-  gallery.forEach((item,index)=>{
+wrap.innerHTML = "";
 
-    const card=document.createElement('div');
+gallery.forEach((item,index)=>{
 
-    card.className='card';
+let mediaHTML = "";
 
-    let media='';
+item.media.forEach((media)=>{
 
-    item.urls.forEach((url)=>{
+if(media.type==="image"){
 
-      media += `
-      <img
-      src="${url}"
-      onclick="openViewer('${url}','image')">
-      `;
+mediaHTML += `
+<img src="${media.url}">
+`;
 
-    });
+}else{
 
-    card.innerHTML=`
-
-      <div class="multi-preview">
-        ${media}
-      </div>
-
-      <div class="card-content">
-
-        <h3>${item.title}</h3>
-
-        <p>${item.desc}</p>
-
-        <div class="date">
-          ${item.date}
-        </div>
-
-      </div>
-
-    `;
-
-    container.appendChild(card);
-
-  });
+mediaHTML += `
+<video muted>
+<source src="${media.url}">
+</video>
+`;
 
 }
+
+});
 
 wrap.innerHTML += `
 
 <div class="card">
 
+<div class="preview-slider">
 ${mediaHTML}
+</div>
 
 <div class="card-content">
 
@@ -1028,7 +1056,7 @@ ${item.date}
 </div>
 
 <button class="open-btn"
-onclick="openEvent(${index},0)">
+onclick="openEvent(${index})">
 Lihat Kegiatan
 </button>
 
@@ -1046,9 +1074,7 @@ renderDashboard();
 
 /* EVENT VIEWER */
 
-function openEvent(index,start){
-
-if(!gallery[index].media || gallery[index].media.length===0)return;
+function openEvent(index){
 
 const viewer =
 document.getElementById("eventViewer");
@@ -1059,57 +1085,47 @@ document.getElementById("eventSlider");
 const title =
 document.getElementById("eventTitle");
 
-const event = gallery[index];
+slider.innerHTML = "";
 
-slider.innerHTML="";
+const event = gallery[index];
 
 title.innerText = event.title;
 
 event.media.forEach((media)=>{
 
-let html="";
-
 if(media.type==="image"){
 
-html=`
+slider.innerHTML += `
+<div class="event-slide">
 <img src="${media.url}">
+</div>
 `;
 
 }else{
 
-html=`
+slider.innerHTML += `
+<div class="event-slide">
 <video controls>
 <source src="${media.url}">
 </video>
+</div>
 `;
 
 }
 
-slider.innerHTML += `
-<div class="event-slide">
-${html}
-</div>
-`;
-
 });
 
-viewer.style.display="flex";
-
-setTimeout(()=>{
-
-slider.scrollLeft =
-window.innerWidth * start;
-
-},100);
+viewer.style.display = "flex";
 
 }
 
 function closeEvent(){
 
-document.getElementById('eventSlider').innerHTML='';
-
 document.getElementById("eventViewer")
 .style.display="none";
+
+document.getElementById("eventSlider")
+.innerHTML="";
 
 }
 
@@ -1118,20 +1134,16 @@ document.getElementById("eventViewer")
 async function uploadMedia(){
 
 const title =
-document.getElementById("title")
-.value.trim();
+document.getElementById("title").value.trim();
 
 const desc =
-document.getElementById("desc")
-.value.trim();
+document.getElementById("desc").value.trim();
 
 const date =
-document.getElementById("date")
-.value;
+document.getElementById("date").value;
 
 const files =
-document.getElementById("file")
-.files;
+document.getElementById("file").files;
 
 if(!title || !desc || !date){
 
@@ -1147,7 +1159,7 @@ return;
 
 }
 
-let mediaArray=[];
+let mediaArray = [];
 
 for(const file of files){
 
@@ -1173,6 +1185,7 @@ const data = await res.json();
 mediaArray.push({
 
 url:data.secure_url,
+
 type:file.type.startsWith("video")
 ? "video"
 : "image"
@@ -1197,105 +1210,12 @@ JSON.stringify(gallery)
 
 renderGallery();
 
-const pustakaData=[
-{
-title:'Dzikir Pagi',
-text:'Dzikir pagi memberi ketenangan hati, perlindungan dan keberkahan sepanjang hari bagi umat muslim.'
-},
-{
-title:'Doa Sebelum Tidur',
-text:'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ sebagai bentuk tawakal kepada Allah سبحانه وتعالى.'
-},
-{
-title:'Adab Masuk Masjid',
-text:'Masuk masjid dengan kaki kanan dan membaca doa agar ibadah lebih khusyuk.'
-},
-{
-title:'Kisah Nabi ﷺ',
-text:'Keteladanan Rasulullah ﷺ menjadi pedoman hidup umat muslim dalam akhlak dan ibadah.'
-}
-];
-
-function renderPustaka(){
-
-  const wrap=document.getElementById("pustakaContainer");
-
-  wrap.innerHTML="";
-
-  pustaka.forEach((item)=>{
-
-    wrap.innerHTML += `
-
-    <div class="card pustaka-card"
-    onclick="openPustaka(
-    '${item.title}',
-    '${item.text}'
-    )">
-
-      <div class="card-content">
-
-        <h3>${item.title}</h3>
-
-        <p>
-          ${item.text.substring(0,90)}...
-        </p>
-
-        <div class="date">
-          Pustaka Islami
-        </div>
-
-      </div>
-
-    </div>
-
-    `;
-
-  });
-
-}
-
-function editPustaka(index){
-
-const newTitle=prompt('Edit Judul',pustakaData[index].title);
-if(newTitle===null)return;
-
-const newText=prompt('Edit Isi',pustakaData[index].text);
-if(newText===null)return;
-
-pustakaData[index].title=newTitle;
-pustakaData[index].text=newText;
-
-location.reload();
-
-}
-
-renderPustakaDashboard();
-
-function openPustaka(title,text){
-
- document.getElementById('pustakaTitle').innerText=title;
- document.getElementById('pustakaText').innerText=text;
- document.getElementById('pustakaModal').style.display='flex';
-
-}
-
-function closePustaka(){
-
- document.getElementById('pustakaModal').style.display='none';
-
-}
-
-document.getElementById('pustakaModal').addEventListener('click',function(e){
-
- if(e.target.id==='pustakaModal'){
-  closePustaka();
- }
-
-});
-
 alert("Upload kegiatan berhasil");
 
-closePanel();
+document.getElementById("title").value="";
+document.getElementById("desc").value="";
+document.getElementById("date").value="";
+document.getElementById("file").value="";
 
 }
 
@@ -1306,11 +1226,12 @@ function renderDashboard(){
 const dash =
 document.getElementById("dashboard");
 
-dash.innerHTML="<h3 style='margin-top:20px;'>Kelola Galeri</h3>";
+dash.innerHTML =
+"<h2 style='margin-top:30px;'>Kelola Galeri</h2>";
 
 gallery.forEach((item,index)=>{
 
- dash.innerHTML += `
+dash.innerHTML += `
 
 <div class="dashboard-item">
 
@@ -1340,7 +1261,46 @@ Hapus
 
 }
 
-/* DELETE */
+/* EDIT GALLERY */
+
+function editGallery(index){
+
+const item = gallery[index];
+
+const newTitle =
+prompt("Edit Judul",item.title);
+
+if(newTitle===null)return;
+
+const newDesc =
+prompt("Edit Deskripsi",item.desc);
+
+if(newDesc===null)return;
+
+const newDate =
+prompt("Edit Tanggal",item.date);
+
+if(newDate===null)return;
+
+gallery[index] = {
+
+...item,
+title:newTitle,
+desc:newDesc,
+date:newDate
+
+};
+
+localStorage.setItem(
+"gallery",
+JSON.stringify(gallery)
+);
+
+renderGallery();
+
+}
+
+/* DELETE GALLERY */
 
 function deleteGallery(index){
 
@@ -1359,52 +1319,215 @@ renderGallery();
 
 }
 
-/* EDIT */
+/* PUSTAKA */
 
-function editGallery(index){
+function renderPustaka(){
 
-const item = gallery[index];
+const wrap =
+document.getElementById("pustakaContainer");
 
-const title = prompt(
-"Edit Judul",
-item.title
-);
+wrap.innerHTML = "";
 
-if(title===null)return;
+pustaka.forEach((item,index)=>{
 
-const desc = prompt(
-"Edit Deskripsi",
-item.desc
-);
+wrap.innerHTML += `
 
-if(desc===null)return;
+<div class="card pustaka-card"
+onclick="openPustaka(${index})">
 
-const date = prompt(
-"Edit Tanggal",
-item.date
-);
+<div class="card-content">
 
-if(date===null)return;
+<h3>${item.title}</h3>
 
-gallery[index]={
-...item,
+<p>
+${item.text.substring(0,100)}...
+</p>
+
+<div class="date">
+Pustaka Islami
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+renderPustakaDashboard();
+
+}
+
+function openPustaka(index){
+
+document.getElementById("pustakaTitle")
+.innerText = pustaka[index].title;
+
+document.getElementById("pustakaText")
+.innerText = pustaka[index].text;
+
+document.getElementById("pustakaModal")
+.style.display = "flex";
+
+}
+
+function closePustaka(){
+
+document.getElementById("pustakaModal")
+.style.display = "none";
+
+}
+
+document.getElementById("pustakaModal")
+.addEventListener("click",function(e){
+
+if(e.target.id==="pustakaModal"){
+
+closePustaka();
+
+}
+
+});
+
+/* ADD PUSTAKA */
+
+function addPustaka(){
+
+const title =
+document.getElementById("pustakaJudul")
+.value.trim();
+
+const text =
+document.getElementById("pustakaIsi")
+.value.trim();
+
+if(!title || !text){
+
+alert("Lengkapi pustaka");
+return;
+
+}
+
+pustaka.unshift({
+
 title:title,
-desc:desc,
-date:date
+text:text
+
+});
+
+localStorage.setItem(
+"pustaka",
+JSON.stringify(pustaka)
+);
+
+renderPustaka();
+
+document.getElementById("pustakaJudul")
+.value="";
+
+document.getElementById("pustakaIsi")
+.value="";
+
+alert("Pustaka berhasil ditambah");
+
+}
+
+/* PUSTAKA DASHBOARD */
+
+function renderPustakaDashboard(){
+
+const dash =
+document.getElementById("pustakaDashboard");
+
+dash.innerHTML =
+"<h2 style='margin-top:35px;'>Kelola Pustaka</h2>";
+
+pustaka.forEach((item,index)=>{
+
+dash.innerHTML += `
+
+<div class="dashboard-item">
+
+<div>
+<strong>${item.title}</strong>
+</div>
+
+<div style="display:flex;gap:8px;">
+
+<button onclick="editPustaka(${index})">
+Edit
+</button>
+
+<button
+class="delete-btn"
+onclick="deletePustaka(${index})">
+Hapus
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* EDIT PUSTAKA */
+
+function editPustaka(index){
+
+const newTitle =
+prompt("Edit Judul",pustaka[index].title);
+
+if(newTitle===null)return;
+
+const newText =
+prompt("Edit Isi",pustaka[index].text);
+
+if(newText===null)return;
+
+pustaka[index] = {
+
+title:newTitle,
+text:newText
+
 };
 
 localStorage.setItem(
-"gallery",
-JSON.stringify(gallery)
+"pustaka",
+JSON.stringify(pustaka)
 );
 
-renderGallery();
+renderPustaka();
+
+}
+
+/* DELETE PUSTAKA */
+
+function deletePustaka(index){
+
+if(confirm("Hapus pustaka?")){
+
+pustaka.splice(index,1);
+
+localStorage.setItem(
+"pustaka",
+JSON.stringify(pustaka)
+);
+
+renderPustaka();
+
+}
 
 }
 
 /* INIT */
 
 renderGallery();
+renderPustaka();
 
 </script>
 
