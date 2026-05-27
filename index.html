@@ -678,7 +678,7 @@ height:160px;
 <section id="galeri">
 <div class="section-title">
 <h2>Galeri Kegiatan</h2>
-<p>Dokumentasi kegiatan DKM</p>
+<p>Dokumentasi kegiatan mushola</p>
 </div>
 <div class="carousel" id="gallery"></div>
 </section>
@@ -747,7 +747,7 @@ Kecamatan Cilimus - Kabupaten Kuningan
 </div>
 
 <div class="footer-copy">
-© 2026 Mushola AR‑ROHMAN<br>By Zayn
+© 2026 Mushola AR‑ROHMAN V8<br>Design By Zayn
 </div>
 </footer>
 
@@ -755,7 +755,23 @@ Kecamatan Cilimus - Kabupaten Kuningan
 const CLOUD_NAME = 'dqx4y6l8l';
 const UPLOAD_PRESET = 'mushola_upload';
 
-let gallery = JSON.parse(localStorage.getItem('gallery')) || [];
+let gallery = JSON.parse(localStorage.getItem('gallery')) || [
+{
+ title:'Pengajian Warga',
+ desc:'Kegiatan pengajian rutin warga Mushola AR-ROHMAN.',
+ date:'2026-05-28',
+ media:[
+ {
+  url:'https://images.unsplash.com/photo-1542816417-0983670d1bb7?q=80&w=1200&auto=format&fit=crop',
+  type:'image'
+ },
+ {
+  url:'https://images.unsplash.com/photo-1519817650390-64a93db511aa?q=80&w=1200&auto=format&fit=crop',
+  type:'image'
+ }
+ ]
+}
+];
 
 function toggleMenu(){
 document.getElementById('navMenu').classList.toggle('active');
@@ -780,6 +796,7 @@ alert('Password salah');
 }
 
 function renderGallery(){
+console.log('Gallery Loaded:',gallery);
 const container=document.getElementById('gallery');
 container.innerHTML='';
 
