@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V8 JOSS</title>
+<title>Mushola AR-ROHMAN V8</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 :root{
 --primary:#0f766e;
 --secondary:#14b8a6;
 --gold:#d4af37;
---dark:#071313;
+--bg:#071313;
 --card:rgba(255,255,255,.06);
+--border:rgba(255,255,255,.08);
 }
 
 *{
@@ -21,27 +24,14 @@ padding:0;
 box-sizing:border-box;
 }
 
-html{
-scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth;}
 
 body{
 font-family:'Poppins',sans-serif;
-background:linear-gradient(180deg,#071313,#0d2222,#102929);
+background:linear-gradient(180deg,#071313,#0b1d1d,#102525);
 color:white;
 overflow-x:hidden;
 }
-
-img{
-max-width:100%;
-display:block;
-}
-
-section{
-padding:80px 5%;
-}
-
-/* NAVBAR */
 
 nav{
 position:fixed;
@@ -52,7 +42,7 @@ padding:16px 5%;
 display:flex;
 align-items:center;
 justify-content:space-between;
-background:rgba(5,15,15,.88);
+background:rgba(5,15,15,.82);
 backdrop-filter:blur(18px);
 z-index:99999;
 border-bottom:1px solid rgba(255,255,255,.08);
@@ -83,23 +73,20 @@ color:white;
 padding:12px 16px;
 border-radius:14px;
 transition:.3s;
-font-size:.92rem;
 }
 
 nav a:hover{
-background:linear-gradient(135deg,rgba(20,184,166,.25),rgba(212,175,55,.22));
-box-shadow:0 0 18px rgba(20,184,166,.25);
+background:linear-gradient(135deg,rgba(20,184,166,.35),rgba(212,175,55,.28));
 }
-
-/* HERO */
 
 .hero{
 min-height:100vh;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:120px 20px 80px;
+padding:120px 20px 60px;
 position:relative;
 overflow:hidden;
 }
@@ -108,10 +95,10 @@ overflow:hidden;
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),url('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1600&auto=format&fit=crop');
+background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.72)),url('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1600&auto=format&fit=crop');
 background-size:cover;
 background-position:center;
-animation:zoom 18s infinite alternate;
+animation:zoom 20s infinite alternate;
 }
 
 @keyframes zoom{
@@ -119,87 +106,65 @@ from{transform:scale(1)}
 to{transform:scale(1.08)}
 }
 
-.hero-content{
-position:relative;
-z-index:2;
-max-width:800px;
-}
+.hero-content{position:relative;z-index:2;max-width:850px;}
 
-.hero h1{
-font-size:4rem;
-margin-bottom:20px;
-}
-
-.hero p{
-line-height:1.8;
-margin-bottom:30px;
-color:#eee;
-}
+.hero h1{font-size:4rem;margin-bottom:18px;}
+.hero p{line-height:1.8;color:#f3f3f3;}
 
 .btn{
 display:inline-block;
-padding:14px 28px;
-background:linear-gradient(135deg,var(--gold),#f7d774);
-color:#222;
-font-weight:700;
+margin-top:25px;
+padding:14px 30px;
+border-radius:50px;
 text-decoration:none;
-border-radius:999px;
+font-weight:700;
+background:linear-gradient(45deg,#d4af37,#f7d774);
+color:#222;
 }
 
 .hero-jadwal{
-margin-top:40px;
+position:relative;
+z-index:2;
+margin-top:35px;
 display:flex;
-justify-content:center;
-flex-wrap:wrap;
 gap:10px;
+flex-wrap:wrap;
+justify-content:center;
 }
 
 .jadwal-mini{
 min-width:74px;
 height:58px;
+padding:8px;
+border-radius:16px;
+background:rgba(212,175,55,.14);
+border:1px solid rgba(212,175,55,.35);
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
-background:rgba(212,175,55,.14);
-border:1px solid rgba(212,175,55,.35);
-border-radius:16px;
 }
 
 .jadwal-mini h4{
-font-size:.65rem;
+font-size:.66rem;
 color:#f7d774;
-margin-bottom:4px;
+margin-bottom:3px;
 }
 
 .jadwal-mini p{
-font-size:.8rem;
+font-size:.82rem;
 font-weight:600;
 }
 
-/* TITLE */
+section{padding:75px 5%;}
 
-.section-title{
-text-align:center;
-margin-bottom:35px;
-}
-
-.section-title h2{
-font-size:2rem;
-margin-bottom:10px;
-color:#f7d774;
-}
-
-.section-title p{
-color:rgba(255,255,255,.72);
-}
-
-/* GRID */
+.section-title{text-align:center;margin-bottom:35px;}
+.section-title h2{font-size:2rem;color:#f7d774;margin-bottom:10px;}
+.section-title p{color:rgba(255,255,255,.7);}
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:20px;
 }
 
@@ -208,28 +173,15 @@ gap:20px;
 .box,
 .pustaka-content{
 background:var(--card);
-border:1px solid rgba(255,255,255,.08);
+border:1px solid var(--border);
 backdrop-filter:blur(10px);
 border-radius:24px;
 box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
-.grid-box{
-padding:24px;
-text-align:center;
-}
-
-.grid-box h3{
-margin-bottom:10px;
-color:#f7d774;
-}
-
-.grid-box p{
-line-height:1.7;
-color:rgba(255,255,255,.8);
-}
-
-/* CAROUSEL */
+.grid-box{padding:24px;text-align:center;}
+.grid-box h3{margin-bottom:10px;color:#f7d774;}
+.grid-box p{line-height:1.8;color:rgba(255,255,255,.75);}
 
 .carousel{
 display:flex;
@@ -239,14 +191,8 @@ scroll-snap-type:x mandatory;
 padding-bottom:10px;
 }
 
-.carousel::-webkit-scrollbar{
-height:5px;
-}
-
-.carousel::-webkit-scrollbar-thumb{
-background:var(--secondary);
-border-radius:999px;
-}
+.carousel::-webkit-scrollbar{height:5px;}
+.carousel::-webkit-scrollbar-thumb{background:#14b8a6;border-radius:20px;}
 
 .card{
 min-width:320px;
@@ -254,45 +200,27 @@ overflow:hidden;
 scroll-snap-align:start;
 }
 
-.card-content{
-padding:18px;
-}
-
-.card-content h3{
-margin-bottom:10px;
-color:#f7d774;
-}
-
-.card-content p{
-line-height:1.7;
-color:rgba(255,255,255,.82);
-}
-
-.date,
-.event-count{
-margin-top:12px;
-font-size:.82rem;
-color:#f7d774;
-}
-
-/* GALLERY */
-
-.multi-preview{
+.preview-slider{
 display:flex;
 overflow-x:auto;
-gap:6px;
-padding:6px;
-background:#000;
+scroll-snap-type:x mandatory;
 }
 
-.multi-preview img,
-.multi-preview video{
-width:100%;
+.preview-slider img,
+.preview-slider video{
 min-width:100%;
-height:220px;
+height:230px;
 object-fit:cover;
-border-radius:16px;
+scroll-snap-align:start;
+background:black;
 }
+
+.card-content{padding:18px;}
+.card-content h3{margin-bottom:10px;color:#f7d774;}
+.card-content p{line-height:1.7;color:rgba(255,255,255,.78);}
+
+.date{margin-top:12px;font-size:.84rem;color:#14b8a6;}
+.event-count{margin-top:10px;color:#f7d774;font-size:.82rem;}
 
 .open-btn{
 margin-top:14px;
@@ -300,32 +228,19 @@ width:100%;
 padding:12px;
 border:none;
 border-radius:14px;
-background:linear-gradient(135deg,var(--primary),var(--secondary));
+background:linear-gradient(45deg,#0f766e,#14b8a6);
 color:white;
 font-weight:600;
 cursor:pointer;
 }
 
-/* DKM */
-
-.dkm-wrap{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:20px;
-}
-
-.dkm-card{
-max-width:280px;
-text-align:center;
-}
-
-/* VIEWER */
+.dkm-wrap{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.dkm-card{max-width:280px;text-align:center;}
 
 .event-viewer{
 position:fixed;
 inset:0;
-background:#000;
+background:black;
 display:none;
 flex-direction:column;
 z-index:999999;
@@ -333,20 +248,11 @@ z-index:999999;
 
 .event-topbar{
 height:70px;
+padding:0 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 20px;
 background:rgba(0,0,0,.5);
-}
-
-.event-topbar button{
-padding:10px 16px;
-border:none;
-border-radius:12px;
-background:#ef4444;
-color:white;
-cursor:pointer;
 }
 
 .event-slider{
@@ -371,44 +277,36 @@ max-height:100%;
 object-fit:contain;
 }
 
-/* PUSTAKA */
-
-.pustaka-card{
-cursor:pointer;
-}
+.pustaka-card{cursor:pointer;}
 
 .pustaka-modal{
 position:fixed;
 inset:0;
+background:rgba(0,0,0,.88);
 display:none;
 justify-content:center;
 align-items:center;
 padding:20px;
-background:rgba(0,0,0,.85);
 z-index:999999;
 }
 
 .pustaka-content{
-padding:30px;
-max-width:720px;
 width:100%;
+max-width:720px;
+padding:30px;
 position:relative;
 }
 
 .pustaka-close{
 position:absolute;
-top:16px;
-right:20px;
+top:14px;
+right:18px;
 font-size:1.8rem;
 cursor:pointer;
 }
 
-.pustaka-content p{
-line-height:1.9;
-margin-top:14px;
-}
-
-/* ADMIN */
+.pustaka-content h2{margin-bottom:14px;color:#f7d774;}
+.pustaka-content p{line-height:1.9;color:rgba(255,255,255,.82);}
 
 .admin-btn{
 position:fixed;
@@ -418,21 +316,21 @@ width:65px;
 height:65px;
 border:none;
 border-radius:50%;
-background:linear-gradient(135deg,var(--primary),var(--secondary));
+background:linear-gradient(45deg,#0f766e,#14b8a6);
 color:white;
 font-size:1.5rem;
 cursor:pointer;
-z-index:9999;
+z-index:99999;
 }
 
 .panel{
 position:fixed;
 inset:0;
+background:rgba(0,0,0,.82);
 display:none;
 justify-content:center;
 align-items:center;
 padding:20px;
-background:rgba(0,0,0,.82);
 z-index:999999;
 }
 
@@ -444,11 +342,6 @@ max-height:90vh;
 overflow:auto;
 }
 
-.box h2{
-margin-bottom:20px;
-color:#f7d774;
-}
-
 .box input,
 .box textarea{
 width:100%;
@@ -457,7 +350,6 @@ margin-bottom:14px;
 border:none;
 border-radius:14px;
 background:#f3f7f7;
-font-family:'Poppins',sans-serif;
 }
 
 .box button{
@@ -465,20 +357,16 @@ width:100%;
 padding:14px;
 border:none;
 border-radius:14px;
-background:linear-gradient(135deg,var(--primary),var(--secondary));
+background:linear-gradient(45deg,#0f766e,#14b8a6);
 color:white;
 font-weight:600;
 cursor:pointer;
-}
-
-.close-btn{
-margin-top:10px;
-background:#333 !important;
+margin-bottom:10px;
 }
 
 .dashboard-item{
-margin-top:14px;
 padding:14px;
+margin-top:12px;
 border-radius:14px;
 background:rgba(255,255,255,.08);
 display:flex;
@@ -492,11 +380,7 @@ width:auto;
 padding:10px 14px;
 }
 
-.delete-btn{
-background:#ef4444 !important;
-}
-
-/* FOOTER */
+.delete-btn{background:#ef4444 !important;}
 
 footer{
 padding:60px 5% 40px;
@@ -509,7 +393,7 @@ border-top:1px solid rgba(212,175,55,.15);
 font-size:1.3rem;
 font-weight:700;
 color:#f7d774;
-margin-bottom:14px;
+margin-bottom:12px;
 }
 
 .footer-address{
@@ -517,19 +401,11 @@ line-height:2;
 color:rgba(247,215,116,.82);
 }
 
-.footer-copy{
-margin-top:24px;
-padding-top:20px;
-border-top:1px solid rgba(255,255,255,.08);
-font-size:.88rem;
-color:rgba(247,215,116,.58);
-}
-
 .footer-social{
 display:flex;
 justify-content:center;
 gap:14px;
-margin-top:24px;
+margin-top:22px;
 }
 
 .footer-social a{
@@ -540,30 +416,25 @@ align-items:center;
 justify-content:center;
 border-radius:50%;
 text-decoration:none;
-font-size:1.2rem;
 color:#f7d774;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(212,175,55,.18);
+background:rgba(255,255,255,.05);
 transition:.35s;
 }
 
-.footer-social a:hover{
-transform:translateY(-4px) scale(1.08);
-background:linear-gradient(135deg,#d4af37,#14b8a6);
-color:white;
+.footer-copy{
+margin-top:24px;
+padding-top:18px;
+border-top:1px solid rgba(255,255,255,.08);
+color:rgba(247,215,116,.6);
+font-size:.9rem;
 }
-
-/* MOBILE */
 
 @media(max-width:768px){
-
-.menu-toggle{
-display:block;
-}
+.menu-toggle{display:block;}
 
 nav ul{
 position:absolute;
-top:78px;
+top:76px;
 left:5%;
 right:5%;
 display:none;
@@ -573,23 +444,16 @@ border-radius:24px;
 background:rgba(5,15,15,.96);
 }
 
-nav ul.active{
-display:flex;
-}
+nav ul.active{display:flex;}
 
-.hero h1{
-font-size:2.2rem;
-}
+.hero h1{font-size:2.2rem;}
 
-.card{
-min-width:88%;
-}
+.card{min-width:88%;}
 
-.multi-preview img,
-.multi-preview video{
-height:160px;
+.preview-slider img,
+.preview-slider video{
+height:180px;
 }
-
 }
 </style>
 </head>
@@ -614,14 +478,14 @@ height:160px;
 <h1>Mushola AR‑ROHMAN</h1>
 <p>Ibadah bukan sekadar kewajiban, melainkan kebutuhan hati dan jiwa.</p>
 <a href="#galeri" class="btn">Lihat Galeri</a>
+</div>
 
 <div class="hero-jadwal">
-<div class="jadwal-mini"><h4>Subuh</h4><p>04:30</p></div>
+<div class="jadwal-mini"><h4>Subuh</h4><p>04:28</p></div>
 <div class="jadwal-mini"><h4>Dzuhur</h4><p>11:55</p></div>
-<div class="jadwal-mini"><h4>Ashar</h4><p>15:15</p></div>
-<div class="jadwal-mini"><h4>Maghrib</h4><p>17:48</p></div>
-<div class="jadwal-mini"><h4>Isya</h4><p>19:00</p></div>
-</div>
+<div class="jadwal-mini"><h4>Ashar</h4><p>15:17</p></div>
+<div class="jadwal-mini"><h4>Maghrib</h4><p>17:47</p></div>
+<div class="jadwal-mini"><h4>Isya</h4><p>18:58</p></div>
 </div>
 </section>
 
@@ -639,60 +503,41 @@ height:160px;
 </section>
 
 <section id="fasilitas">
-<div class="section-title">
-<h2>Fasilitas Mushola</h2>
-<p>Kenyamanan dan kebutuhan jamaah</p>
-</div>
+<div class="section-title"><h2>Fasilitas Mushola</h2><p>Kenyamanan jamaah</p></div>
 <div class="grid">
-<div class="grid-box"><h3>📖 Pengajian</h3><p>Tempat pengajian dan kajian islami warga.</p></div>
-<div class="grid-box"><h3>🚿 Tempat Wudhu</h3><p>Bersih dan nyaman untuk jamaah.</p></div>
-<div class="grid-box"><h3>📶 Free WiFi</h3><p>Akses internet gratis untuk kegiatan umat.</p></div>
+<div class="grid-box"><h3>📖 Pengajian</h3><p>Tempat kajian islami warga.</p></div>
+<div class="grid-box"><h3>🚿 Tempat Wudhu</h3><p>Bersih dan nyaman.</p></div>
+<div class="grid-box"><h3>📶 Free WiFi</h3><p>Akses internet gratis.</p></div>
 <div class="grid-box"><h3>🅿 Area Parkir</h3><p>Area parkir luas dan aman.</p></div>
 </div>
 </section>
 
 <section id="dkm">
-<div class="section-title">
-<h2>Struktur DKM</h2>
-<p>Dewan Kemakmuran Mushola</p>
-</div>
+<div class="section-title"><h2>Struktur DKM</h2><p>Dewan Kemakmuran Mushola</p></div>
 <div class="dkm-wrap">
-<div class="card dkm-card"><div class="card-content"><h3>Ketua DKM</h3><p>Bapak Kurdi</p></div></div>
-<div class="card dkm-card"><div class="card-content"><h3>Sekretaris</h3><p>Bapak Radi</p></div></div>
-<div class="card dkm-card"><div class="card-content"><h3>Bendahara</h3><p>Bapak Nana</p></div></div>
+<div class="card dkm-card"><div class="card-content"><h3>Ketua DKM</h3><p>Ust. Ahmad Fauzi</p></div></div>
+<div class="card dkm-card"><div class="card-content"><h3>Sekretaris</h3><p>Muhammad Fikri</p></div></div>
+<div class="card dkm-card"><div class="card-content"><h3>Bendahara</h3><p>Abdul Rohman</p></div></div>
 </div>
 </section>
 
 <section id="kas">
-<div class="section-title">
-<h2>Kas Mushola</h2>
-<p>Transparansi dana umat</p>
-</div>
+<div class="section-title"><h2>Kas Mushola</h2><p>Transparansi dana umat</p></div>
 <div class="grid">
-<div class="grid-box"><h3>Saldo Saat Ini</h3><p>Rp 6.500.000</p></div>
-<div class="grid-box"><h3>Pemasukan</h3><p>Rp 450.000</p></div>
-<div class="grid-box"><h3>Pengeluaran</h3><p>Rp 200.000</p></div>
+<div class="grid-box"><h3>Saldo Saat Ini</h3><p style="text-align:center">Rp 12.500.000</p></div>
+<div class="grid-box"><h3>Pemasukan</h3><p style="text-align:center">Rp 3.250.000</p></div>
+<div class="grid-box"><h3>Pengeluaran</h3><p style="text-align:center">Rp 1.200.000</p></div>
 </div>
 </section>
 
 <section id="galeri">
-<div class="section-title">
-<h2>Galeri Kegiatan</h2>
-<p>Dokumentasi kegiatan mushola</p>
-</div>
+<div class="section-title"><h2>Galeri Kegiatan</h2><p>Dokumentasi kegiatan mushola</p></div>
 <div class="carousel" id="gallery"></div>
 </section>
 
 <section id="pustaka">
-<div class="section-title">
-<h2>Pustaka Ilmu</h2>
-<p>Doa, dzikir dan kisah islami</p>
-</div>
-
-<div class="carousel" id="pustakaContainer">
-<div class="card pustaka-card" onclick="openPustaka('Dzikir Pagi','Dzikir pagi memberi ketenangan hati dan keberkahan.')"><div class="card-content"><h3>Dzikir Pagi</h3><p>Membiasakan dzikir pagi untuk menjaga hati.</p></div></div>
-<div class="card pustaka-card" onclick="openPustaka('Doa Sebelum Tidur','Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ.')"><div class="card-content"><h3>Doa Sebelum Tidur</h3><p>Doa sebelum tidur sebagai perlindungan.</p></div></div>
-</div>
+<div class="section-title"><h2>Pustaka Ilmu</h2><p>Doa, dzikir dan kisah islami</p></div>
+<div class="carousel" id="pustakaContainer"></div>
 </section>
 
 <div class="event-viewer" id="eventViewer">
@@ -705,7 +550,7 @@ height:160px;
 
 <div class="pustaka-modal" id="pustakaModal">
 <div class="pustaka-content">
-<span class="pustaka-close" onclick="closePustaka()">✕</span>
+<div class="pustaka-close" onclick="closePustaka()">✕</div>
 <h2 id="pustakaTitle"></h2>
 <p id="pustakaText"></p>
 </div>
@@ -717,19 +562,27 @@ height:160px;
 <div class="box">
 <div id="loginForm">
 <h2>Login Admin</h2>
-<input type="password" id="adminPassword" placeholder="Masukkan password">
+<input type="password" id="adminPassword" placeholder="Masukkan password admin">
 <button onclick="loginAdmin()">Masuk Dashboard</button>
 </div>
 
-<div id="adminContent" style="display:none;">
+<div id="adminContent" style="display:none">
 <h2>Upload Kegiatan</h2>
 <input type="text" id="title" placeholder="Judul kegiatan">
 <textarea id="desc" placeholder="Deskripsi"></textarea>
 <input type="date" id="date">
 <input type="file" id="file" multiple>
 <button onclick="uploadMedia()">Upload Online</button>
-<button class="close-btn" onclick="closePanel()">Tutup</button>
+
+<h2 style="margin-top:25px">Tambah Pustaka</h2>
+<input type="text" id="pustakaJudul" placeholder="Judul pustaka">
+<textarea id="pustakaIsi" placeholder="Isi pustaka"></textarea>
+<button onclick="addPustaka()">Tambah Pustaka</button>
+
+<button onclick="closePanel()">Tutup</button>
+
 <div id="dashboard"></div>
+<div id="pustakaDashboard"></div>
 </div>
 </div>
 </div>
@@ -743,33 +596,25 @@ Kecamatan Cilimus - Kabupaten Kuningan
 </div>
 
 <div class="footer-social">
-<a href="https://instagram.com/arrohmanpahing" target="_blank">📷</a>
+<a href="https://instagram.com/arrohmanpahing" target="_blank"><i class="fab fa-instagram"></i></a>
 </div>
 
-<div class="footer-copy">
-© 2026 Mushola AR‑ROHMAN V8<br>Design By Zayn
-</div>
+<div class="footer-copy">© 2026 Mushola AR‑ROHMAN V8</div>
 </footer>
 
 <script>
-const CLOUD_NAME = 'dqx4y6l8l';
-const UPLOAD_PRESET = 'mushola_upload';
+const CLOUD_NAME='dqx4y6l8l';
+const UPLOAD_PRESET='mushola_upload';
 
-let gallery = JSON.parse(localStorage.getItem('gallery')) || [
+let gallery=JSON.parse(localStorage.getItem('gallery'))||[];
+let pustaka=JSON.parse(localStorage.getItem('pustaka'))||[
 {
- title:'Pengajian Warga',
- desc:'Kegiatan pengajian rutin warga Mushola AR-ROHMAN.',
- date:'2026-05-28',
- media:[
- {
-  url:'https://images.unsplash.com/photo-1542816417-0983670d1bb7?q=80&w=1200&auto=format&fit=crop',
-  type:'image'
- },
- {
-  url:'https://images.unsplash.com/photo-1519817650390-64a93db511aa?q=80&w=1200&auto=format&fit=crop',
-  type:'image'
- }
- ]
+ title:'Dzikir Pagi',
+ text:'Dzikir pagi memberi ketenangan hati dan perlindungan sepanjang hari.'
+},
+{
+ title:'Doa Sebelum Tidur',
+ text:'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ.'
 }
 ];
 
@@ -796,25 +641,24 @@ alert('Password salah');
 }
 
 function renderGallery(){
-console.log('Gallery Loaded:',gallery);
-const container=document.getElementById('gallery');
-container.innerHTML='';
+const wrap=document.getElementById('gallery');
+wrap.innerHTML='';
 
 gallery.forEach((item,index)=>{
-let preview='';
+let mediaHTML='';
 
 item.media.forEach(media=>{
 if(media.type==='image'){
-preview += `<img src="${media.url}">`;
+mediaHTML+=`<img src="${media.url}">`;
 }else{
-preview += `<video src="${media.url}"></video>`;
+mediaHTML+=`<video muted><source src="${media.url}"></video>`;
 }
 });
 
-container.innerHTML += `
+wrap.innerHTML+=`
 <div class="card">
-<div class="multi-preview">
-${preview}
+<div class="preview-slider">
+${mediaHTML}
 </div>
 <div class="card-content">
 <h3>${item.title}</h3>
@@ -823,8 +667,7 @@ ${preview}
 <div class="event-count">📁 ${item.media.length} Media</div>
 <button class="open-btn" onclick="openEvent(${index})">Lihat Kegiatan</button>
 </div>
-</div>
-`;
+</div>`;
 });
 
 renderDashboard();
@@ -838,15 +681,15 @@ const title=document.getElementById('eventTitle');
 slider.innerHTML='';
 
 const event=gallery[index];
-
 title.innerText=event.title;
 
 event.media.forEach(media=>{
-if(media.type==='image'){
-slider.innerHTML += `<div class="event-slide"><img src="${media.url}"></div>`;
-}else{
-slider.innerHTML += `<div class="event-slide"><video controls src="${media.url}"></video></div>`;
-}
+slider.innerHTML+=`
+<div class="event-slide">
+${media.type==='image'
+? `<img src="${media.url}">`
+: `<video controls><source src="${media.url}"></video>`}
+</div>`;
 });
 
 viewer.style.display='flex';
@@ -854,7 +697,6 @@ viewer.style.display='flex';
 
 function closeEvent(){
 document.getElementById('eventViewer').style.display='none';
-document.getElementById('eventSlider').innerHTML='';
 }
 
 async function uploadMedia(){
@@ -863,13 +705,8 @@ const desc=document.getElementById('desc').value.trim();
 const date=document.getElementById('date').value;
 const files=document.getElementById('file').files;
 
-if(!title || !desc || !date){
+if(!title||!desc||!date||files.length===0){
 alert('Lengkapi data');
-return;
-}
-
-if(files.length===0){
-alert('Pilih file');
 return;
 }
 
@@ -889,39 +726,32 @@ const data=await res.json();
 
 mediaArray.push({
 url:data.secure_url,
-type:file.type.startsWith('video') ? 'video' : 'image'
+type:file.type.startsWith('video')?'video':'image'
 });
 }
 
-gallery.unshift({
-title,
-desc,
-date,
-media:mediaArray
-});
-
+gallery.unshift({title,desc,date,media:mediaArray});
 localStorage.setItem('gallery',JSON.stringify(gallery));
-
 renderGallery();
-
 alert('Upload berhasil');
 }
 
 function renderDashboard(){
 const dash=document.getElementById('dashboard');
-dash.innerHTML='<h3 style="margin-top:20px;color:#f7d774">Kelola Galeri</h3>';
+dash.innerHTML='<h2 style="margin-top:25px">Kelola Galeri</h2>';
 
 gallery.forEach((item,index)=>{
-dash.innerHTML += `
+dash.innerHTML+=`
 <div class="dashboard-item">
 <div>${item.title}</div>
-<div style="display:flex;gap:8px;">
+<div style="display:flex;gap:8px">
 <button onclick="editGallery(${index})">Edit</button>
 <button class="delete-btn" onclick="deleteGallery(${index})">Hapus</button>
 </div>
-</div>
-`;
+</div>`;
 });
+
+renderPustakaDashboard();
 }
 
 function deleteGallery(index){
@@ -934,18 +764,30 @@ renderGallery();
 
 function editGallery(index){
 const item=gallery[index];
-const title=prompt('Edit Judul',item.title);
+const title=prompt('Edit judul',item.title);
 if(title===null)return;
-
-const desc=prompt('Edit Deskripsi',item.desc);
+const desc=prompt('Edit deskripsi',item.desc);
 if(desc===null)return;
-
-const date=prompt('Edit Tanggal',item.date);
-if(date===null)return;
-
-gallery[index]={...item,title,desc,date};
+item.title=title;
+item.desc=desc;
 localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
+}
+
+function renderPustaka(){
+const wrap=document.getElementById('pustakaContainer');
+wrap.innerHTML='';
+
+pustaka.forEach((item,index)=>{
+wrap.innerHTML+=`
+<div class="card pustaka-card" onclick="openPustaka('${item.title}','${item.text.replace(/'/g,"\\'")}')">
+<div class="card-content">
+<h3>${item.title}</h3>
+<p>${item.text.substring(0,100)}...</p>
+<div class="date">Pustaka Islami</div>
+</div>
+</div>`;
+});
 }
 
 function openPustaka(title,text){
@@ -958,13 +800,60 @@ function closePustaka(){
 document.getElementById('pustakaModal').style.display='none';
 }
 
-window.onclick=function(e){
-if(e.target===document.getElementById('pustakaModal')){
-closePustaka();
+function addPustaka(){
+const title=document.getElementById('pustakaJudul').value.trim();
+const text=document.getElementById('pustakaIsi').value.trim();
+
+if(!title||!text){
+alert('Lengkapi pustaka');
+return;
+}
+
+pustaka.unshift({title,text});
+localStorage.setItem('pustaka',JSON.stringify(pustaka));
+renderPustaka();
+renderPustakaDashboard();
+alert('Pustaka berhasil ditambah');
+}
+
+function renderPustakaDashboard(){
+const dash=document.getElementById('pustakaDashboard');
+dash.innerHTML='<h2 style="margin-top:25px">Kelola Pustaka</h2>';
+
+pustaka.forEach((item,index)=>{
+dash.innerHTML+=`
+<div class="dashboard-item">
+<div>${item.title}</div>
+<div style="display:flex;gap:8px">
+<button onclick="editPustaka(${index})">Edit</button>
+<button class="delete-btn" onclick="deletePustaka(${index})">Hapus</button>
+</div>
+</div>`;
+});
+}
+
+function editPustaka(index){
+const title=prompt('Edit judul',pustaka[index].title);
+if(title===null)return;
+const text=prompt('Edit isi',pustaka[index].text);
+if(text===null)return;
+pustaka[index]={title,text};
+localStorage.setItem('pustaka',JSON.stringify(pustaka));
+renderPustaka();
+renderPustakaDashboard();
+}
+
+function deletePustaka(index){
+if(confirm('Hapus pustaka?')){
+pustaka.splice(index,1);
+localStorage.setItem('pustaka',JSON.stringify(pustaka));
+renderPustaka();
+renderPustakaDashboard();
 }
 }
 
 renderGallery();
+renderPustaka();
 </script>
 
 </body>
