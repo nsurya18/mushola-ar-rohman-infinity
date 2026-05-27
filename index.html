@@ -1746,41 +1746,29 @@ wrap.innerHTML = "";
 
 gallery.forEach((item,index)=>{
 
-let mediaHTML = "";
+let mediaHTML = '<div class="multi-preview">';
 
-item.media.forEach((media)=>{
+item.media.slice(0,4).forEach((media)=>{
 
 if(media.type==="image"){
 
 mediaHTML += `
-<div class="preview-item">
 <img src="${media.url}">
-</div>
 `;
 
 }else{
 
 mediaHTML += `
-<div class="preview-item">
-<video muted playsinline>
+<video>
 <source src="${media.url}">
 </video>
-</div>
 `;
 
 }
 
 });
 
-wrap.innerHTML += `
-
-<div class="card">
-
-<div class="preview-slider">
-
-${mediaHTML}
-
-</div>
+mediaHTML += '</div>';
 
 <div class="card-content">
 
