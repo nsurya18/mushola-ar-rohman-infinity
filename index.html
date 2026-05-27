@@ -1089,6 +1089,37 @@ box-shadow:
 0 0 22px rgba(212,175,55,.35);
 
 }
+
+/* FIX NAV POSITION */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* MENU DI KANAN */
+
+nav ul{
+margin-left:auto;
+display:flex;
+align-items:center;
+justify-content:flex-end;
+gap:10px;
+}
+
+/* MOBILE TETAP NORMAL */
+
+@media(max-width:768px){
+
+nav ul{
+margin-left:0;
+justify-content:flex-start;
+}
+
+}
+
+
 </style>
 </head>
 <body>
