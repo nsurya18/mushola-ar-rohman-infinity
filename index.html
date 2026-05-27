@@ -148,25 +148,32 @@ z-index:3;
 
 .jadwal-mini{
 background:linear-gradient(145deg,#caa74a,#f6df92);
-backdrop-filter:blur(12px);
-padding:5px 10px;
-border-radius:12px;
+padding:3px 8px;
+border-radius:10px;
 text-align:center;
 color:#4b3200;
-min-width:60px;
-box-shadow:0 4px 14px rgba(0,0,0,.15);
-border:1px solid rgba(255,255,255,.25);
+min-width:56px;
+height:auto;
+line-height:1;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+box-shadow:0 4px 12px rgba(0,0,0,.12);
 }
 
 .jadwal-mini h4{
-font-size:.62rem;
-margin-bottom:2px;
+font-size:.58rem;
+margin:0;
 font-weight:600;
+line-height:1;
 }
 
 .jadwal-mini p{
-font-size:.74rem;
+font-size:.68rem;
 font-weight:700;
+margin-top:2px;
+line-height:1;
 }
 
 /* SECTION */
@@ -514,6 +521,7 @@ min-width:280px;
 <li><a href="#dkm">DKM</a></li>
 <li><a href="#kas">Kas</a></li>
 <li><a href="#galeri">Galeri</a></li>
+<li><a href="#pustaka">Pustaka</a></li>
 </ul>
 
 </nav>
@@ -603,14 +611,6 @@ Lihat Galeri
 </div>
 </div>
 
-<div class="card">
-<div class="card-content">
-<h3>Maghrib Mengaji</h3>
-<p>Belajar iqro dan Al-Qur'an.</p>
-<div class="date">Ba'da Maghrib</div>
-</div>
-</div>
-  
 </div>
 
 </section>
@@ -664,21 +664,21 @@ Lihat Galeri
 <div class="card dkm-card">
 <div class="card-content">
 <h3>Ketua DKM</h3>
-<p>Bapak Kurdi</p>
+<p>Ust. Ahmad Fauzi</p>
 </div>
 </div>
 
 <div class="card dkm-card">
 <div class="card-content">
 <h3>Sekretaris</h3>
-<p>Bapak Radi</p>
+<p>Muhammad Fikri</p>
 </div>
 </div>
 
 <div class="card dkm-card">
 <div class="card-content">
 <h3>Bendahara</h3>
-<p>Bapak Nana</p>
+<p>Abdul Rohman</p>
 </div>
 </div>
 
@@ -757,6 +757,14 @@ Lihat Galeri
 
 <div class="box">
 
+<div id="loginForm">
+<h2>Login Admin</h2>
+<input type="password" id="adminPassword" placeholder="Masukkan password admin">
+<button onclick="loginAdmin()">Masuk Dashboard</button>
+</div>
+
+<div id="adminContent" style="display:none;">
+
 <h2>Upload Kegiatan</h2>
 
 <input type="text" id="title" placeholder="Judul kegiatan">
@@ -777,8 +785,12 @@ Tutup
 
 <div id="dashboard"></div>
 
+<h3 style="margin-top:25px;color:var(--primary);">Kelola Pustaka</h3>
+<div id="pustakaDashboard"></div>
+
 </div>
 
+</div>
 </div>
 
 <!-- PUSTAKA ILMU -->
@@ -902,8 +914,7 @@ Kecamatan Cilimus - Kabupaten Kuningan
 <br>
 
 <p>
-© 2026 Mushola AR-ROHMAN <br>
-By Zayn DNA
+© 2026 Mushola AR-ROHMAN V5
 </p>
 
 </footer>
@@ -931,9 +942,19 @@ document.getElementById("navMenu")
 /* PANEL */
 
 function openPanel(){
+document.getElementById('panel').style.display='flex';
+}
 
-document.getElementById("panel")
-.style.display="flex";
+function loginAdmin(){
+
+const pass=document.getElementById('adminPassword').value;
+
+if(pass==='123456'){
+ document.getElementById('loginForm').style.display='none';
+ document.getElementById('adminContent').style.display='block';
+}else{
+ alert('Password salah');
+}
 
 }
 
@@ -1018,6 +1039,8 @@ renderDashboard();
 
 function openEvent(index,start){
 
+if(!gallery[index].media || gallery[index].media.length===0)return;
+
 const viewer =
 document.getElementById("eventViewer");
 
@@ -1073,6 +1096,8 @@ window.innerWidth * start;
 }
 
 function closeEvent(){
+
+document.getElementById('eventSlider').innerHTML='';
 
 document.getElementById("eventViewer")
 .style.display="none";
@@ -1162,6 +1187,65 @@ JSON.stringify(gallery)
 );
 
 renderGallery();
+
+const pustakaData=[
+{
+title:'Dzikir Pagi',
+text:'Dzikir pagi memberi ketenangan hati, perlindungan dan keberkahan sepanjang hari bagi umat muslim.'
+},
+{
+title:'Doa Sebelum Tidur',
+text:'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ sebagai bentuk tawakal kepada Allah سبحانه وتعالى.'
+},
+{
+title:'Adab Masuk Masjid',
+text:'Masuk masjid dengan kaki kanan dan membaca doa agar ibadah lebih khusyuk.'
+},
+{
+title:'Kisah Nabi ﷺ',
+text:'Keteladanan Rasulullah ﷺ menjadi pedoman hidup umat muslim dalam akhlak dan ibadah.'
+}
+];
+
+function renderPustakaDashboard(){
+
+const wrap=document.getElementById('pustakaDashboard');
+
+if(!wrap)return;
+
+wrap.innerHTML='';
+
+pustakaData.forEach((item,index)=>{
+
+wrap.innerHTML+=`
+<div class="dashboard-item">
+<div><strong>${item.title}</strong></div>
+<div style="display:flex;gap:8px;">
+<button onclick="editPustaka(${index})">Edit</button>
+</div>
+</div>
+`;
+
+});
+
+}
+
+function editPustaka(index){
+
+const newTitle=prompt('Edit Judul',pustakaData[index].title);
+if(newTitle===null)return;
+
+const newText=prompt('Edit Isi',pustakaData[index].text);
+if(newText===null)return;
+
+pustakaData[index].title=newTitle;
+pustakaData[index].text=newText;
+
+location.reload();
+
+}
+
+renderPustakaDashboard();
 
 function openPustaka(title,text){
 
