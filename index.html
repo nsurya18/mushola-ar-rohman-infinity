@@ -136,35 +136,37 @@ box-shadow:0 10px 25px rgba(0,0,0,.18);
 
 .hero-jadwal{
 position:absolute;
-bottom:15px;
+bottom:14px;
 left:50%;
 transform:translateX(-50%);
 display:flex;
-gap:8px;
+gap:6px;
 flex-wrap:wrap;
 justify-content:center;
 z-index:3;
 }
 
 .jadwal-mini{
-background:rgba(255,255,255,.15);
+background:linear-gradient(145deg,#caa74a,#f6df92);
 backdrop-filter:blur(12px);
-padding:8px 12px;
-border-radius:14px;
+padding:5px 10px;
+border-radius:12px;
 text-align:center;
-color:white;
-min-width:70px;
+color:#4b3200;
+min-width:60px;
+box-shadow:0 4px 14px rgba(0,0,0,.15);
+border:1px solid rgba(255,255,255,.25);
 }
 
 .jadwal-mini h4{
-font-size:.7rem;
-margin-bottom:4px;
-font-weight:500;
+font-size:.62rem;
+margin-bottom:2px;
+font-weight:600;
 }
 
 .jadwal-mini p{
-font-size:.85rem;
-font-weight:600;
+font-size:.74rem;
+font-weight:700;
 }
 
 /* SECTION */
@@ -788,7 +790,7 @@ Tutup
     <p>Doa, dzikir, kisah islami dan ilmu bermanfaat</p>
   </div>
 
-  <div class="carousel-wrapper">
+  <div class="carousel">
 
     <div class="card pustaka-card" onclick="openPustaka('Dzikir Pagi','Dzikir pagi memberi ketenangan hati, perlindungan dan keberkahan sepanjang hari bagi umat muslim.')">
       <div class="card-content">
@@ -828,6 +830,50 @@ Tutup
 
 <!-- PUSTAKA MODAL -->
 
+<style>
+.pustaka-card{
+cursor:pointer;
+}
+
+.pustaka-modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.88);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999999;
+}
+
+.pustaka-content{
+width:100%;
+max-width:720px;
+background:white;
+padding:30px;
+border-radius:28px;
+position:relative;
+}
+
+.pustaka-close{
+position:absolute;
+top:16px;
+right:20px;
+font-size:1.7rem;
+cursor:pointer;
+}
+
+.pustaka-content h2{
+margin-bottom:14px;
+color:var(--primary);
+}
+
+.pustaka-content p{
+line-height:1.9;
+color:#444;
+}
+</style>
+
 <div class="pustaka-modal" id="pustakaModal">
 
   <div class="pustaka-content">
@@ -856,7 +902,8 @@ Kecamatan Cilimus - Kabupaten Kuningan
 <br>
 
 <p>
-© 2026 Mushola AR-ROHMAN V5
+© 2026 Mushola AR-ROHMAN <br>
+By Zayn DNA
 </p>
 
 </footer>
@@ -1116,6 +1163,28 @@ JSON.stringify(gallery)
 
 renderGallery();
 
+function openPustaka(title,text){
+
+ document.getElementById('pustakaTitle').innerText=title;
+ document.getElementById('pustakaText').innerText=text;
+ document.getElementById('pustakaModal').style.display='flex';
+
+}
+
+function closePustaka(){
+
+ document.getElementById('pustakaModal').style.display='none';
+
+}
+
+document.getElementById('pustakaModal').addEventListener('click',function(e){
+
+ if(e.target.id==='pustakaModal'){
+  closePustaka();
+ }
+
+});
+
 alert("Upload kegiatan berhasil");
 
 closePanel();
@@ -1233,7 +1302,3 @@ renderGallery();
 
 </body>
 </html>
-
-
-4. Upload ke GitHub Pages
-5. Selesai
