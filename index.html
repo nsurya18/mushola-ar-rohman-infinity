@@ -684,29 +684,33 @@ Lihat Galeri
 
 <div class="hero-jadwal">
 
+<!-- JADWAL SHOLAT AUTO -->
+
+<div class="hero-jadwal" id="jadwalSholat">
+
 <div class="jadwal-mini">
 <h4>Subuh</h4>
-<p>04:30</p>
+<p id="subuh">--:--</p>
 </div>
 
 <div class="jadwal-mini">
 <h4>Dzuhur</h4>
-<p>11:55</p>
+<p id="dzuhur">--:--</p>
 </div>
 
 <div class="jadwal-mini">
 <h4>Ashar</h4>
-<p>15:15</p>
+<p id="ashar">--:--</p>
 </div>
 
 <div class="jadwal-mini">
 <h4>Maghrib</h4>
-<p>17:48</p>
+<p id="maghrib">--:--</p>
 </div>
 
 <div class="jadwal-mini">
 <h4>Isya</h4>
-<p>19:00</p>
+<p id="isya">--:--</p>
 </div>
 
 </div>
@@ -1632,6 +1636,35 @@ renderPustaka();
 renderGallery();
 renderPustaka();
 
+  /* AUTO JADWAL SHOLAT CILIMUS */
+
+async function loadJadwalSholat(){
+
+try{
+
+const res = await fetch(
+'https://api.aladhan.com/v1/timingsByCity?city=Kuningan&country=Indonesia&method=11'
+);
+
+const data = await res.json();
+
+const t = data.data.timings;
+
+document.getElementById('subuh').innerText = t.Fajr;
+document.getElementById('dzuhur').innerText = t.Dhuhr;
+document.getElementById('ashar').innerText = t.Asr;
+document.getElementById('maghrib').innerText = t.Maghrib;
+document.getElementById('isya').innerText = t.Isha;
+
+}catch(err){
+
+console.log('Gagal load jadwal sholat');
+
+}
+
+}
+
+loadJadwalSholat();
 </script>
 
 </body>
