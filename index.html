@@ -3,27 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V14 REALTIME</title>
+<title>MOSQUE OS V15</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{font-family:Poppins;background:#061414;color:#fff;margin:0}
-nav{position:fixed;top:0;left:0;right:0;background:#0008;padding:12px;display:flex;justify-content:space-between;z-index:99}
-section{padding:90px 20px}
+body{margin:0;font-family:Poppins;background:#061414;color:#fff}
+nav{padding:12px;background:#000a;position:fixed;top:0;left:0;right:0;z-index:10}
+section{padding:80px 20px}
 h2{color:#d4af37}
 
-.card{background:#ffffff10;padding:12px;border-radius:12px;margin:8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.card{background:#ffffff10;padding:12px;border-radius:12px}
+
 .carousel{display:flex;overflow-x:auto;gap:10px}
 
-.admin-btn{
+.admin{
 position:fixed;bottom:20px;right:20px;
 width:60px;height:60px;border-radius:50%;
 background:linear-gradient(45deg,#14b8a6,#d4af37);
-border:none;font-size:22px;
+border:none;font-size:20px;
 }
 
 .panel{
@@ -31,8 +32,8 @@ position:fixed;inset:0;background:#000c;
 display:none;justify-content:center;align-items:center
 }
 
-.box{background:#111;padding:20px;border-radius:12px;width:90%;max-width:500px}
-input,textarea{width:100%;margin:5px 0;padding:10px;border-radius:8px;border:none}
+.box{background:#111;padding:20px;width:90%;max-width:500px;border-radius:12px}
+input,textarea{width:100%;padding:10px;margin:5px 0;border-radius:8px}
 
 button{width:100%;padding:10px;border:none;background:#14b8a6;color:#fff;border-radius:8px}
 </style>
@@ -40,50 +41,63 @@ button{width:100%;padding:10px;border:none;background:#14b8a6;color:#fff;border-
 
 <body>
 
-<nav>
-<div><b>AR-ROHMAN V14</b></div>
-<div>Realtime System</div>
-</nav>
+<nav><b>MOSQUE OS V15 REALTIME</b></nav>
 
+<!-- DKM -->
 <section>
 <h2>DKM</h2>
-<div class="grid">
-<div class="card">Ketua: Ust Ahmad</div>
-<div class="card">Sekretaris: Fikri</div>
-<div class="card">Bendahara: Rohman</div>
-</div>
+<div class="grid" id="dkm"></div>
 </section>
 
+<!-- KAS -->
 <section>
-<h2>Galeri Realtime</h2>
+<h2>Kas</h2>
+<div class="grid" id="kas"></div>
+</section>
+
+<!-- GALERI -->
+<section>
+<h2>Galeri</h2>
 <div class="carousel" id="gallery"></div>
 </section>
 
+<!-- PUSTAKA -->
 <section>
-<h2>Pustaka Realtime</h2>
+<h2>Pustaka</h2>
 <div class="carousel" id="pustaka"></div>
 </section>
 
-<!-- ADMIN -->
-<button class="admin-btn" onclick="openAdmin()">⚙</button>
+<button class="admin" onclick="openAdmin()">⚙</button>
 
 <div class="panel" id="panel">
 <div class="box">
-<h3>Admin Login</h3>
-<input type="password" id="pass" placeholder="password">
-<button onclick="login()">login</button>
 
-<div id="admin" style="display:none">
+<h3>Login</h3>
+<input type="password" id="pass">
+<button onclick="login()">Login</button>
 
-<h3>Tambah Galeri</h3>
+<div id="adminArea" style="display:none">
+
+<h3>DKM</h3>
+<input id="jabatan" placeholder="jabatan">
+<input id="nama" placeholder="nama">
+<button onclick="addDKM()">Tambah</button>
+
+<h3>Kas</h3>
+<input id="tipe" placeholder="masuk/keluar">
+<input id="nominal" placeholder="nominal">
+<input id="ket" placeholder="keterangan">
+<button onclick="addKas()">Tambah</button>
+
+<h3>Galeri</h3>
 <input id="title" placeholder="judul">
 <input id="url" placeholder="image url">
-<button onclick="addGallery()">add</button>
+<button onclick="addGallery()">Tambah</button>
 
-<h3>Tambah Pustaka</h3>
-<input id="ptitle" placeholder="judul">
+<h3>Pustaka</h3>
+<input id="ptitle">
 <textarea id="ptext"></textarea>
-<button onclick="addPustaka()">add</button>
+<button onclick="addPustaka()">Tambah</button>
 
 </div>
 
@@ -91,68 +105,62 @@ button{width:100%;padding:10px;border:none;background:#14b8a6;color:#fff;border-
 </div>
 
 <script>
-/* ================= SUPABASE ================= */
 const supabase = window.supabase.createClient(
-  "https://YOUR_PROJECT.supabase.co",
-  "YOUR_ANON_KEY"
+"https://YOUR_PROJECT.supabase.co",
+"YOUR_ANON_KEY"
 );
 
-/* ================= STATE ================= */
-let gallery = [];
-let pustaka = [];
+/* STATE */
+let dkm=[],kas=[],gallery=[],pustaka=[];
 
-/* ================= INIT LOAD ================= */
-async function loadData(){
-  const g = await supabase.from("gallery").select("*").order("id",{ascending:false});
-  const p = await supabase.from("pustaka").select("*").order("id",{ascending:false});
-
-  gallery = g.data || [];
-  pustaka = p.data || [];
-
+/* LOAD */
+async function load(){
+  dkm = (await supabase.from("dkm").select("*")).data || [];
+  kas = (await supabase.from("kas").select("*")).data || [];
+  gallery = (await supabase.from("gallery").select("*")).data || [];
+  pustaka = (await supabase.from("pustaka").select("*")).data || [];
   render();
 }
 
-/* ================= RENDER ================= */
+/* RENDER */
 function render(){
-  document.getElementById("gallery").innerHTML =
-    gallery.map(x=>`
-      <div class="card">
-        <img src="${x.url}" style="width:100%;border-radius:10px">
-        <p>${x.title}</p>
-      </div>
-    `).join("");
+  dkmEl.innerHTML = dkm.map(x=>`<div class='card'><b>${x.jabatan}</b><br>${x.nama}</div>`).join("");
 
-  document.getElementById("pustaka").innerHTML =
-    pustaka.map(x=>`
-      <div class="card">
-        <b>${x.title}</b>
-        <p>${x.text}</p>
-      </div>
-    `).join("");
+  kasEl.innerHTML = kas.map(x=>`<div class='card'>${x.tipe} - Rp ${x.nominal}</div>`).join("");
+
+  galleryEl.innerHTML = gallery.map(x=>`
+    <div class='card'><img src="${x.url}" style="width:100%"><p>${x.title}</p></div>
+  `).join("");
+
+  pustakaEl.innerHTML = pustaka.map(x=>`
+    <div class='card'><b>${x.title}</b><p>${x.text}</p></div>
+  `).join("");
 }
 
-/* ================= REALTIME ================= */
+/* REALTIME */
 function realtime(){
-  supabase
-  .channel('db')
-  .on('postgres_changes',{event:'*',schema:'public',table:'gallery'},payload=>{
-    loadData()
-  })
-  .on('postgres_changes',{event:'*',schema:'public',table:'pustaka'},payload=>{
-    loadData()
-  })
+  supabase.channel('db')
+  .on('postgres_changes',{event:'*',schema:'public'},()=>load())
   .subscribe()
 }
 
-/* ================= ADMIN ================= */
-function openAdmin(){
-  document.getElementById("panel").style.display="flex"
-}
+/* ADMIN */
+function openAdmin(){panel.style.display='flex'}
 
 function login(){
-  if(pass.value==="123456"){
-    admin.style.display="block"
-  } else alert("salah")
+  if(pass.value==="123456")adminArea.style.display="block"
+}
+
+async function addDKM(){
+  await supabase.from("dkm").insert({jabatan,nama})
+}
+
+async function addKas(){
+  await supabase.from("kas").insert({
+    tipe:tipe.value,
+    nominal:nominal.value,
+    keterangan:ket.value
+  })
 }
 
 async function addGallery(){
@@ -169,10 +177,9 @@ async function addPustaka(){
   })
 }
 
-/* ================= START ================= */
-loadData()
+/* START */
+load()
 realtime()
-
 </script>
 
 </body>
