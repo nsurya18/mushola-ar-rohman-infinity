@@ -607,6 +607,130 @@ height:210px;
 </div>
 </section>
 
+<section id="pengajian">
+<div class="section-title">
+<h2>Jadwal Pengajian</h2>
+<p>Kegiatan rutin mushola</p>
+</div>
+
+<div class="carousel">
+
+<div class="card">
+<div class="card-content">
+<h3>Pengajian Yasin</h3>
+<p>Pengajian rutin bersama jamaah setiap malam Jumat.</p>
+<div class="date">Kamis • Ba'da Maghrib</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>Majelis Ibu-Ibu</h3>
+<p>Kajian muslimah dan dzikir bersama warga.</p>
+<div class="date">Ahad • 09:00 WIB</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-content">
+<h3>TPQ Anak</h3>
+<p>Pembelajaran iqro dan Al‑Qur'an untuk anak-anak.</p>
+<div class="date">Rabu • 16:00 WIB</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="fasilitas">
+<div class="section-title">
+<h2>Fasilitas Mushola</h2>
+<p>Kenyamanan untuk jamaah</p>
+</div>
+
+<div class="grid">
+
+<div class="grid-box">
+<h3>🚿 Tempat Wudhu</h3>
+<p>Area wudhu bersih dan nyaman untuk jamaah.</p>
+</div>
+
+<div class="grid-box">
+<h3>📶 WiFi Gratis</h3>
+<p>Akses internet untuk kegiatan islami dan pendidikan.</p>
+</div>
+
+<div class="grid-box">
+<h3>🅿 Area Parkir</h3>
+<p>Parkir motor dan kendaraan jamaah.</p>
+</div>
+
+<div class="grid-box">
+<h3>📖 Kajian Islami</h3>
+<p>Tempat pengajian dan pembelajaran agama.</p>
+</div>
+
+</div>
+</section>
+
+<section id="dkm">
+<div class="section-title">
+<h2>Struktur DKM</h2>
+<p>Dewan Kemakmuran Mushola</p>
+</div>
+
+<div class="dkm-wrap">
+
+<div class="card dkm-card">
+<div class="card-content">
+<h3>Ketua DKM</h3>
+<p>Ust. Ahmad Fauzi</p>
+</div>
+</div>
+
+<div class="card dkm-card">
+<div class="card-content">
+<h3>Sekretaris</h3>
+<p>Muhammad Fikri</p>
+</div>
+</div>
+
+<div class="card dkm-card">
+<div class="card-content">
+<h3>Bendahara</h3>
+<p>Abdul Rohman</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="kas">
+<div class="section-title">
+<h2>Kas Mushola</h2>
+<p>Transparansi dana umat</p>
+</div>
+
+<div class="grid">
+
+<div class="grid-box">
+<h3>Saldo Saat Ini</h3>
+<p style="font-size:1.4rem;font-weight:700;text-align:center;">Rp 12.500.000</p>
+</div>
+
+<div class="grid-box">
+<h3>Pemasukan</h3>
+<p style="font-size:1.4rem;font-weight:700;text-align:center;">Rp 3.250.000</p>
+</div>
+
+<div class="grid-box">
+<h3>Pengeluaran</h3>
+<p style="font-size:1.4rem;font-weight:700;text-align:center;">Rp 1.200.000</p>
+</div>
+
+</div>
+</section>
+
 <section id="galeri">
 <div class="section-title">
 <h2>Galeri Kegiatan</h2>
@@ -788,6 +912,113 @@ document.getElementById('pustakaModal').style.display='none';
 
 renderGallery();
 renderPustaka();
+</script>
+
+
+
+<!-- =========================
+   V10 EXTRA FEATURES
+========================= -->
+
+<div id="runningText" style="position:fixed;bottom:0;left:0;width:100%;background:linear-gradient(90deg,#0f766e,#14b8a6);padding:10px 0;z-index:9999;overflow:hidden;">
+  <marquee scrollamount="5" style="color:white;font-weight:600;">
+    🕌 Selamat Datang di Website Mushola AR-ROHMAN • Semoga Allah memberikan keberkahan untuk kita semua • Jadwal Pengajian Rutin Setiap Pekan • Terima kasih kepada seluruh jamaah dan donatur
+  </marquee>
+</div>
+
+<script>
+
+/* =========================
+   LIVE CLOCK
+========================= */
+
+const liveClock=document.createElement('div');
+
+liveClock.style.position='fixed';
+liveClock.style.left='20px';
+liveClock.style.bottom='20px';
+liveClock.style.background='rgba(0,0,0,.45)';
+liveClock.style.backdropFilter='blur(10px)';
+liveClock.style.border='1px solid rgba(255,255,255,.08)';
+liveClock.style.padding='12px 18px';
+liveClock.style.borderRadius='16px';
+liveClock.style.color='#f7d774';
+liveClock.style.fontWeight='700';
+liveClock.style.zIndex='9999';
+liveClock.style.boxShadow='0 10px 25px rgba(0,0,0,.25)';
+
+function updateClock(){
+
+ const now=new Date();
+
+ liveClock.innerHTML=now.toLocaleTimeString('id-ID');
+
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+document.body.appendChild(liveClock);
+
+/* =========================
+   AUTO CLOSE MENU MOBILE
+========================= */
+
+const navLinks=document.querySelectorAll('#navMenu a');
+
+navLinks.forEach(link=>{
+
+ link.addEventListener('click',()=>{
+
+  if(window.innerWidth<768){
+   document.getElementById('navMenu').classList.remove('active');
+  }
+
+ });
+
+});
+
+/* =========================
+   SMOOTH CARD EFFECT
+========================= */
+
+const cards=document.querySelectorAll('.card');
+
+cards.forEach(card=>{
+
+ card.addEventListener('mousemove',(e)=>{
+
+  const rect=card.getBoundingClientRect();
+
+  const x=e.clientX-rect.left;
+  const y=e.clientY-rect.top;
+
+  card.style.background=`radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,.14), rgba(255,255,255,.05))`;
+
+ });
+
+ card.addEventListener('mouseleave',()=>{
+
+  card.style.background='rgba(255,255,255,.06)';
+
+ });
+
+});
+
+/* =========================
+   HERO PARALLAX
+========================= */
+
+window.addEventListener('scroll',()=>{
+
+ const hero=document.querySelector('.hero');
+
+ if(hero){
+  hero.style.backgroundPositionY=`${window.scrollY * 0.4}px`;
+ }
+
+});
+
 </script>
 
 </body>
