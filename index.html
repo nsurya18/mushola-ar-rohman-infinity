@@ -3,95 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola V12 SUPABASE FIX</title>
+<title>Mushola AR-ROHMAN V13</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
+:root{
+  --bg:#071313;
+  --card:rgba(255,255,255,.06);
+  --gold:#d4af37;
+  --green:#14b8a6;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
-margin:0;
-font-family:Poppins;
-background:#071313;
-color:white;
+  font-family:Poppins,sans-serif;
+  background:linear-gradient(180deg,#061414,#0b1f1f);
+  color:#fff;
 }
 
 nav{
-padding:12px;
-background:#0b1d1d;
-display:flex;
-justify-content:space-between;
+  position:fixed;top:0;left:0;width:100%;
+  display:flex;justify-content:space-between;
+  padding:14px 5%;
+  background:rgba(0,0,0,.6);
+  z-index:9999;
 }
 
-section{padding:40px 20px}
+nav a{color:#fff;text-decoration:none;margin:0 8px;font-size:14px}
 
-.title{
-text-align:center;
-color:#d4af37;
-margin-bottom:15px;
+section{padding:80px 5%}
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-.carousel{
-display:flex;
-gap:12px;
-overflow-x:auto;
+.hero h1{color:var(--gold);font-size:2.5rem}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
 }
 
 .card{
-min-width:240px;
-background:rgba(255,255,255,.06);
-padding:10px;
-border-radius:10px;
+  background:var(--card);
+  padding:15px;
+  border-radius:14px;
 }
 
-.card img{
-width:100%;
-border-radius:8px;
+.carousel{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
 }
 
 .admin-btn{
-position:fixed;
-bottom:18px;
-right:18px;
-width:60px;
-height:60px;
-border-radius:50%;
-border:none;
-background:#14b8a6;
-font-size:22px;
-cursor:pointer;
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:linear-gradient(45deg,var(--green),var(--gold));
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  z-index:99999;
 }
 
 .panel{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-display:none;
-align-items:center;
-justify-content:center;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
 }
 
 .box{
-background:#111;
-padding:20px;
-width:90%;
-max-width:400px;
-border-radius:10px;
+  background:#111;
+  padding:20px;
+  width:90%;
+  max-width:500px;
+  border-radius:12px;
 }
 
-input,button{
-width:100%;
-padding:10px;
-margin:6px 0;
-border:none;
-border-radius:6px;
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:10px;
+  border:none;
 }
 
 button{
-background:#14b8a6;
-color:white;
-cursor:pointer;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:var(--green);
+  color:#fff;
+  cursor:pointer;
+}
+
+.small{
+  font-size:12px;
+  opacity:.7;
 }
 </style>
 </head>
@@ -99,153 +120,142 @@ cursor:pointer;
 <body>
 
 <nav>
-<div>🕌 Mushola V12</div>
-<div>SUPABASE LIVE</div>
+  <div><b>🕌 AR-ROHMAN V13</b></div>
+  <div>
+    <a href="#galeri">Galeri</a>
+    <a href="#dkm">DKM</a>
+    <a href="#kas">Kas</a>
+    <a href="#pustaka">Pustaka</a>
+  </div>
 </nav>
 
-<section>
-<div class="title">GALERI</div>
-<div class="carousel" id="gallery"></div>
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <h1>Mushola AR-ROHMAN</h1>
+    <p class="small">V13 FULL SYSTEM CLEAN STABLE</p>
+  </div>
 </section>
 
-<section>
-<div class="title">PUSTAKA</div>
-<div class="carousel" id="pustaka"></div>
+<!-- DKM -->
+<section id="dkm">
+  <h2>DKM</h2>
+  <div class="grid">
+    <div class="card">Ketua: Ust. Ahmad</div>
+    <div class="card">Sekretaris: Fikri</div>
+    <div class="card">Bendahara: Rohman</div>
+  </div>
 </section>
 
+<!-- PENGAJIAN -->
+<section>
+  <h2>Pengajian</h2>
+  <div class="carousel">
+    <div class="card">Yasinan Kamis</div>
+    <div class="card">TPQ Anak</div>
+    <div class="card">Majelis Ibu</div>
+  </div>
+</section>
+
+<!-- FASILITAS -->
+<section>
+  <h2>Fasilitas</h2>
+  <div class="grid">
+    <div class="card">Wudhu Bersih</div>
+    <div class="card">WiFi Gratis</div>
+    <div class="card">Parkir Luas</div>
+  </div>
+</section>
+
+<!-- KAS -->
+<section id="kas">
+  <h2>Kas</h2>
+  <div class="grid">
+    <div class="card">Saldo: Rp 6.500.000</div>
+    <div class="card">Masuk: Rp 450.000</div>
+    <div class="card">Keluar: Rp 200.000</div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section id="galeri">
+  <h2>Galeri</h2>
+  <div class="carousel" id="gallery"></div>
+</section>
+
+<!-- PUSTAKA -->
+<section id="pustaka">
+  <h2>Pustaka</h2>
+  <div class="carousel" id="pustaka"></div>
+</section>
+
+<!-- ADMIN -->
 <button class="admin-btn" onclick="openAdmin()">⚙</button>
 
 <div class="panel" id="panel">
-<div class="box">
+  <div class="box">
+    <h3>Admin Login</h3>
+    <input type="password" id="pass" placeholder="Password">
+    <button onclick="login()">Login</button>
 
-<h3>Admin Login</h3>
-<input type="password" id="pass">
-<button onclick="login()">Login</button>
+    <div id="admin" style="display:none">
 
-<div id="adminArea" style="display:none">
+      <h3>Tambah Galeri</h3>
+      <input id="gtitle" placeholder="Judul">
+      <input id="gurl" placeholder="Image URL">
+      <button onclick="addGallery()">Tambah</button>
 
-<h4>Tambah Galeri</h4>
-<input id="title" placeholder="judul">
-<input id="url" placeholder="image url">
-<button onclick="addGallery()">Tambah</button>
+      <h3>Tambah Pustaka</h3>
+      <input id="ptitle" placeholder="Judul">
+      <textarea id="ptext"></textarea>
+      <button onclick="addPustaka()">Tambah</button>
 
-<h4>Tambah Pustaka</h4>
-<input id="ptitle" placeholder="judul">
-<input id="pdesc" placeholder="deskripsi">
-<button onclick="addPustaka()">Tambah</button>
-
-</div>
-
-</div>
+      <button onclick="closeAdmin()">Tutup</button>
+    </div>
+  </div>
 </div>
 
 <script>
-/* =======================
-   SUPABASE CONFIG FIXED
-======================= */
-const SUPABASE_URL = "https://rsynvidexpuyaqrwzihz.supabase.co";
-const SUPABASE_KEY = "sb_publishable_lYkKnzv2JTGEa8A_mEFJiw_JQIcWzP1";
+let gallery = JSON.parse(localStorage.getItem('gallery')||'[]');
+let pustaka = JSON.parse(localStorage.getItem('pustaka')||'[]');
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+function render(){
+  document.getElementById('gallery').innerHTML =
+    gallery.map(x=>`<div class='card'><img src='${x.url}' style="width:100%;border-radius:10px"><p>${x.title}</p></div>`).join('');
 
-/* =======================
-   LOAD DATA
-======================= */
-async function loadGallery(){
-const { data } = await supabaseClient
-.from("gallery")
-.select("*")
-.order("created_at",{ascending:false});
-
-renderGallery(data || []);
+  document.getElementById('pustaka').innerHTML =
+    pustaka.map(x=>`<div class='card'><b>${x.title}</b><p>${x.text}</p></div>`).join('');
 }
 
-async function loadPustaka(){
-const { data } = await supabaseClient
-.from("pustaka")
-.select("*")
-.order("created_at",{ascending:false});
-
-renderPustaka(data || []);
-}
-
-/* =======================
-   RENDER
-======================= */
-function renderGallery(data){
-document.getElementById("gallery").innerHTML =
-data.map(x=>`
-<div class="card">
-<img src="${x.url}">
-<p>${x.title}</p>
-</div>
-`).join("");
-}
-
-function renderPustaka(data){
-document.getElementById("pustaka").innerHTML =
-data.map(x=>`
-<div class="card">
-<h4>${x.title}</h4>
-<p>${x.desc}</p>
-</div>
-`).join("");
-}
-
-/* =======================
-   INSERT DATA
-======================= */
-async function addGallery(){
-await supabaseClient.from("gallery").insert({
-title:title.value,
-url:url.value
-});
-
-title.value="";
-url.value="";
-loadGallery();
-}
-
-async function addPustaka(){
-await supabaseClient.from("pustaka").insert({
-title:ptitle.value,
-desc:pdesc.value
-});
-
-ptitle.value="";
-pdesc.value="";
-loadPustaka();
-}
-
-/* =======================
-   REALTIME SYNC
-======================= */
-supabaseClient
-.channel("gallery-channel")
-.on("postgres_changes",{event:"*",schema:"public",table:"gallery"},loadGallery)
-.subscribe();
-
-supabaseClient
-.channel("pustaka-channel")
-.on("postgres_changes",{event:"*",schema:"public",table:"pustaka"},loadPustaka)
-.subscribe();
-
-/* =======================
-   ADMIN
-======================= */
 function openAdmin(){
-panel.style.display="flex";
+  document.getElementById('panel').style.display='flex';
+}
+
+function closeAdmin(){
+  document.getElementById('panel').style.display='none';
 }
 
 function login(){
-if(pass.value==="123456"){
-adminArea.style.display="block";
-}
+  if(pass.value==='123456'){
+    admin.style.display='block';
+  } else {
+    alert('Password salah');
+  }
 }
 
-/* INIT */
-loadGallery();
-loadPustaka();
+function addGallery(){
+  gallery.unshift({title:gtitle.value,url:gurl.value});
+  localStorage.setItem('gallery',JSON.stringify(gallery));
+  render();
+}
+
+function addPustaka(){
+  pustaka.unshift({title:ptitle.value,text:ptext.value});
+  localStorage.setItem('pustaka',JSON.stringify(pustaka));
+  render();
+}
+
+render();
 </script>
 
 </body>
