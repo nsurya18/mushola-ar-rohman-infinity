@@ -242,6 +242,340 @@ footer{
     <button onclick="closePustaka()">Tutup</button>
   </div>
 </div>
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mushola AR-ROHMAN V11 PRO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#0f766e;
+  --secondary:#14b8a6;
+  --gold:#d4af37;
+  --bg:#071313;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:Poppins,sans-serif;
+  background:linear-gradient(180deg,#061414,#0b1f1f);
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 5%;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(14px);
+  z-index:99999;
+}
+
+.logo{font-weight:700;color:#fff;}
+
+nav ul{
+  display:flex;
+  gap:12px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:8px 10px;
+  border-radius:10px;
+}
+
+nav a:hover{background:rgba(212,175,55,.15);color:var(--gold);}
+
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  color:var(--gold);
+  cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:90px 20px;
+}
+.hero h1{font-size:2.6rem;color:var(--gold);}
+.hero p{opacity:.8;margin-top:10px;}
+
+/* SECTION */
+section{padding:70px 5%;}
+.section-title{text-align:center;margin-bottom:25px;}
+.section-title h2{color:var(--gold);}
+
+/* CARDS */
+.carousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;}
+.card{
+  min-width:260px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:14px;
+  scroll-snap-align:start;
+}
+
+.card img{width:100%;border-radius:12px;}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.grid-box{
+  background:rgba(255,255,255,.06);
+  padding:18px;
+  border-radius:16px;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999999;
+}
+.modal-box{
+  background:#111;
+  padding:20px;
+  border-radius:16px;
+  width:90%;max-width:520px;
+}
+
+/* ADMIN */
+.admin-btn{
+  position:fixed;
+  right:18px;bottom:18px;
+  width:65px;height:65px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--secondary),var(--gold));
+  color:#000;
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2147483647;
+  cursor:pointer;
+}
+
+.panel{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999999;
+}
+.box{
+  background:#111;
+  padding:20px;
+  border-radius:16px;
+  width:95%;max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:10px;
+  border:none;
+}
+
+button{
+  padding:10px;
+  width:100%;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  padding:40px;
+  border-top:1px solid rgba(255,255,255,.1);
+  color:#aaa;
+}
+
+@media(max-width:768px){
+  nav ul{display:none;position:absolute;top:60px;left:5%;right:5%;flex-direction:column;background:#000;padding:14px;border-radius:12px;}
+  nav ul.active{display:flex;}
+  .menu-toggle{display:block;}
+}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <div class="logo">🕌 AR-ROHMAN</div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <ul id="menu">
+    <li><a href="#galeri">Galeri</a></li>
+    <li><a href="#pustaka">Pustaka</a></li>
+    <li><a href="#kas">Kas</a></li>
+    <li><a href="https://instagram.com/arrohmanpahing" target="_blank">Instagram</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>Mushola AR-ROHMAN</h1>
+    <p>V11 PRO SYSTEM</p>
+  </div>
+</section>
+
+<!-- GALERI -->
+
+<section id="galeri">
+  <div class="section-title"><h2>Galeri Kegiatan</h2></div>
+  <div class="carousel" id="gallery"></div>
+</section>
+
+<!-- PUSTAKA -->
+
+<section id="pustaka">
+  <div class="section-title"><h2>Pustaka Ilmu</h2></div>
+  <div class="carousel" id="pustakaList"></div>
+</section>
+
+<!-- KAS -->
+
+<section id="kas">
+  <div class="section-title"><h2>Kas Mushola</h2></div>
+  <div class="grid">
+    <div class="grid-box" id="saldo"></div>
+    <div class="grid-box" id="masuk"></div>
+    <div class="grid-box" id="keluar"></div>
+  </div>
+</section>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3 id="mTitle"></h3>
+    <p id="mText"></p>
+    <button onclick="closeModal()">Tutup</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+
+<div class="admin-btn" onclick="openAdmin()">⚙</div>
+
+<div class="panel" id="panel">
+  <div class="box">
+    <h2>Admin Login</h2>
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <div id="adminArea" style="display:none">
+  <h3>Upload Galeri</h3>
+  <input id="title" placeholder="Judul">
+  <input id="url" placeholder="Image URL Cloudinary">
+  <button onclick="addGallery()">Tambah</button>
+
+  <h3>Tambah Pustaka</h3>
+  <input id="pt" placeholder="Judul">
+  <textarea id="px"></textarea>
+  <button onclick="addPustaka()">Tambah</button>
+
+  <h3>Edit Kas</h3>
+  <input id="s" placeholder="Saldo">
+  <input id="m" placeholder="Masuk">
+  <input id="k" placeholder="Keluar">
+  <button onclick="saveKas()">Simpan</button>
+</div>
+
+<button onclick="closeAdmin()">Tutup</button>
+
+  </div>
+</div>
+
+<footer>
+  Mushola AR-ROHMAN © 2026
+</footer>
+
+<script>
+let gallery = JSON.parse(localStorage.getItem('g')||'[]');
+let pustaka = JSON.parse(localStorage.getItem('p')||'[]');
+let kas = JSON.parse(localStorage.getItem('k')||'{}');
+
+function toggleMenu(){document.getElementById('menu').classList.toggle('active');}
+
+function render(){
+  document.getElementById('gallery').innerHTML = gallery.map(x=>
+    `<div class='card'><img src='${x.url}'><p>${x.title}</p></div>`
+  ).join('');
+
+  document.getElementById('pustakaList').innerHTML = pustaka.map(x=>
+    `<div class='card' onclick="openM('${x.t}','${x.d}')">${x.t}</div>`
+  ).join('');
+
+  document.getElementById('saldo').innerText='Saldo: Rp '+(kas.s||0);
+  document.getElementById('masuk').innerText='Masuk: Rp '+(kas.m||0);
+  document.getElementById('keluar').innerText='Keluar: Rp '+(kas.k||0);
+}
+
+function openM(t,d){
+  document.getElementById('mTitle').innerText=t;
+  document.getElementById('mText').innerText=d;
+  document.getElementById('modal').style.display='flex';
+}
+
+function closeModal(){modal.style.display='none';}
+
+function openAdmin(){panel.style.display='flex';}
+function closeAdmin(){panel.style.display='none';}
+
+function login(){if(pass.value==='123456'){adminArea.style.display='block';}}
+
+function addGallery(){
+  gallery.unshift({title:title.value,url:url.value});
+  localStorage.setItem('g',JSON.stringify(gallery));render();
+}
+
+function addPustaka(){
+  pustaka.unshift({t:pt.value,d:px.value});
+  localStorage.setItem('p',JSON.stringify(pustaka));render();
+}
+
+function saveKas(){
+  kas={s:s.value,m:m.value,k:k.value};
+  localStorage.setItem('k',JSON.stringify(kas));render();
+}
+
+render();
+</script>
+
+</body>
+</html>
+
+
 
 <!-- ADMIN BUTTON CLEAN -->
 <div class="admin-btn" onclick="openAdmin()">⚙</div>
