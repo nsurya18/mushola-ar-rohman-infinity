@@ -959,11 +959,24 @@ document.getElementById('adminPanel').style.display='none';
 
 function loginAdmin(){
 
-const pass=document.getElementById('adminPassword').value;
+const pass=document.getElementById('adminPassword').value.trim();
 
 if(pass==='123456'){
+
  document.getElementById('adminContent').style.display='block';
- alert('Login berhasil');
+
+ document.querySelector('#adminPanel h2').innerText='Dashboard Admin';
+
+ document.getElementById('adminPassword').style.display='none';
+
+ document.querySelector('#adminPanel button').style.display='none';
+
+}else{
+
+ alert('Password salah');
+
+}
+
 }else{
  alert('Password salah');
 }
