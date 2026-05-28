@@ -763,6 +763,42 @@ height:210px;
 </div>
 </div>
 
+<!-- ADMIN BUTTON -->
+
+<button class="admin-btn" onclick="openAdmin()">
+⚙
+</button>
+
+<!-- ADMIN PANEL -->
+
+<div class="panel" id="adminPanel">
+<div class="box">
+
+<h2>Login Admin</h2>
+
+<input type="password" id="adminPassword" placeholder="Masukkan password admin">
+
+<button onclick="loginAdmin()">
+Masuk Dashboard
+</button>
+
+<button onclick="closeAdmin()" style="background:#333;">
+Tutup
+</button>
+
+<div id="adminContent" style="display:none;margin-top:20px;">
+
+<h2>Dashboard Admin</h2>
+
+<p style="line-height:1.8;color:rgba(255,255,255,.75);">
+Panel admin aktif dan siap digunakan untuk pengembangan fitur update galeri, pustaka, kas dan pengajian.
+</p>
+
+</div>
+
+</div>
+</div>
+
 <footer>
 <div class="footer-title">Mushola AR‑ROHMAN</div>
 <div class="footer-address">
@@ -912,6 +948,27 @@ document.getElementById('pustakaModal').style.display='none';
 
 renderGallery();
 renderPustaka();
+
+function openAdmin(){
+document.getElementById('adminPanel').style.display='flex';
+}
+
+function closeAdmin(){
+document.getElementById('adminPanel').style.display='none';
+}
+
+function loginAdmin(){
+
+const pass=document.getElementById('adminPassword').value;
+
+if(pass==='123456'){
+ document.getElementById('adminContent').style.display='block';
+ alert('Login berhasil');
+}else{
+ alert('Password salah');
+}
+
+}
 </script>
 
 
