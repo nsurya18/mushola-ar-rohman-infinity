@@ -108,6 +108,7 @@ to{transform:scale(1.08)}
 
 .hero-content{position:relative;z-index:2;max-width:850px;}
 
+
 .hero h1{font-size:4rem;margin-bottom:18px;}
 .hero p{line-height:1.8;color:#f3f3f3;}
 
@@ -702,7 +703,7 @@ function renderGallery(){
     return;
   }
 
-  gallery.forEach((item,index)=>{
+gallery.forEach((item,index)=>{
     if(!item) return;
 
     const firstMedia = Array.isArray(item.media) && item.media.length > 0 ? item.media[0] : null;
@@ -722,6 +723,7 @@ function renderGallery(){
     `;
   });
 
+
   renderDashboard();
 }
 
@@ -731,22 +733,30 @@ const viewer=document.getElementById('eventViewer');
 const slider=document.getElementById('eventSlider');
 const title=document.getElementById('eventTitle');
 
-slider.innerHTML='';
+if(index === undefined || index === null) return;
+if(!Array.isArray(gallery) || index < 0 || index >= gallery.length) return;
 
 const event=gallery[index];
-title.innerText=event.title;
+if(!event) return;
+if(!Array.isArray(event.media)) event.media = [];
 
-event.media.forEach(media=>{
-slider.innerHTML+=`
+slider.innerHTML='';
+title.innerText = event.title || 'Kegiatan';
+
+event.media.forEach((media)=>{
+if(!media || !media.url) return;
+const isImage = media.type === 'image' || media.type === undefined;
+slider.innerHTML += `
 <div class="event-slide">
-${media.type==='image'
-? `<img src="${media.url}">`
+${isImage
+? `<img src="${media.url}" alt="${event.title ? event.title : 'Kegiatan'}">`
 : `<video controls><source src="${media.url}"></video>`}
 </div>`;
 });
 
 viewer.style.display='flex';
 }
+
 
 function closeEvent(){
 document.getElementById('eventViewer').style.display='none';
@@ -786,8 +796,14 @@ type:file.type.startsWith('video')?'video':'image'
 gallery.unshift({title,desc,date,media:mediaArray});
 localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
-alert('Upload berhasil');
+
+syncToCloudOnce(true).then(()=>{
+  alert('Upload berhasil + sinkron');
+}).catch(()=>{
+  alert('Upload berhasil (sinkron cloud gagal/terbatas preset)');
+});
 }
+
 
 function renderDashboard(){
 const dash=document.getElementById('dashboard');
@@ -809,9 +825,10 @@ renderPustakaDashboard();
 
 function deleteGallery(index){
 if(confirm('Hapus kegiatan?')){
-gallery.splice(index,1);
-localStorage.setItem('gallery',JSON.stringify(gallery));
-renderGallery();
+  gallery.splice(index,1);
+  localStorage.setItem('gallery',JSON.stringify(gallery));
+  renderGallery();
+  syncToCloudOnce(true).catch(()=>{});
 }
 }
 
@@ -825,7 +842,9 @@ item.title=title;
 item.desc=desc;
 localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
+syncToCloudOnce(true).catch(()=>{});
 }
+
 
 function renderPustaka(){
 const wrap=document.getElementById('pustakaContainer');
@@ -833,7 +852,7 @@ wrap.innerHTML='';
 
 pustaka.forEach((item,index)=>{
 wrap.innerHTML+=`
-<div class="card pustaka-card" onclick="openPustaka('${item.title}','${item.text.replace(/'/g,"\\'")}')">
+<div class="card pustaka-card" onclick="openPustaka(${index})">
 <div class="card-content">
 <h3>${item.title}</h3>
 <p>${item.text.substring(0,100)}...</p>
@@ -843,11 +862,16 @@ wrap.innerHTML+=`
 });
 }
 
-function openPustaka(title,text){
-document.getElementById('pustakaTitle').innerText=title;
-document.getElementById('pustakaText').innerText=text;
+function openPustaka(index){
+if(index === undefined || index === null) return;
+if(!Array.isArray(pustaka) || index < 0 || index >= pustaka.length) return;
+const item=pustaka[index];
+if(!item) return;
+document.getElementById('pustakaTitle').innerText=item.title || 'Pustaka';
+document.getElementById('pustakaText').innerText=item.text || '';
 document.getElementById('pustakaModal').style.display='flex';
 }
+
 
 function closePustaka(){
 document.getElementById('pustakaModal').style.display='none';
@@ -911,9 +935,11 @@ localStorage.setItem('pustaka',JSON.stringify(pustaka));
 renderPustaka();
 renderPustakaDashboard();
 
-syncToCloudOnce().catch(()=>{});
+syncToCloudOnce(true).catch(()=>{});
 }
 }
+
+
 
 
 async function loadCloudinaryJson(publicId){
@@ -959,37 +985,40 @@ async function syncFromCloud(){
 
     localStorage.setItem('gallery', JSON.stringify(gallery));
     localStorage.setItem('pustaka', JSON.stringify(pustaka));
-
-    renderGallery();
-    renderPustaka();
-    renderPustakaDashboard();
   } catch(err){
     // kalau belum ada JSON di cloud, pakai fallback local
-    renderGallery();
-    renderPustaka();
-    renderPustakaDashboard();
   }
+
+  // render setelah data final
+  renderGallery();
+  renderPustaka();
+  renderPustakaDashboard();
 }
 
-async function syncToCloudOnce(forceSave=false){
+
+function syncToCloudOnce(forceSave=false){
   // Pastikan data default tersimpan ke cloud (sekali saja) atau jika forceSave=true.
-  if(!forceSave){
-    try {
-      await loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID);
-      await loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID);
-      return;
-    } catch(e){
-      // tidak ada => simpan
+  // Return Promise so callers can await.
+  return (async () => {
+    if(!forceSave){
+      try {
+        await loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID);
+        await loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID);
+        return;
+      } catch(e){
+        // tidak ada => simpan
+      }
     }
-  }
 
-  try{
-    await saveCloudinaryJson(GALLERY_JSON_PUBLIC_ID, gallery);
-    await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
-  }catch(e){
-    // ignore kalau preset/permission tidak mengizinkan raw upload
-  }
+    try{
+      await saveCloudinaryJson(GALLERY_JSON_PUBLIC_ID, gallery);
+      await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
+    }catch(e){
+      // ignore kalau preset/permission tidak mengizinkan raw upload
+    }
+  })();
 }
+
 
 
 (async () => {
@@ -1003,6 +1032,8 @@ async function syncToCloudOnce(forceSave=false){
   await syncFromCloud();
 })();
 </script>
+
+
 
 </body>
 </html>
