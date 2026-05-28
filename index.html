@@ -638,6 +638,25 @@ min-width:88%;
 height:210px;
 }
 }
+
+.admin-btn{
+  position:fixed !important;
+  right:18px !important;
+  bottom:90px !important;
+  z-index:2147483647 !important;
+  pointer-events:auto !important;
+}
+
+body *{
+  pointer-events:auto;
+}
+
+/* MATIIN OVERLAY NYANGKUT */
+.pustaka-modal,
+.panel,
+.event-viewer{
+  pointer-events:auto;
+}
 </style>
 </head>
 <body>
@@ -1186,6 +1205,14 @@ window.addEventListener('scroll',()=>{
  }
 
 });
+
+setTimeout(()=>{
+  const btn=document.getElementById("adminFloatingBtn");
+  if(btn){
+    btn.style.pointerEvents="auto";
+    btn.onclick=()=>openPanel();
+  }
+},500);
 
 </script>
 
