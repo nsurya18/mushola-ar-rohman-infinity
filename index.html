@@ -851,8 +851,11 @@ pustaka.unshift({title,text});
 localStorage.setItem('pustaka',JSON.stringify(pustaka));
 renderPustaka();
 renderPustakaDashboard();
+// Pastikan realtime update di tab lain juga
+window.dispatchEvent(new Event('storage')); 
 alert('Pustaka berhasil ditambah');
 }
+
 
 function renderPustakaDashboard(){
 const dash=document.getElementById('pustakaDashboard');
@@ -892,6 +895,21 @@ renderPustakaDashboard();
 
 renderGallery();
 renderPustaka();
+
+// Realtime update saat localStorage berubah (tab lain)
+window.addEventListener('storage', (e) => {
+  if(e.key === 'gallery'){
+    gallery = JSON.parse(localStorage.getItem('gallery') || '[]');
+    if(!Array.isArray(gallery)) gallery = [];
+    renderGallery();
+  }
+  if(e.key === 'pustaka'){
+    pustaka = JSON.parse(localStorage.getItem('pustaka') || '[]');
+    if(!Array.isArray(pustaka)) pustaka = [];
+    renderPustaka();
+    renderPustakaDashboard();
+  }
+});
 </script>
 
 </body>
