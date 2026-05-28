@@ -620,6 +620,18 @@ Kecamatan Cilimus - Kabupaten Kuningan
 const CLOUD_NAME='dqx4y6l8l';
 const UPLOAD_PRESET='mushola_upload';
 
+// Public ID base untuk sinkron data via Cloudinary JSON
+// Gallery disimpan di: mushola_gallery.json
+const GALLERY_JSON_PUBLIC_ID = 'mushola_gallery';
+// Pustaka disimpan di: mushola_pustaka.json
+const PUSTAKA_JSON_PUBLIC_ID = 'mushola_pustaka';
+
+// Pastikan format URL JSON bisa diakses publik (private/public tergantung setup Cloudinary kamu)
+function cloudinaryJsonUrl(publicId){
+  // format: https://res.cloudinary.com/<cloud>/raw/upload/<public_id>.json
+  return `https://res.cloudinary.com/${CLOUD_NAME}/raw/upload/${publicId}.json`;
+}
+
 let gallery = [];
 
 try {
@@ -640,7 +652,7 @@ try {
   pustaka = [];
 }
 
-// Seed pustaka biar selalu ada konten awal
+// Seed pustaka biar selalu ada konten awal (fallback local)
 if(pustaka.length === 0){
   pustaka = [
     {
@@ -652,8 +664,10 @@ if(pustaka.length === 0){
       text: 'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ.'
     }
   ];
-  localStorage.setItem('pustaka', JSON.stringify(pustaka));
 }
+
+// Saat sinkron Cloudinary belum ter-load, simpan fallback local
+localStorage.setItem('pustaka', JSON.stringify(pustaka));
 
 function toggleMenu(){
 document.getElementById('navMenu').classList.toggle('active');
@@ -851,10 +865,15 @@ pustaka.unshift({title,text});
 localStorage.setItem('pustaka',JSON.stringify(pustaka));
 renderPustaka();
 renderPustakaDashboard();
-// Pastikan realtime update di tab lain juga
-window.dispatchEvent(new Event('storage')); 
-alert('Pustaka berhasil ditambah');
+
+// Simpan ke Cloudinary agar HP/laptop sinkron (paksa update)
+syncToCloudOnce(true).then(()=>{
+  alert('Pustaka berhasil ditambah (sinkron)');
+}).catch(()=>{
+  alert('Pustaka ditambah. Sinkron cloud gagal/terbatas preset.');
+});
 }
+
 
 
 function renderPustakaDashboard(){
@@ -890,26 +909,98 @@ pustaka.splice(index,1);
 localStorage.setItem('pustaka',JSON.stringify(pustaka));
 renderPustaka();
 renderPustakaDashboard();
+
+syncToCloudOnce().catch(()=>{});
 }
 }
 
-renderGallery();
-renderPustaka();
 
-// Realtime update saat localStorage berubah (tab lain)
-window.addEventListener('storage', (e) => {
-  if(e.key === 'gallery'){
-    gallery = JSON.parse(localStorage.getItem('gallery') || '[]');
-    if(!Array.isArray(gallery)) gallery = [];
+async function loadCloudinaryJson(publicId){
+  const url = cloudinaryJsonUrl(publicId);
+  const res = await fetch(url, { cache: 'no-store' });
+  if(!res.ok) throw new Error(`Gagal fetch JSON ${publicId}. Status ${res.status}`);
+  const txt = await res.text();
+  return JSON.parse(txt);
+}
+
+async function saveCloudinaryJson(publicId, data){
+  // Upload JSON ke Cloudinary sebagai raw.
+  // Butuh preset yang mengizinkan upload raw (content-type application/json atau text/plain).
+  const jsonString = JSON.stringify(data);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const file = new File([blob], `${publicId}.json`, { type: 'application/json' });
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', UPLOAD_PRESET);
+  formData.append('public_id', publicId);
+  formData.append('overwrite', 'true');
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`, {
+    method: 'POST',
+    body: formData
+  });
+
+  const out = await res.json();
+  if(!res.ok) throw new Error(out?.error?.message || 'Upload JSON gagal');
+  return out;
+}
+
+async function syncFromCloud(){
+  try {
+    const [g, p] = await Promise.all([
+      loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID),
+      loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID)
+    ]);
+
+    gallery = Array.isArray(g) ? g : [];
+    pustaka = Array.isArray(p) ? p : [];
+
+    localStorage.setItem('gallery', JSON.stringify(gallery));
+    localStorage.setItem('pustaka', JSON.stringify(pustaka));
+
     renderGallery();
-  }
-  if(e.key === 'pustaka'){
-    pustaka = JSON.parse(localStorage.getItem('pustaka') || '[]');
-    if(!Array.isArray(pustaka)) pustaka = [];
+    renderPustaka();
+    renderPustakaDashboard();
+  } catch(err){
+    // kalau belum ada JSON di cloud, pakai fallback local
+    renderGallery();
     renderPustaka();
     renderPustakaDashboard();
   }
-});
+}
+
+async function syncToCloudOnce(forceSave=false){
+  // Pastikan data default tersimpan ke cloud (sekali saja) atau jika forceSave=true.
+  if(!forceSave){
+    try {
+      await loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID);
+      await loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID);
+      return;
+    } catch(e){
+      // tidak ada => simpan
+    }
+  }
+
+  try{
+    await saveCloudinaryJson(GALLERY_JSON_PUBLIC_ID, gallery);
+    await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
+  }catch(e){
+    // ignore kalau preset/permission tidak mengizinkan raw upload
+  }
+}
+
+
+(async () => {
+  // render dulu dengan local fallback
+  renderGallery();
+  renderPustaka();
+  renderPustakaDashboard();
+
+  // sync dari cloud untuk data terbaru
+  await syncToCloudOnce();
+  await syncFromCloud();
+})();
 </script>
 
 </body>
