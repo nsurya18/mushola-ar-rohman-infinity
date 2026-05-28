@@ -3,61 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola V11 REALTIME CLOUD</title>
+<title>Mushola V12 SUPABASE FIX</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-body{margin:0;font-family:Poppins;background:#071313;color:#fff}
+body{
+margin:0;
+font-family:Poppins;
+background:#071313;
+color:white;
+}
 
 nav{
-position:fixed;top:0;left:0;width:100%;
-padding:12px;background:#0b1d1d;
-display:flex;justify-content:space-between;z-index:9999;
+padding:12px;
+background:#0b1d1d;
+display:flex;
+justify-content:space-between;
 }
 
-section{padding:80px 20px}
+section{padding:40px 20px}
 
-.title{text-align:center;color:#d4af37;margin-bottom:10px}
+.title{
+text-align:center;
+color:#d4af37;
+margin-bottom:15px;
+}
 
-.carousel{display:flex;gap:12px;overflow-x:auto}
+.carousel{
+display:flex;
+gap:12px;
+overflow-x:auto;
+}
 
 .card{
-min-width:260px;
+min-width:240px;
 background:rgba(255,255,255,.06);
 padding:10px;
-border-radius:12px;
+border-radius:10px;
 }
 
-.card img{width:100%;border-radius:10px}
+.card img{
+width:100%;
+border-radius:8px;
+}
 
 .admin-btn{
-position:fixed;bottom:20px;right:20px;
-width:60px;height:60px;border-radius:50%;
-border:none;background:#14b8a6;font-size:22px
+position:fixed;
+bottom:18px;
+right:18px;
+width:60px;
+height:60px;
+border-radius:50%;
+border:none;
+background:#14b8a6;
+font-size:22px;
+cursor:pointer;
 }
 
 .panel{
-position:fixed;inset:0;
+position:fixed;
+inset:0;
 background:rgba(0,0,0,.8);
-display:none;align-items:center;justify-content:center;
+display:none;
+align-items:center;
+justify-content:center;
 }
 
 .box{
-background:#111;padding:20px;width:90%;max-width:420px;border-radius:10px;
+background:#111;
+padding:20px;
+width:90%;
+max-width:400px;
+border-radius:10px;
 }
 
-input,textarea{
-width:100%;padding:10px;margin:6px 0;border:none;border-radius:6px;
+input,button{
+width:100%;
+padding:10px;
+margin:6px 0;
+border:none;
+border-radius:6px;
 }
 
 button{
-width:100%;padding:10px;border:none;border-radius:6px;
-background:#14b8a6;color:#fff;cursor:pointer;
-}
-
-.small-btn{
-width:auto;padding:6px 10px;font-size:12px;margin:2px;
+background:#14b8a6;
+color:white;
+cursor:pointer;
 }
 </style>
 </head>
@@ -65,13 +99,18 @@ width:auto;padding:6px 10px;font-size:12px;margin:2px;
 <body>
 
 <nav>
-<div>🕌 V11 REALTIME</div>
-<div>Cloud System</div>
+<div>🕌 Mushola V12</div>
+<div>SUPABASE LIVE</div>
 </nav>
 
 <section>
-<div class="title">GALERI KEGIATAN (REALTIME)</div>
+<div class="title">GALERI</div>
 <div class="carousel" id="gallery"></div>
+</section>
+
+<section>
+<div class="title">PUSTAKA</div>
+<div class="carousel" id="pustaka"></div>
 </section>
 
 <button class="admin-btn" onclick="openAdmin()">⚙</button>
@@ -83,183 +122,130 @@ width:auto;padding:6px 10px;font-size:12px;margin:2px;
 <input type="password" id="pass">
 <button onclick="login()">Login</button>
 
-<div id="admin" style="display:none">
+<div id="adminArea" style="display:none">
 
-<h4>Upload ke Folder</h4>
-<input id="folder" placeholder="nama kegiatan / folder">
+<h4>Tambah Galeri</h4>
 <input id="title" placeholder="judul">
-<input type="file" id="file">
-<button onclick="upload()">Upload Cloud</button>
+<input id="url" placeholder="image url">
+<button onclick="addGallery()">Tambah</button>
+
+<h4>Tambah Pustaka</h4>
+<input id="ptitle" placeholder="judul">
+<input id="pdesc" placeholder="deskripsi">
+<button onclick="addPustaka()">Tambah</button>
 
 </div>
-
-<button onclick="closeAdmin()">Tutup</button>
 
 </div>
 </div>
 
 <script>
+/* =======================
+   SUPABASE CONFIG FIXED
+======================= */
+const SUPABASE_URL = "https://rsynvidexpuyaqrwzihz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_lYkKnzv2JTGEa8A_mEFJiw_JQIcWzP1";
 
-/* =========================
-   CLOUDINARY CONFIG
-========================= */
-const CLOUD_NAME="dqx4y6l8l";
-const UPLOAD_PRESET="mushola_upload";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* =========================
-   DATA CACHE
-========================= */
-let gallery=[];
+/* =======================
+   LOAD DATA
+======================= */
+async function loadGallery(){
+const { data } = await supabaseClient
+.from("gallery")
+.select("*")
+.order("created_at",{ascending:false});
 
-/* =========================
-   LOAD CLOUD (SIMULATED REALTIME)
-========================= */
-async function fetchCloud(){
-
-// (REAL CLOUD VERSION SIMULATION)
-// di V11 kita pakai local + optional API endpoint
-
-let local = JSON.parse(localStorage.getItem("gallery")||"[]");
-
-gallery = local;
-
-render();
-
+renderGallery(data || []);
 }
 
-/* =========================
-   RENDER
-========================= */
-function render(){
+async function loadPustaka(){
+const { data } = await supabaseClient
+.from("pustaka")
+.select("*")
+.order("created_at",{ascending:false});
 
+renderPustaka(data || []);
+}
+
+/* =======================
+   RENDER
+======================= */
+function renderGallery(data){
 document.getElementById("gallery").innerHTML =
-gallery.map((x,i)=>`
+data.map(x=>`
 <div class="card">
 <img src="${x.url}">
 <p>${x.title}</p>
-<small>${x.folder}</small>
-<div>
-<button class="small-btn" onclick="editItem(${i})">Edit</button>
-<button class="small-btn" onclick="deleteItem(${i})">Del</button>
 </div>
-</div>
-`).join("") || "<p>Belum ada data</p>";
-
+`).join("");
 }
 
-/* =========================
-   UPLOAD (FOLDER SUPPORT)
-========================= */
-async function upload(){
-
-const file=document.getElementById("file").files[0];
-const title=document.getElementById("title").value;
-const folder=document.getElementById("folder").value;
-
-if(!file || !title){
-alert("lengkapi data");
-return;
+function renderPustaka(data){
+document.getElementById("pustaka").innerHTML =
+data.map(x=>`
+<div class="card">
+<h4>${x.title}</h4>
+<p>${x.desc}</p>
+</div>
+`).join("");
 }
 
-const form=new FormData();
-form.append("file",file);
-form.append("upload_preset",mushola_upload);
-form.append("folder",folder);
-
-const res=await fetch(
-`https://api.cloudinary.com/v1_1/${dqx4y6l8l}/image/upload`,
-{method:"POST",body:form}
-);
-
-const data=await res.json();
-
-let g=JSON.parse(localStorage.getItem("gallery")||"[]");
-
-g.unshift({
-title,
-folder,
-url:data.secure_url,
-public_id:data.public_id
+/* =======================
+   INSERT DATA
+======================= */
+async function addGallery(){
+await supabaseClient.from("gallery").insert({
+title:title.value,
+url:url.value
 });
 
-localStorage.setItem("gallery",JSON.stringify(g));
-
-fetchCloud();
-
+title.value="";
+url.value="";
+loadGallery();
 }
 
-/* =========================
-   EDIT TITLE (SYNC LOCAL + CLOUD META SIM)
-========================= */
-function editItem(i){
+async function addPustaka(){
+await supabaseClient.from("pustaka").insert({
+title:ptitle.value,
+desc:pdesc.value
+});
 
-let g=JSON.parse(localStorage.getItem("gallery")||"[]");
-
-let newTitle=prompt("edit judul",g[i].title);
-
-if(!newTitle) return;
-
-g[i].title=newTitle;
-
-localStorage.setItem("gallery",JSON.stringify(g));
-
-fetchCloud();
-
+ptitle.value="";
+pdesc.value="";
+loadPustaka();
 }
 
-/* =========================
-   DELETE CLOUD + LOCAL
-========================= */
-async function deleteItem(i){
+/* =======================
+   REALTIME SYNC
+======================= */
+supabaseClient
+.channel("gallery-channel")
+.on("postgres_changes",{event:"*",schema:"public",table:"gallery"},loadGallery)
+.subscribe();
 
-let g=JSON.parse(localStorage.getItem("gallery")||"[]");
+supabaseClient
+.channel("pustaka-channel")
+.on("postgres_changes",{event:"*",schema:"public",table:"pustaka"},loadPustaka)
+.subscribe();
 
-let item=g[i];
-
-if(!confirm("hapus item?")) return;
-
-/* local delete */
-g.splice(i,1);
-localStorage.setItem("gallery",JSON.stringify(g));
-
-/* cloud delete (BUTUH API BACKEND kalau full real) */
-if(item.public_id){
-console.log("DELETE CLOUD:",item.public_id);
-/*
-Cloudinary delete butuh server signature
-tidak bisa full client tanpa backend
-*/
-}
-
-fetchCloud();
-
-}
-
-/* =========================
-   REALTIME LOOP (NO MANUAL REFRESH)
-========================= */
-setInterval(fetchCloud,3000);
-
-/* =========================
+/* =======================
    ADMIN
-========================= */
+======================= */
 function openAdmin(){
 panel.style.display="flex";
 }
 
-function closeAdmin(){
-panel.style.display="none";
-}
-
 function login(){
 if(pass.value==="123456"){
-admin.style.display="block";
+adminArea.style.display="block";
 }
 }
 
 /* INIT */
-fetchCloud();
-
+loadGallery();
+loadPustaka();
 </script>
 
 </body>
