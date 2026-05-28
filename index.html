@@ -418,6 +418,19 @@ pointer-events:auto;
 }
 
 .admin-btn{
+position:fixed !important;
+right:20px !important;
+bottom:20px !important;
+width:65px !important;
+height:65px !important;
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+z-index:999999999 !important;
+pointer-events:auto !important;
+user-select:none !important;
+touch-action:manipulation !important;
+
 pointer-events:auto;
 
 position:fixed;
@@ -772,7 +785,9 @@ height:210px;
 
 <!-- ADMIN BUTTON -->
 
-<button type="button" class="admin-btn" id="adminFloatingBtn">
+<button type="button" class="admin-btn" id="adminFloatingBtn" aria-label="Admin Button">
+⚙
+</button>
 ⚙
 </button>
 
@@ -958,12 +973,27 @@ renderPustaka();
 
 /* FIX ADMIN BUTTON CLICK */
 
-const adminBtn=document.getElementById('adminFloatingBtn');
+window.addEventListener('DOMContentLoaded',()=>{
 
-if(adminBtn){
- adminBtn.addEventListener('click',function(){
-  openAdmin();
- });
+ const adminBtn=document.getElementById('adminFloatingBtn');
+
+ if(adminBtn){
+
+  adminBtn.addEventListener('click',function(e){
+   e.preventDefault();
+   e.stopPropagation();
+   openAdmin();
+  });
+
+  adminBtn.addEventListener('touchstart',function(e){
+   e.preventDefault();
+   e.stopPropagation();
+   openAdmin();
+  },{passive:false});
+
+ }
+
+}););
 }
 
 function openAdmin(){
