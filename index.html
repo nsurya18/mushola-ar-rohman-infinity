@@ -412,7 +412,14 @@ line-height:1.9;
 color:rgba(255,255,255,.82);
 }
 
+/* FIX CLICK BUTTON */
+.panel{
+pointer-events:auto;
+}
+
 .admin-btn{
+pointer-events:auto;
+
 position:fixed;
 right:25px;
 bottom:25px;
@@ -765,7 +772,7 @@ height:210px;
 
 <!-- ADMIN BUTTON -->
 
-<button class="admin-btn" onclick="openAdmin()">
+<button type="button" class="admin-btn" id="adminFloatingBtn">
 ⚙
 </button>
 
@@ -948,6 +955,16 @@ document.getElementById('pustakaModal').style.display='none';
 
 renderGallery();
 renderPustaka();
+
+/* FIX ADMIN BUTTON CLICK */
+
+const adminBtn=document.getElementById('adminFloatingBtn');
+
+if(adminBtn){
+ adminBtn.addEventListener('click',function(){
+  openAdmin();
+ });
+}
 
 function openAdmin(){
 document.getElementById('adminPanel').style.display='flex';
