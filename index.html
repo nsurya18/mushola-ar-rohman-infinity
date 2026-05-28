@@ -657,6 +657,46 @@ body *{
 .event-viewer{
   pointer-events:auto;
 }
+
+/* HARD CLEAN OVERLAY BUG */
+.pustaka-card::before,
+.pustaka-card::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* MATIKAN ELEMENT TAK KELIHATAN YANG NUTUP CLICK */
+body::before,
+body::after{
+  pointer-events:none !important;
+}
+
+/* FORCE SEMUA CARD TIDAK NUTUP FLOAT BUTTON */
+.card, .pustaka-card, section{
+  position:relative;
+  z-index:1;
+}
+
+.admin-btn{
+  position:fixed !important;
+  right:20px !important;
+  bottom:85px !important;
+  width:70px !important;
+  height:70px !important;
+
+  z-index:999999999999 !important;
+
+  pointer-events:auto !important;
+  cursor:pointer !important;
+
+  background:linear-gradient(135deg,#14b8a6,#d4af37) !important;
+  border-radius:50% !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:28px !important;
+}
 </style>
 </head>
 <body>
@@ -1214,6 +1254,21 @@ setTimeout(()=>{
   }
 },500);
 
+  document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("adminFloatingBtn");
+
+  if(btn){
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openAdmin();
+    });
+
+    btn.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
+      openAdmin();
+    }, {passive:true});
+  }
+});
 </script>
 
 </body>
