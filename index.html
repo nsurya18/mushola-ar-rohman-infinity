@@ -3,29 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN CLEAN FIX</title>
+<title>Mushola AR-ROHMAN V13 PRO</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --primary:#0f766e;
-  --secondary:#14b8a6;
   --gold:#d4af37;
+  --primary:#0f766e;
   --bg:#071313;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html,body{
-  height:100%;
-  scroll-behavior:smooth;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
   font-family:Poppins,sans-serif;
-  background:linear-gradient(180deg,#071313,#0b1d1d);
+  background:linear-gradient(180deg,#061414,#0b1f1f);
   color:#fff;
   overflow-x:hidden;
 }
@@ -33,22 +25,17 @@ html,body{
 /* NAV */
 nav{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
+  top:0;left:0;right:0;
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:14px 5%;
-  background:rgba(0,0,0,.4);
-  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);
   z-index:9999;
 }
 
-.logo{
-  color:#fff;
-  font-weight:700;
-}
+.logo{font-weight:700;color:var(--gold);}
 
 nav ul{
   display:flex;
@@ -62,11 +49,13 @@ nav a{
   font-size:.9rem;
 }
 
+nav a:hover{color:var(--gold);}
+
 .menu-toggle{
   display:none;
   font-size:26px;
-  color:#fff;
   cursor:pointer;
+  color:var(--gold);
 }
 
 /* HERO */
@@ -79,253 +68,21 @@ nav a{
   padding:90px 20px;
 }
 
-.hero h1{
-  font-size:2.5rem;
-  color:var(--gold);
-}
-
-.hero p{
-  opacity:.8;
-  margin-top:10px;
-}
-
-/* SECTION */
-section{
-  padding:70px 5%;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.section-title h2{
-  color:var(--gold);
-}
-
-/* CARD */
-.card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.08);
-  padding:18px;
-  border-radius:18px;
-}
-
-.carousel{
-  display:flex;
-  overflow-x:auto;
-  gap:14px;
-}
-
-/* GALERI */
-.gallery-card img{
-  width:100%;
-  border-radius:14px;
-}
-
-/* PUSTAKA MODAL */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999999;
-}
-
-.modal-box{
-  background:#111;
-  padding:20px;
-  border-radius:16px;
-  width:90%;
-  max-width:500px;
-}
-
-/* ADMIN BUTTON - FIXED HARD */
-.admin-btn{
-  position:fixed !important;
-  right:18px !important;
-  bottom:18px !important;
-  width:65px !important;
-  height:65px !important;
-  border-radius:50% !important;
-  background:linear-gradient(135deg,#14b8a6,#d4af37) !important;
-  color:#000 !important;
-  font-size:26px !important;
-  font-weight:700 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  z-index:2147483647 !important;
-  cursor:pointer !important;
-  pointer-events:auto !important;
-  border:none !important;
-}
-
-/* HARD KILL BUG ELEMENT (ICON NYASAR FIX) */
-.pustaka-card::before,
-.pustaka-card::after,
-.card::before,
-.card::after{
-  display:none !important;
-  content:none !important;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:40px;
-  opacity:.8;
-}
-
-@media(max-width:768px){
-  nav ul{
-    display:none;
-    position:absolute;
-    top:60px;
-    left:5%;
-    right:5%;
-    flex-direction:column;
-    background:#000;
-    padding:15px;
-    border-radius:12px;
-  }
-
-  nav ul.active{
-    display:flex;
-  }
-
-  .menu-toggle{
-    display:block;
-  }
-}
-
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="logo">🕌 Mushola AR-ROHMAN</div>
-  <div class="menu-toggle" onclick="document.querySelector('nav ul').classList.toggle('active')">☰</div>
-  <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#galeri">Galeri</a></li>
-    <li><a href="#pustaka">Pustaka</a></li>
-  </ul>
-</nav>
-
-<section class="hero">
-  <div>
-    <h1>Selamat Datang</h1>
-    <p>Mushola AR-ROHMAN Digital</p>
-  </div>
-</section>
-
-<section id="galeri">
-  <div class="section-title"><h2>Galeri</h2></div>
-  <div class="carousel" id="gallery"></div>
-</section>
-
-<section id="pustaka">
-  <div class="section-title"><h2>Pustaka Ilmu</h2></div>
-  <div class="carousel">
-    <div class="card" onclick="openPustaka('Dzikir','Dzikir menenangkan hati')">Dzikir</div>
-    <div class="card" onclick="openPustaka('Doa','Doa harian muslim')">Doa</div>
-  </div>
-</section>
-
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h3 id="mTitle"></h3>
-    <p id="mText"></p>
-    <button onclick="closePustaka()">Tutup</button>
-  </div>
-</div>
-<!DOCTYPE html>
-
-<html lang="id">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mushola AR-ROHMAN V11 PRO</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --primary:#0f766e;
-  --secondary:#14b8a6;
-  --gold:#d4af37;
-  --bg:#071313;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:Poppins,sans-serif;
-  background:linear-gradient(180deg,#061414,#0b1f1f);
-  color:#fff;
-  overflow-x:hidden;
-}
-
-/* NAV */
-nav{
-  position:fixed;
-  top:0;left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 5%;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(14px);
-  z-index:99999;
-}
-
-.logo{font-weight:700;color:#fff;}
-
-nav ul{
-  display:flex;
-  gap:12px;
-  list-style:none;
-}
-
-nav a{
-  color:#fff;
-  text-decoration:none;
-  padding:8px 10px;
-  border-radius:10px;
-}
-
-nav a:hover{background:rgba(212,175,55,.15);color:var(--gold);}
-
-.menu-toggle{
-  display:none;
-  font-size:26px;
-  color:var(--gold);
-  cursor:pointer;
-}
-
-/* HERO */
-.hero{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:90px 20px;
-}
-.hero h1{font-size:2.6rem;color:var(--gold);}
-.hero p{opacity:.8;margin-top:10px;}
+.hero h1{color:var(--gold);font-size:2.6rem;}
 
 /* SECTION */
 section{padding:70px 5%;}
 .section-title{text-align:center;margin-bottom:25px;}
 .section-title h2{color:var(--gold);}
 
-/* CARDS */
-.carousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;}
+/* CAROUSEL */
+.carousel{
+  display:flex;
+  overflow-x:auto;
+  gap:14px;
+  scroll-snap-type:x mandatory;
+}
+
 .card{
   min-width:260px;
   background:rgba(255,255,255,.06);
@@ -335,289 +92,270 @@ section{padding:70px 5%;}
   scroll-snap-align:start;
 }
 
-.card img{width:100%;border-radius:12px;}
+.card img{
+  width:100%;
+  border-radius:12px;
+}
 
 /* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
-.grid-box{
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+
+.box{
   background:rgba(255,255,255,.06);
   padding:18px;
-  border-radius:16px;
+  border-radius:14px;
+  text-align:center;
 }
 
 /* MODAL */
 .modal{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.85);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:999999;
+  z-index:99999;
 }
+
 .modal-box{
   background:#111;
   padding:20px;
-  border-radius:16px;
-  width:90%;max-width:520px;
+  border-radius:14px;
+  width:90%;
+  max-width:500px;
 }
 
 /* ADMIN */
 .admin-btn{
   position:fixed;
-  right:18px;bottom:18px;
-  width:65px;height:65px;
+  right:18px;
+  bottom:18px;
+  width:60px;
+  height:60px;
   border-radius:50%;
-  background:linear-gradient(135deg,var(--secondary),var(--gold));
+  background:linear-gradient(135deg,var(--gold),#14b8a6);
   color:#000;
-  font-size:26px;
+  font-size:24px;
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:2147483647;
   cursor:pointer;
+  z-index:99999;
 }
 
 .panel{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.85);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:999999;
+  z-index:99999;
 }
-.box{
+
+.box-admin{
   background:#111;
   padding:20px;
-  border-radius:16px;
-  width:95%;max-width:600px;
-  max-height:90vh;
-  overflow:auto;
+  border-radius:14px;
+  width:95%;
+  max-width:600px;
 }
 
 input,textarea{
   width:100%;
   padding:10px;
   margin:6px 0;
-  border-radius:10px;
+  border-radius:8px;
   border:none;
 }
 
-button{
-  padding:10px;
-  width:100%;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-}
-
-footer{
-  text-align:center;
-  padding:40px;
-  border-top:1px solid rgba(255,255,255,.1);
-  color:#aaa;
-}
-
+/* MOBILE */
 @media(max-width:768px){
-  nav ul{display:none;position:absolute;top:60px;left:5%;right:5%;flex-direction:column;background:#000;padding:14px;border-radius:12px;}
+  nav ul{
+    display:none;
+    position:absolute;
+    top:60px;
+    left:5%;
+    right:5%;
+    flex-direction:column;
+    background:#000;
+    padding:14px;
+    border-radius:12px;
+  }
+
   nav ul.active{display:flex;}
   .menu-toggle{display:block;}
 }
 </style>
-
 </head>
+
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="logo">🕌 AR-ROHMAN</div>
   <div class="menu-toggle" onclick="toggleMenu()">☰</div>
   <ul id="menu">
     <li><a href="#galeri">Galeri</a></li>
-    <li><a href="#pustaka">Pustaka</a></li>
+    <li><a href="#dkm">DKM</a></li>
+    <li><a href="#pengajian">Pengajian</a></li>
+    <li><a href="#fasilitas">Fasilitas</a></li>
     <li><a href="#kas">Kas</a></li>
+    <li><a href="#pustaka">Pustaka</a></li>
     <li><a href="https://instagram.com/arrohmanpahing" target="_blank">Instagram</a></li>
   </ul>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <div>
     <h1>Mushola AR-ROHMAN</h1>
-    <p>V11 PRO SYSTEM</p>
+    <p>Web V13 PRO CLEAN SYSTEM</p>
   </div>
 </section>
 
 <!-- GALERI -->
-
 <section id="galeri">
   <div class="section-title"><h2>Galeri Kegiatan</h2></div>
   <div class="carousel" id="gallery"></div>
 </section>
 
-<!-- PUSTAKA -->
+<!-- DKM -->
+<section id="dkm">
+  <div class="section-title"><h2>DKM</h2></div>
+  <div class="grid">
+    <div class="box">Ketua: Ust. Ahmad Fauzi</div>
+    <div class="box">Sekretaris: Muhammad Fikri</div>
+    <div class="box">Bendahara: Abdul Rohman</div>
+  </div>
+</section>
 
-<section id="pustaka">
-  <div class="section-title"><h2>Pustaka Ilmu</h2></div>
-  <div class="carousel" id="pustakaList"></div>
+<!-- PENGAJIAN -->
+<section id="pengajian">
+  <div class="section-title"><h2>Pengajian</h2></div>
+  <div class="carousel">
+    <div class="card">Yasinan Kamis</div>
+    <div class="card">Majelis Ibu</div>
+    <div class="card">TPQ Anak</div>
+  </div>
+</section>
+
+<!-- FASILITAS -->
+<section id="fasilitas">
+  <div class="section-title"><h2>Fasilitas</h2></div>
+  <div class="grid">
+    <div class="box">Tempat Wudhu</div>
+    <div class="box">Mushola Bersih</div>
+    <div class="box">Parkir Luas</div>
+    <div class="box">WiFi Gratis</div>
+  </div>
 </section>
 
 <!-- KAS -->
-
 <section id="kas">
   <div class="section-title"><h2>Kas Mushola</h2></div>
   <div class="grid">
-    <div class="grid-box" id="saldo"></div>
-    <div class="grid-box" id="masuk"></div>
-    <div class="grid-box" id="keluar"></div>
+    <div class="box" id="saldo"></div>
+    <div class="box" id="masuk"></div>
+    <div class="box" id="keluar"></div>
+  </div>
+</section>
+
+<!-- PUSTAKA -->
+<section id="pustaka">
+  <div class="section-title"><h2>Pustaka Ilmu</h2></div>
+  <div class="carousel">
+    <div class="card" onclick="openP('Dzikir','Menenangkan hati')">Dzikir</div>
+    <div class="card" onclick="openP('Doa','Perlindungan harian')">Doa</div>
+    <div class="card" onclick="openP('Adab','Akhlak muslim')">Adab</div>
   </div>
 </section>
 
 <!-- MODAL -->
-
 <div class="modal" id="modal">
   <div class="modal-box">
-    <h3 id="mTitle"></h3>
-    <p id="mText"></p>
-    <button onclick="closeModal()">Tutup</button>
+    <h3 id="t"></h3>
+    <p id="d"></p>
+    <button onclick="closeP()">Tutup</button>
   </div>
 </div>
 
 <!-- ADMIN -->
-
 <div class="admin-btn" onclick="openAdmin()">⚙</div>
 
 <div class="panel" id="panel">
-  <div class="box">
-    <h2>Admin Login</h2>
+  <div class="box-admin">
+    <h3>Admin Login</h3>
     <input id="pass" type="password" placeholder="Password">
     <button onclick="login()">Login</button>
 
     <div id="adminArea" style="display:none">
-  <h3>Upload Galeri</h3>
-  <input id="title" placeholder="Judul">
-  <input id="url" placeholder="Image URL Cloudinary">
-  <button onclick="addGallery()">Tambah</button>
+      <h4>Tambah Galeri</h4>
+      <input id="img" placeholder="Image URL">
+      <input id="title" placeholder="Judul">
+      <button onclick="addGal()">Tambah</button>
 
-  <h3>Tambah Pustaka</h3>
-  <input id="pt" placeholder="Judul">
-  <textarea id="px"></textarea>
-  <button onclick="addPustaka()">Tambah</button>
+      <h4>Kas</h4>
+      <input id="s" placeholder="Saldo">
+      <input id="m" placeholder="Masuk">
+      <input id="k" placeholder="Keluar">
+      <button onclick="saveKas()">Simpan</button>
+    </div>
 
-  <h3>Edit Kas</h3>
-  <input id="s" placeholder="Saldo">
-  <input id="m" placeholder="Masuk">
-  <input id="k" placeholder="Keluar">
-  <button onclick="saveKas()">Simpan</button>
-</div>
-
-<button onclick="closeAdmin()">Tutup</button>
-
+    <button onclick="closeAdmin()">Tutup</button>
   </div>
 </div>
 
-<footer>
-  Mushola AR-ROHMAN © 2026
-</footer>
-
 <script>
 let gallery = JSON.parse(localStorage.getItem('g')||'[]');
-let pustaka = JSON.parse(localStorage.getItem('p')||'[]');
-let kas = JSON.parse(localStorage.getItem('k')||'{}');
+let kas = JSON.parse(localStorage.getItem('kas')||'{}');
 
-function toggleMenu(){document.getElementById('menu').classList.toggle('active');}
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
 
+/* GALERI */
 function render(){
-  document.getElementById('gallery').innerHTML = gallery.map(x=>
-    `<div class='card'><img src='${x.url}'><p>${x.title}</p></div>`
-  ).join('');
+  document.getElementById('gallery').innerHTML =
+    gallery.map(x=>`<div class="card"><img src="${x.img}"><p>${x.title}</p></div>`).join('');
 
-  document.getElementById('pustakaList').innerHTML = pustaka.map(x=>
-    `<div class='card' onclick="openM('${x.t}','${x.d}')">${x.t}</div>`
-  ).join('');
-
-  document.getElementById('saldo').innerText='Saldo: Rp '+(kas.s||0);
-  document.getElementById('masuk').innerText='Masuk: Rp '+(kas.m||0);
-  document.getElementById('keluar').innerText='Keluar: Rp '+(kas.k||0);
+  document.getElementById('saldo').innerText="Saldo: Rp "+(kas.s||0);
+  document.getElementById('masuk').innerText="Masuk: Rp "+(kas.m||0);
+  document.getElementById('keluar').innerText="Keluar: Rp "+(kas.k||0);
 }
 
-function openM(t,d){
-  document.getElementById('mTitle').innerText=t;
-  document.getElementById('mText').innerText=d;
-  document.getElementById('modal').style.display='flex';
-}
-
-function closeModal(){modal.style.display='none';}
-
-function openAdmin(){panel.style.display='flex';}
-function closeAdmin(){panel.style.display='none';}
-
-function login(){if(pass.value==='123456'){adminArea.style.display='block';}}
-
-function addGallery(){
-  gallery.unshift({title:title.value,url:url.value});
-  localStorage.setItem('g',JSON.stringify(gallery));render();
-}
-
-function addPustaka(){
-  pustaka.unshift({t:pt.value,d:px.value});
-  localStorage.setItem('p',JSON.stringify(pustaka));render();
+function addGal(){
+  gallery.unshift({img:img.value,title:title.value});
+  localStorage.setItem('g',JSON.stringify(gallery));
+  render();
 }
 
 function saveKas(){
   kas={s:s.value,m:m.value,k:k.value};
-  localStorage.setItem('k',JSON.stringify(kas));render();
+  localStorage.setItem('kas',JSON.stringify(kas));
+  render();
 }
+
+/* PUSTAKA */
+function openP(t,x){
+  document.getElementById('t').innerText=t;
+  document.getElementById('d').innerText=x;
+  document.getElementById('modal').style.display='flex';
+}
+function closeP(){modal.style.display='none';}
+
+/* ADMIN */
+function openAdmin(){panel.style.display='flex';}
+function closeAdmin(){panel.style.display='none';}
+function login(){if(pass.value==='123456'){adminArea.style.display='block';}}
 
 render();
 </script>
 
 </body>
 </html>
-
-
-
-<!-- ADMIN BUTTON CLEAN -->
-<div class="admin-btn" onclick="openAdmin()">⚙</div>
-
-<footer>
-  Mushola AR-ROHMAN © 2026
-</footer>
-
-<script>
-
-let gallery=[];
-
-function renderGallery(){
-  const g=document.getElementById('gallery');
-  if(!g) return;
-  g.innerHTML='';
-  gallery.forEach(item=>{
-    g.innerHTML+=`<div class='card gallery-card'>
-      <img src='${item.url||"https://via.placeholder.com/300"}'>
-      <p>${item.title||"Kegiatan"}</p>
-    </div>`;
-  });
-}
-
-function openPustaka(t,x){
-  document.getElementById('mTitle').innerText=t;
-  document.getElementById('mText').innerText=x;
-  document.getElementById('modal').style.display='flex';
-}
-
-function closePustaka(){
-  document.getElementById('modal').style.display='none';
-}
-
-function openAdmin(){
-  alert('Admin panel ready');
-}
-
-renderGallery();
-
-</script>
-
-</body>
-</html>
-
