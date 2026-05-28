@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V8 FIX</title>
+<title>Mushola AR-ROHMAN V9 CLOUD</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -27,42 +27,31 @@ justify-content:space-between;
 z-index:9999;
 }
 
-nav ul{
-display:flex;
-gap:10px;
-list-style:none;
-}
-
-nav a{
-color:#fff;
-text-decoration:none;
-}
+nav a{color:#fff;text-decoration:none;margin:0 8px}
 
 .hero{
-padding:120px 20px 40px;
+padding:110px 20px 30px;
 text-align:center;
 }
 
-section{
-padding:60px 20px;
-}
+section{padding:60px 20px}
 
-.section-title{
+.title{
 text-align:center;
-margin-bottom:20px;
 color:#d4af37;
+margin-bottom:15px;
 }
 
 .carousel{
 display:flex;
-gap:15px;
+gap:12px;
 overflow-x:auto;
 }
 
 .card{
 min-width:250px;
 background:rgba(255,255,255,.06);
-padding:15px;
+padding:12px;
 border-radius:12px;
 }
 
@@ -73,38 +62,38 @@ border-radius:10px;
 
 .admin-btn{
 position:fixed;
-bottom:20px;
-right:20px;
+bottom:18px;
+right:18px;
 width:60px;
 height:60px;
 border-radius:50%;
-background:#14b8a6;
 border:none;
-font-size:24px;
+background:#14b8a6;
+font-size:22px;
 cursor:pointer;
 }
 
 .panel{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.8);
+background:rgba(0,0,0,.75);
 display:none;
-justify-content:center;
 align-items:center;
+justify-content:center;
 }
 
 .box{
 background:#111;
 padding:20px;
 width:90%;
-max-width:400px;
+max-width:420px;
 border-radius:10px;
 }
 
 input,textarea{
 width:100%;
-margin:5px 0;
 padding:10px;
+margin:6px 0;
 border:none;
 border-radius:6px;
 }
@@ -112,11 +101,10 @@ border-radius:6px;
 button{
 width:100%;
 padding:10px;
-margin-top:5px;
-background:#14b8a6;
 border:none;
-color:#fff;
 border-radius:6px;
+background:#14b8a6;
+color:#fff;
 cursor:pointer;
 }
 </style>
@@ -125,26 +113,26 @@ cursor:pointer;
 <body>
 
 <nav>
-<div>🕌 Mushola AR-ROHMAN</div>
-<ul>
-<li><a href="#galeri">Galeri</a></li>
-<li><a href="#pustaka">Pustaka</a></li>
-</ul>
+<div>🕌 AR-ROHMAN V9</div>
+<div>
+<a href="#galeri">Galeri</a>
+<a href="#pustaka">Pustaka</a>
+</div>
 </nav>
 
 <div class="hero">
-<h1>V8 FIX SYSTEM</h1>
-<p>Galeri & Pustaka sudah disinkronkan</p>
+<h1>V9 CLOUD SYSTEM</h1>
+<p>Stable Sync HP & Laptop + Cloud Ready</p>
 </div>
 
 <section id="galeri">
-<div class="section-title">GALERI KEGIATAN</div>
+<div class="title">GALERI KEGIATAN</div>
 <div class="carousel" id="gallery"></div>
 </section>
 
 <section id="pustaka">
-<div class="section-title">PUSTAKA ILMU</div>
-<div class="carousel" id="pustakaList"></div>
+<div class="title">PUSTAKA ILMU</div>
+<div class="carousel" id="pustaka"></div>
 </section>
 
 <button class="admin-btn" onclick="openAdmin()">⚙</button>
@@ -156,14 +144,14 @@ cursor:pointer;
 <input type="password" id="pass" placeholder="password">
 <button onclick="login()">Login</button>
 
-<div id="adminArea" style="display:none">
+<div id="admin" style="display:none">
 
-<h3>Tambah Galeri</h3>
+<h4>Tambah Galeri</h4>
 <input id="gtitle" placeholder="Judul">
 <input id="gurl" placeholder="Image URL">
-<button onclick="addGaleri()">Tambah</button>
+<button onclick="addGallery()">Tambah</button>
 
-<h3>Tambah Pustaka</h3>
+<h4>Tambah Pustaka</h4>
 <input id="ptitle" placeholder="Judul">
 <textarea id="pdesc" placeholder="Isi"></textarea>
 <button onclick="addPustaka()">Tambah</button>
@@ -171,64 +159,132 @@ cursor:pointer;
 </div>
 
 <button onclick="closeAdmin()">Tutup</button>
+
 </div>
 </div>
 
 <script>
-let gallery = JSON.parse(localStorage.getItem("gallery") || "[]");
-let pustaka = JSON.parse(localStorage.getItem("pustaka") || "[]");
 
-function render(){
-document.getElementById("gallery").innerHTML =
-gallery.map(x =>
-`<div class="card">
-<img src="${x.url}">
-<p>${x.title}</p>
-</div>`
-).join("");
+/* =========================
+   CLOUD CONFIG (OPTIONAL)
+========================= */
+const CLOUD_API = ""; 
+// contoh nanti:
+// https://your-api.com/mushola
 
-document.getElementById("pustakaList").innerHTML =
-pustaka.map(x =>
-`<div class="card">
-<h4>${x.title}</h4>
-<p>${x.desc}</p>
-</div>`
-).join("");
+/* =========================
+   SAFE STORAGE (ANTI ERROR)
+========================= */
+function load(key){
+try{
+return JSON.parse(localStorage.getItem(key)) || [];
+}catch(e){
+return [];
+}
 }
 
+function save(key,data){
+localStorage.setItem(key,JSON.stringify(data));
+}
+
+/* =========================
+   DATA
+========================= */
+let gallery = load("gallery");
+let pustaka = load("pustaka");
+
+/* =========================
+   RENDER
+========================= */
+function render(){
+
+document.getElementById("gallery").innerHTML =
+gallery.map(x=>`
+<div class="card">
+<img src="${x.url}">
+<p>${x.title}</p>
+</div>
+`).join("") || "<p>Belum ada data</p>";
+
+document.getElementById("pustaka").innerHTML =
+pustaka.map(x=>`
+<div class="card">
+<h4>${x.title}</h4>
+<p>${x.desc}</p>
+</div>
+`).join("") || "<p>Belum ada data</p>";
+
+}
+
+/* =========================
+   ADMIN
+========================= */
 function openAdmin(){
-document.getElementById("panel").style.display="flex";
+panel.style.display="flex";
 }
 
 function closeAdmin(){
-document.getElementById("panel").style.display="none";
+panel.style.display="none";
 }
 
 function login(){
 if(pass.value==="123456"){
-adminArea.style.display="block";
+admin.style.display="block";
 }
 }
 
-function addGaleri(){
-gallery.unshift({
+/* =========================
+   ADD DATA (LOCAL + CLOUD READY)
+========================= */
+async function addGallery(){
+
+const item = {
 title:gtitle.value,
 url:gurl.value
+};
+
+gallery.unshift(item);
+save("gallery",gallery);
+
+/* optional cloud sync */
+if(CLOUD_API){
+await fetch(CLOUD_API+"/gallery",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(item)
 });
-localStorage.setItem("gallery",JSON.stringify(gallery));
+}
+
 render();
 }
 
-function addPustaka(){
-pustaka.unshift({
+async function addPustaka(){
+
+const item = {
 title:ptitle.value,
 desc:pdesc.value
+};
+
+pustaka.unshift(item);
+save("pustaka",pustaka);
+
+/* optional cloud sync */
+if(CLOUD_API){
+await fetch(CLOUD_API+"/pustaka",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(item)
 });
-localStorage.setItem("pustaka",JSON.stringify(pustaka));
-render();
 }
 
 render();
+}
+
+/* =========================
+   INIT
+========================= */
+render();
+
 </script>
 
 </body>
