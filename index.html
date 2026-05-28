@@ -143,6 +143,31 @@ background:linear-gradient(45deg,#d4af37,#f7d774);
 color:#222;
 }
 
+.running-text{
+margin:22px auto 14px;
+width:100%;
+max-width:820px;
+overflow:hidden;
+border-radius:16px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(212,175,55,.22);
+backdrop-filter:blur(10px);
+}
+
+.running-track{
+display:inline-block;
+white-space:nowrap;
+padding:12px 0;
+color:#f7d774;
+font-size:.9rem;
+animation:runningText 20s linear infinite;
+}
+
+@keyframes runningText{
+from{transform:translateX(100%);}
+to{transform:translateX(-100%);}
+}
+
 .hero-jadwal{
 position:relative;
 z-index:2;
@@ -638,6 +663,13 @@ height:210px;
 <a href="#galeri" class="btn">Lihat Galeri</a>
 </div>
 
+<!-- RUNNING TEXT -->
+<div class="running-text">
+<div class="running-track">
+🕌 Selamat Datang di Website Mushola AR-ROHMAN • Semoga Allah memberkahi setiap langkah ibadah kita • Jadwal dan informasi kegiatan selalu diperbarui •
+</div>
+</div>
+
 <div class="hero-jadwal">
 <div class="jadwal-mini"><h4>Subuh</h4><p>04:28</p></div>
 <div class="jadwal-mini"><h4>Dzuhur</h4><p>11:55</p></div>
@@ -1059,9 +1091,7 @@ if(pass==='123456'){
 ========================= -->
 
 <div id="runningText" style="position:fixed;bottom:0;left:0;width:100%;background:linear-gradient(90deg,#0f766e,#14b8a6);padding:10px 0;z-index:9999;overflow:hidden;">
-  <marquee scrollamount="5" style="color:white;font-weight:600;">
-    🕌 Selamat Datang di Website Mushola AR-ROHMAN • Semoga Allah memberikan keberkahan untuk kita semua • Jadwal Pengajian Rutin Setiap Pekan • Terima kasih kepada seluruh jamaah dan donatur
-  </marquee>
+  
 </div>
 
 <script>
