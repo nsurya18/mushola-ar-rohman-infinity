@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V8 STABLE+</title>
+<title>Mushola AR-ROHMAN V8</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 :root{
@@ -17,7 +18,12 @@
 --border:rgba(255,255,255,.08);
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 html{scroll-behavior:smooth;}
 
 body{
@@ -27,293 +33,843 @@ color:white;
 overflow-x:hidden;
 }
 
-/* NAV */
 nav{
 position:fixed;
-top:0;left:0;
+top:0;
+left:0;
 width:100%;
 padding:16px 5%;
 display:flex;
-justify-content:space-between;
 align-items:center;
-background:rgba(5,15,15,.85);
+justify-content:space-between;
+background:rgba(5,15,15,.82);
 backdrop-filter:blur(18px);
 z-index:99999;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.logo{color:#f7d774;font-weight:700;}
+.logo{
+font-size:1.1rem;
+font-weight:700;
+color:#f7d774;
+}
 
-.menu-toggle{display:none;font-size:2rem;color:#f7d774;cursor:pointer;}
+.menu-toggle{
+display:none;
+font-size:2rem;
+color:#f7d774;
+cursor:pointer;
+}
 
-nav ul{display:flex;gap:10px;list-style:none;}
+nav ul{
+display:flex;
+gap:10px;
+list-style:none;
+}
 
 nav a{
 text-decoration:none;
 color:white;
-padding:10px 14px;
-border-radius:12px;
+padding:12px 16px;
+border-radius:14px;
+transition:.3s;
 }
 
-/* HERO */
+nav a:hover{
+background:linear-gradient(135deg,rgba(20,184,166,.35),rgba(212,175,55,.28));
+}
+
 .hero{
 min-height:100vh;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:120px 20px;
+padding:120px 20px 60px;
+position:relative;
+overflow:hidden;
 }
 
 .hero::before{
 content:"";
 position:absolute;
 inset:0;
-background:
-linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
-url('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1600&auto=format&fit=crop');
+background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.72)),url('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1600&auto=format&fit=crop');
 background-size:cover;
 background-position:center;
+animation:zoom 20s infinite alternate;
 }
 
-.hero-content{position:relative;z-index:2;}
+@keyframes zoom{
+from{transform:scale(1)}
+to{transform:scale(1.08)}
+}
 
-.hero h1{font-size:3rem;color:#f7d774;}
+.hero-content{position:relative;z-index:2;max-width:850px;}
 
-/* SECTION */
-section{padding:75px 5%;}
-.section-title{text-align:center;margin-bottom:30px;}
-.section-title h2{color:#f7d774;}
+.hero h1{font-size:4rem;margin-bottom:18px;}
+.hero p{line-height:1.8;color:#f3f3f3;}
 
-/* CARDS */
-.card{
-background:var(--card);
-border:1px solid var(--border);
+.btn{
+display:inline-block;
+margin-top:25px;
+padding:14px 30px;
+border-radius:50px;
+text-decoration:none;
+font-weight:700;
+background:linear-gradient(45deg,#d4af37,#f7d774);
+color:#222;
+}
+
+.hero-jadwal{
+position:relative;
+z-index:2;
+margin-top:35px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.jadwal-mini{
+min-width:74px;
+height:58px;
+padding:8px;
 border-radius:16px;
-padding:14px;
-}
-
-/* CAROUSEL */
-.carousel{
+background:rgba(212,175,55,.14);
+border:1px solid rgba(212,175,55,.35);
 display:flex;
-gap:15px;
-overflow-x:auto;
-}
-
-/* GALERI */
-.preview-slider img{
-width:100%;
-border-radius:12px;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
-
-.grid-box{
-background:var(--card);
-padding:18px;
-border-radius:14px;
-text-align:center;
-border:1px solid var(--border);
-}
-
-/* KAS */
-.kas-box{
-text-align:center;
-font-size:1.2rem;
-color:#f7d774;
-}
-
-/* ADMIN */
-.admin-btn{
-position:fixed;
-right:18px;
-bottom:18px;
-width:60px;
-height:60px;
-border-radius:50%;
-background:linear-gradient(45deg,#0f766e,#14b8a6);
-color:white;
-font-size:22px;
-display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-z-index:999999;
+}
+
+.jadwal-mini h4{
+font-size:.66rem;
+color:#f7d774;
+margin-bottom:3px;
+}
+
+.jadwal-mini p{
+font-size:.82rem;
+font-weight:600;
+}
+
+section{padding:75px 5%;}
+
+.section-title{text-align:center;margin-bottom:35px;}
+.section-title h2{font-size:2rem;color:#f7d774;margin-bottom:10px;}
+.section-title p{color:rgba(255,255,255,.7);}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:20px;
+}
+
+.grid-box,
+.card,
+.box,
+.pustaka-content{
+background:var(--card);
+border:1px solid var(--border);
+backdrop-filter:blur(10px);
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.grid-box{padding:24px;text-align:center;}
+.grid-box h3{margin-bottom:10px;color:#f7d774;}
+.grid-box p{line-height:1.8;color:rgba(255,255,255,.75);}
+
+.carousel{
+/* Konsisten: mobile & desktop tampil rapi */
+display:flex;
+gap:20px;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+padding-bottom:10px;
+}
+
+.carousel::-webkit-scrollbar{height:5px;}
+.carousel::-webkit-scrollbar-thumb{background:#14b8a6;border-radius:20px;}
+
+.card{
+/* Desktop: 1 card tampil jelas */
+min-width:320px;
+overflow:hidden;
+scroll-snap-align:start;
+flex:0 0 auto;
+}
+
+.preview-slider{
+/* Media slider dalam card */
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+}
+
+.preview-slider img,
+.preview-slider video{
+/* Ukuran seragam biar tidak “lompat” antar device */
+min-width:100%;
+height:230px;
+object-fit:cover;
+scroll-snap-align:start;
+background:black;
+}
+
+/* Video sebaiknya tetap proporsional */
+.preview-slider video{
+object-fit:contain;
+}
+
+
+.card-content{padding:18px;}
+.card-content h3{margin-bottom:10px;color:#f7d774;}
+.card-content p{line-height:1.7;color:rgba(255,255,255,.78);}
+
+.date{margin-top:12px;font-size:.84rem;color:#14b8a6;}
+.event-count{margin-top:10px;color:#f7d774;font-size:.82rem;}
+
+.open-btn{
+margin-top:14px;
+width:100%;
+padding:12px;
 border:none;
+border-radius:14px;
+background:linear-gradient(45deg,#0f766e,#14b8a6);
+color:white;
+font-weight:600;
 cursor:pointer;
 }
 
-/* PANEL */
-.panel{
+.dkm-wrap{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.dkm-card{max-width:280px;text-align:center;}
+
+.event-viewer{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.85);
+background:black;
+display:none;
+flex-direction:column;
+z-index:999999;
+}
+
+.event-topbar{
+height:70px;
+padding:0 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,.5);
+}
+
+.event-slider{
+flex:1;
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+}
+
+.event-slide{
+min-width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+scroll-snap-align:start;
+}
+
+.event-slide img,
+.event-slide video{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+}
+
+.pustaka-card{cursor:pointer;}
+
+.pustaka-modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.88);
 display:none;
 justify-content:center;
 align-items:center;
+padding:20px;
+z-index:999999;
+}
+
+.pustaka-content{
+width:100%;
+max-width:720px;
+padding:30px;
+position:relative;
+}
+
+.pustaka-close{
+position:absolute;
+top:14px;
+right:18px;
+font-size:1.8rem;
+cursor:pointer;
+}
+
+.pustaka-content h2{margin-bottom:14px;color:#f7d774;}
+.pustaka-content p{line-height:1.9;color:rgba(255,255,255,.82);}
+
+.admin-btn{
+position:fixed;
+right:25px;
+bottom:25px;
+width:65px;
+height:65px;
+border:none;
+border-radius:50%;
+background:linear-gradient(45deg,#0f766e,#14b8a6);
+color:white;
+font-size:1.5rem;
+cursor:pointer;
+z-index:99999;
+}
+
+.panel{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.82);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
 z-index:999999;
 }
 
 .box{
-background:#111;
-padding:20px;
-border-radius:14px;
-width:90%;
-max-width:500px;
-}
-
-input{
 width:100%;
-padding:12px;
-margin:6px 0;
-border-radius:10px;
-border:none;
+max-width:560px;
+padding:30px;
+max-height:90vh;
+overflow:auto;
 }
 
-/* MOBILE */
+.box input,
+.box textarea{
+width:100%;
+padding:14px;
+margin-bottom:14px;
+border:none;
+border-radius:14px;
+background:#f3f7f7;
+}
+
+.box button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(45deg,#0f766e,#14b8a6);
+color:white;
+font-weight:600;
+cursor:pointer;
+margin-bottom:10px;
+}
+
+.dashboard-item{
+padding:14px;
+margin-top:12px;
+border-radius:14px;
+background:rgba(255,255,255,.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.dashboard-item button{
+width:auto;
+padding:10px 14px;
+}
+
+.delete-btn{background:#ef4444 !important;}
+
+footer{
+padding:60px 5% 40px;
+text-align:center;
+background:linear-gradient(180deg,#020606,#071313,#0b1d1d);
+border-top:1px solid rgba(212,175,55,.15);
+}
+
+.footer-title{
+font-size:1.3rem;
+font-weight:700;
+color:#f7d774;
+margin-bottom:12px;
+}
+
+.footer-address{
+line-height:2;
+color:rgba(247,215,116,.82);
+}
+
+.footer-social{
+display:flex;
+justify-content:center;
+gap:14px;
+margin-top:22px;
+}
+
+.footer-social a{
+width:48px;
+height:48px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+text-decoration:none;
+color:#f7d774;
+background:rgba(255,255,255,.05);
+transition:.35s;
+}
+
+.footer-copy{
+margin-top:24px;
+padding-top:18px;
+border-top:1px solid rgba(255,255,255,.08);
+color:rgba(247,215,116,.6);
+font-size:.9rem;
+}
+
 @media(max-width:768px){
 .menu-toggle{display:block;}
+
 nav ul{
-display:none;
 position:absolute;
-top:70px;
+top:76px;
 left:5%;
 right:5%;
+display:none;
 flex-direction:column;
-background:#000;
-padding:14px;
-border-radius:12px;
+padding:18px;
+border-radius:24px;
+background:rgba(5,15,15,.96);
 }
+
 nav ul.active{display:flex;}
-.hero h1{font-size:2rem;}
+
+.hero h1{font-size:2.2rem;}
+
+/* Galeri: konsisten di mobile */
+.carousel{gap:14px;}
+.card{min-width:88%;}
+
+.preview-slider img,
+.preview-slider video{
+height:180px;
 }
+}
+
 </style>
 </head>
-
 <body>
 
 <nav>
-<div class="logo">🕌 AR-ROHMAN</div>
+<div class="logo">🕌 Mushola AR-ROHMAN</div>
 <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-<ul id="menu">
-<li><a href="#galeri">Galeri</a></li>
+<ul id="navMenu">
+<li><a href="#beranda">Beranda</a></li>
 <li><a href="#pengajian">Pengajian</a></li>
+<li><a href="#fasilitas">Fasilitas</a></li>
 <li><a href="#dkm">DKM</a></li>
 <li><a href="#kas">Kas</a></li>
+<li><a href="#galeri">Galeri</a></li>
+<li><a href="#pustaka">Pustaka</a></li>
 </ul>
 </nav>
 
-<section class="hero">
+<section class="hero" id="beranda">
 <div class="hero-content">
-<h1>Mushola AR-ROHMAN</h1>
+<h1>Mushola AR‑ROHMAN</h1>
+<p>Ibadah bukan sekadar kewajiban, melainkan kebutuhan hati dan jiwa.</p>
+<a href="#galeri" class="btn">Lihat Galeri</a>
+</div>
+
+<div class="hero-jadwal">
+<div class="jadwal-mini"><h4>Subuh</h4><p>04:28</p></div>
+<div class="jadwal-mini"><h4>Dzuhur</h4><p>11:55</p></div>
+<div class="jadwal-mini"><h4>Ashar</h4><p>15:17</p></div>
+<div class="jadwal-mini"><h4>Maghrib</h4><p>17:47</p></div>
+<div class="jadwal-mini"><h4>Isya</h4><p>18:58</p></div>
 </div>
 </section>
 
-<!-- GALERI -->
+<section id="pengajian">
+<div class="section-title">
+<h2>Jadwal Pengajian</h2>
+<p>Kegiatan rutin mushola</p>
+</div>
+
+<div class="carousel">
+<div class="card"><div class="card-content"><h3>Pengajian Yasin</h3><p>Setiap Kamis malam bersama jamaah mushola.</p><div class="date">Ba'da Maghrib</div></div></div>
+<div class="card"><div class="card-content"><h3>Majelis Ibu-Ibu</h3><p>Kajian muslimah dan dzikir bersama.</p><div class="date">Ahad 09:00 WIB</div></div></div>
+<div class="card"><div class="card-content"><h3>TPQ Anak</h3><p>Belajar iqro dan Al-Qur'an.</p><div class="date">Rabu 16:00 WIB</div></div></div>
+</div>
+</section>
+
+<section id="fasilitas">
+<div class="section-title"><h2>Fasilitas Mushola</h2><p>Kenyamanan jamaah</p></div>
+<div class="grid">
+<div class="grid-box"><h3>📖 Pengajian</h3><p>Tempat kajian islami warga.</p></div>
+<div class="grid-box"><h3>🚿 Tempat Wudhu</h3><p>Bersih dan nyaman.</p></div>
+<div class="grid-box"><h3>📶 Free WiFi</h3><p>Akses internet gratis.</p></div>
+<div class="grid-box"><h3>🅿 Area Parkir</h3><p>Area parkir luas dan aman.</p></div>
+</div>
+</section>
+
+<section id="dkm">
+<div class="section-title"><h2>Struktur DKM</h2><p>Dewan Kemakmuran Mushola</p></div>
+<div class="dkm-wrap">
+<div class="card dkm-card"><div class="card-content"><h3>Ketua DKM</h3><p>Ust. Ahmad Fauzi</p></div></div>
+<div class="card dkm-card"><div class="card-content"><h3>Sekretaris</h3><p>Muhammad Fikri</p></div></div>
+<div class="card dkm-card"><div class="card-content"><h3>Bendahara</h3><p>Abdul Rohman</p></div></div>
+</div>
+</section>
+
+<section id="kas">
+<div class="section-title"><h2>Kas Mushola</h2><p>Transparansi dana umat</p></div>
+<div class="grid">
+<div class="grid-box"><h3>Saldo Saat Ini</h3><p style="text-align:center">Rp 12.500.000</p></div>
+<div class="grid-box"><h3>Pemasukan</h3><p style="text-align:center">Rp 3.250.000</p></div>
+<div class="grid-box"><h3>Pengeluaran</h3><p style="text-align:center">Rp 1.200.000</p></div>
+</div>
+</section>
+
 <section id="galeri">
-<div class="section-title"><h2>Galeri</h2></div>
+<div class="section-title"><h2>Galeri Kegiatan</h2><p>Dokumentasi kegiatan mushola</p></div>
 <div class="carousel" id="gallery"></div>
 </section>
 
-<!-- PENGAJIAN -->
-<section id="pengajian">
-<div class="section-title"><h2>Pengajian</h2></div>
-<div class="carousel">
-<div class="card">Yasinan Kamis</div>
-<div class="card">TPQ Anak</div>
-<div class="card">Majelis Ibu</div>
-</div>
+<section id="pustaka">
+<div class="section-title"><h2>Pustaka Ilmu</h2><p>Doa, dzikir dan kisah islami</p></div>
+<div class="carousel" id="pustakaContainer"></div>
 </section>
 
-<!-- DKM -->
-<section id="dkm">
-<div class="section-title"><h2>DKM</h2></div>
-<div class="grid">
-<div class="grid-box">Ketua: Ust. Ahmad</div>
-<div class="grid-box">Sekretaris: Fikri</div>
-<div class="grid-box">Bendahara: Rohman</div>
+<div class="event-viewer" id="eventViewer">
+<div class="event-topbar">
+<div id="eventTitle"></div>
+<button onclick="closeEvent()">✕ Tutup</button>
 </div>
-</section>
-
-<!-- KAS -->
-<section id="kas">
-<div class="section-title"><h2>Kas Mushola</h2></div>
-<div class="grid">
-<div class="grid-box kas-box">Saldo<br>Rp 12.500.000</div>
-<div class="grid-box kas-box">Masuk<br>Rp 3.250.000</div>
-<div class="grid-box kas-box">Keluar<br>Rp 1.200.000</div>
+<div class="event-slider" id="eventSlider"></div>
 </div>
-</section>
 
-<!-- ADMIN -->
-<button class="admin-btn" onclick="openAdmin()">⚙</button>
+<div class="pustaka-modal" id="pustakaModal">
+<div class="pustaka-content">
+<div class="pustaka-close" onclick="closePustaka()">✕</div>
+<h2 id="pustakaTitle"></h2>
+<p id="pustakaText"></p>
+</div>
+</div>
+
+<button class="admin-btn" onclick="openPanel()">⚙</button>
 
 <div class="panel" id="panel">
 <div class="box">
-<h3>Admin Galeri</h3>
-<input id="title" placeholder="Judul">
-<input id="url" placeholder="URL Gambar">
-<button onclick="addGallery()">Tambah</button>
-<button onclick="closeAdmin()">Tutup</button>
+<div id="loginForm">
+<h2>Login Admin</h2>
+<input type="password" id="adminPassword" placeholder="Masukkan password admin">
+<button onclick="loginAdmin()">Masuk Dashboard</button>
+</div>
+
+<div id="adminContent" style="display:none">
+<h2>Upload Kegiatan</h2>
+<input type="text" id="title" placeholder="Judul kegiatan">
+<textarea id="desc" placeholder="Deskripsi"></textarea>
+<input type="date" id="date">
+<input type="file" id="file" multiple>
+<button onclick="uploadMedia()">Upload Online</button>
+
+<h2 style="margin-top:25px">Tambah Pustaka</h2>
+<input type="text" id="pustakaJudul" placeholder="Judul pustaka">
+<textarea id="pustakaIsi" placeholder="Isi pustaka"></textarea>
+<button onclick="addPustaka()">Tambah Pustaka</button>
+
+<button onclick="closePanel()">Tutup</button>
+
+<div id="dashboard"></div>
+<div id="pustakaDashboard"></div>
 </div>
 </div>
+</div>
+
+<footer>
+<div class="footer-title">Mushola AR‑ROHMAN</div>
+<div class="footer-address">
+Dusun Pahing RT 06 RW 02<br>
+Desa Bandorasa Kulon<br>
+Kecamatan Cilimus - Kabupaten Kuningan
+</div>
+
+<div class="footer-social">
+<a href="https://instagram.com/arrohmanpahing" target="_blank"><i class="fab fa-instagram"></i></a>
+</div>
+
+<div class="footer-copy">© 2026 Mushola AR‑ROHMAN V8</div>
+</footer>
 
 <script>
+const CLOUD_NAME='dqx4y6l8l';
+const UPLOAD_PRESET='mushola_upload';
 
-let gallery = JSON.parse(localStorage.getItem('gallery')) || [];
+let gallery=JSON.parse(localStorage.getItem('gallery'))||[];
+let pustaka=JSON.parse(localStorage.getItem('pustaka'))||[
+{
+ title:'Dzikir Pagi',
+ text:'Dzikir pagi memberi ketenangan hati dan perlindungan sepanjang hari.'
+},
+{
+ title:'Doa Sebelum Tidur',
+ text:'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ.'
+}
+];
 
-/* MENU */
 function toggleMenu(){
-document.getElementById('menu').classList.toggle('active');
+document.getElementById('navMenu').classList.toggle('active');
 }
 
-/* GALERI FIX AMAN */
-function renderGallery(){
-const wrap = document.getElementById('gallery');
-wrap.innerHTML = '';
-
-if(!gallery.length){
-wrap.innerHTML = "<p style='opacity:.6'>Belum ada kegiatan</p>";
-return;
-}
-
-gallery.forEach(item=>{
-wrap.innerHTML += `
-<div class="card">
-<img src="${item.url}">
-<p style="margin-top:8px">${item.title}</p>
-</div>
-`;
-});
-}
-
-/* ADMIN */
-function openAdmin(){
+function openPanel(){
 document.getElementById('panel').style.display='flex';
 }
 
-function closeAdmin(){
+function closePanel(){
 document.getElementById('panel').style.display='none';
 }
 
-function addGallery(){
-const t = document.getElementById('title').value;
-const u = document.getElementById('url').value;
+function loginAdmin(){
+const pass=document.getElementById('adminPassword').value;
+if(pass==='123456'){
+document.getElementById('loginForm').style.display='none';
+document.getElementById('adminContent').style.display='block';
+}else{
+alert('Password salah');
+}
+}
 
-if(!t || !u) return;
+function renderGallery(){
+const wrap=document.getElementById('gallery');
+wrap.innerHTML='';
 
-gallery.unshift({title:t,url:u});
+gallery.forEach((item,index)=>{
+let mediaHTML='';
+
+item.media.forEach(media=>{
+if(media.type==='image'){
+mediaHTML+=`<img src="${media.url}">`;
+}else{
+mediaHTML+=`<video muted><source src="${media.url}"></video>`;
+}
+});
+
+wrap.innerHTML+=`
+<div class="card">
+<div class="preview-slider">
+${mediaHTML}
+</div>
+<div class="card-content">
+<h3>${item.title}</h3>
+<p>${item.desc}</p>
+<div class="date">${item.date}</div>
+<div class="event-count">📁 ${item.media.length} Media</div>
+<button class="open-btn" onclick="openEvent(${index})">Lihat Kegiatan</button>
+</div>
+</div>`;
+});
+
+renderDashboard();
+}
+
+function openEvent(index){
+const viewer=document.getElementById('eventViewer');
+const slider=document.getElementById('eventSlider');
+const title=document.getElementById('eventTitle');
+
+slider.innerHTML='';
+
+const event=gallery[index];
+title.innerText=event.title;
+
+event.media.forEach(media=>{
+slider.innerHTML+=`
+<div class="event-slide">
+${media.type==='image'
+? `<img src="${media.url}">`
+: `<video controls><source src="${media.url}"></video>`}
+</div>`;
+});
+
+viewer.style.display='flex';
+}
+
+function closeEvent(){
+document.getElementById('eventViewer').style.display='none';
+}
+
+async function uploadMedia(){
+const title=document.getElementById('title').value.trim();
+const desc=document.getElementById('desc').value.trim();
+const date=document.getElementById('date').value;
+const files=document.getElementById('file').files;
+
+if(!title||!desc||!date||files.length===0){
+alert('Lengkapi data');
+return;
+}
+
+let mediaArray=[];
+
+for(const file of files){
+const formData=new FormData();
+formData.append('file',file);
+formData.append('upload_preset',UPLOAD_PRESET);
+
+const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{
+method:'POST',
+body:formData
+});
+
+const data=await res.json();
+
+mediaArray.push({
+url:data.secure_url,
+type:file.type.startsWith('video')?'video':'image'
+});
+}
+
+gallery.unshift({title,desc,date,media:mediaArray});
 localStorage.setItem('gallery',JSON.stringify(gallery));
+renderGallery();
+alert('Upload berhasil');
+}
 
+function renderDashboard(){
+const dash=document.getElementById('dashboard');
+dash.innerHTML='<h2 style="margin-top:25px">Kelola Galeri</h2>';
+
+gallery.forEach((item,index)=>{
+dash.innerHTML+=`
+<div class="dashboard-item">
+<div>${item.title}</div>
+<div style="display:flex;gap:8px">
+<button onclick="editGallery(${index})">Edit</button>
+<button class="delete-btn" onclick="deleteGallery(${index})">Hapus</button>
+</div>
+</div>`;
+});
+
+renderPustakaDashboard();
+}
+
+function deleteGallery(index){
+if(confirm('Hapus kegiatan?')){
+gallery.splice(index,1);
+localStorage.setItem('gallery',JSON.stringify(gallery));
+renderGallery();
+}
+}
+
+function editGallery(index){
+const item=gallery[index];
+const title=prompt('Edit judul',item.title);
+if(title===null)return;
+const desc=prompt('Edit deskripsi',item.desc);
+if(desc===null)return;
+item.title=title;
+item.desc=desc;
+localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
 }
 
-renderGallery();
+function renderPustaka(){
+const wrap=document.getElementById('pustakaContainer');
+wrap.innerHTML='';
 
+pustaka.forEach((item,index)=>{
+wrap.innerHTML+=`
+<div class="card pustaka-card" onclick="openPustaka('${item.title}','${item.text.replace(/'/g,"\\'")}')">
+<div class="card-content">
+<h3>${item.title}</h3>
+<p>${item.text.substring(0,100)}...</p>
+<div class="date">Pustaka Islami</div>
+</div>
+</div>`;
+});
+}
+
+function openPustaka(title,text){
+document.getElementById('pustakaTitle').innerText=title;
+document.getElementById('pustakaText').innerText=text;
+document.getElementById('pustakaModal').style.display='flex';
+}
+
+function closePustaka(){
+document.getElementById('pustakaModal').style.display='none';
+}
+
+function addPustaka(){
+const title=document.getElementById('pustakaJudul').value.trim();
+const text=document.getElementById('pustakaIsi').value.trim();
+
+if(!title||!text){
+alert('Lengkapi pustaka');
+return;
+}
+
+pustaka.unshift({title,text});
+localStorage.setItem('pustaka',JSON.stringify(pustaka));
+renderPustaka();
+renderPustakaDashboard();
+alert('Pustaka berhasil ditambah');
+}
+
+function renderPustakaDashboard(){
+const dash=document.getElementById('pustakaDashboard');
+dash.innerHTML='<h2 style="margin-top:25px">Kelola Pustaka</h2>';
+
+pustaka.forEach((item,index)=>{
+dash.innerHTML+=`
+<div class="dashboard-item">
+<div>${item.title}</div>
+<div style="display:flex;gap:8px">
+<button onclick="editPustaka(${index})">Edit</button>
+<button class="delete-btn" onclick="deletePustaka(${index})">Hapus</button>
+</div>
+</div>`;
+});
+}
+
+function editPustaka(index){
+const title=prompt('Edit judul',pustaka[index].title);
+if(title===null)return;
+const text=prompt('Edit isi',pustaka[index].text);
+if(text===null)return;
+pustaka[index]={title,text};
+localStorage.setItem('pustaka',JSON.stringify(pustaka));
+renderPustaka();
+renderPustakaDashboard();
+}
+
+function deletePustaka(index){
+if(confirm('Hapus pustaka?')){
+pustaka.splice(index,1);
+localStorage.setItem('pustaka',JSON.stringify(pustaka));
+renderPustaka();
+renderPustakaDashboard();
+}
+}
+
+renderGallery();
+renderPustaka();
 </script>
 
 </body>
 </html>
+
