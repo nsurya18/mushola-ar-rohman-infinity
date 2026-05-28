@@ -620,25 +620,9 @@ Kecamatan Cilimus - Kabupaten Kuningan
 const CLOUD_NAME='dqx4y6l8l';
 const UPLOAD_PRESET='mushola_upload';
 
-let gallery = [];
-
-try {
-  gallery = JSON.parse(localStorage.getItem('gallery'));
-  if(!Array.isArray(gallery)) gallery = [];
-} catch(e){
-  gallery = [];
-}
-
-
-
-let pustaka = [];
-
-try {
-  pustaka = JSON.parse(localStorage.getItem('pustaka'));
-  if(!Array.isArray(pustaka)) pustaka = [];
-} catch(e){
-  pustaka = [];
-}
+let gallery=JSON.parse(localStorage.getItem('gallery'))||[];
+let pustaka=JSON.parse(localStorage.getItem('pustaka'))||[
+{
  title:'Dzikir Pagi',
  text:'Dzikir pagi memberi ketenangan hati dan perlindungan sepanjang hari.'
 },
@@ -671,27 +655,19 @@ alert('Password salah');
 }
 
 function renderGallery(){
-const wrap = document.getElementById('gallery');
-if(!wrap) return;
+const wrap=document.getElementById('gallery');
+wrap.innerHTML='';
 
-wrap.innerHTML = '';
+gallery.forEach((item,index)=>{
+let mediaHTML='';
 
-if(!gallery || gallery.length === 0){
-wrap.innerHTML = "<p style='opacity:.6'>Belum ada kegiatan</p>";
-return;
+item.media.forEach(media=>{
+if(media.type==='image'){
+mediaHTML+=`<img src="${media.url}">`;
+}else{
+mediaHTML+=`<video muted><source src="${media.url}"></video>`;
 }
-
-gallery.forEach(item=>{
-if(!item) return;
-
-wrap.innerHTML += `
-<div class="card">
-<img src="${item.url || ''}">
-<p>${item.title || 'Tanpa Judul'}</p>
-</div>
-`;
 });
-}
 
 wrap.innerHTML+=`
 <div class="card">
