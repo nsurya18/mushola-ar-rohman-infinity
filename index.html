@@ -163,11 +163,11 @@ return;
 
 const form=new FormData();
 form.append("file",file);
-form.append("upload_preset",UPLOAD_PRESET);
+form.append("upload_preset",mushola_upload);
 form.append("folder",folder);
 
 const res=await fetch(
-`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+`https://api.cloudinary.com/v1_1/${dqx4y6l8l}/image/upload`,
 {method:"POST",body:form}
 );
 
