@@ -3,17 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V8 FINAL FIX</title>
+<title>Mushola AR-ROHMAN FULL SYSTEM</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
 font-family:Poppins;
 background:#061414;
@@ -21,85 +16,84 @@ color:#fff;
 overflow-x:hidden;
 }
 
-/* NAV */
 nav{
 position:fixed;
 top:0;
 left:0;
 right:0;
-padding:12px 16px;
 background:#000c;
-z-index:9999;
+padding:12px;
 display:flex;
 justify-content:space-between;
+z-index:9999;
 }
 
-/* HERO */
 .hero{
-padding:110px 20px 40px;
+padding:100px 16px 30px;
 text-align:center;
 }
 
-/* SECTION */
 section{
-padding:40px 16px;
+padding:35px 16px;
 }
 
 h2{
-margin-bottom:12px;
 color:#f7d774;
+margin-bottom:10px;
 }
 
-/* CAROUSEL FIX (HP & LAPTOP STABIL) */
+/* CAROUSEL */
 .carousel{
 display:flex;
 gap:12px;
 overflow-x:auto;
 scroll-snap-type:x mandatory;
 -webkit-overflow-scrolling:touch;
-padding-bottom:10px;
 }
 
 .card{
 flex:0 0 80%;
-scroll-snap-align:center;
 background:#ffffff12;
-border-radius:14px;
 padding:12px;
+border-radius:12px;
+scroll-snap-align:center;
 }
 
-/* GAMBAR FIX RESPONSIVE */
 .card img{
 width:100%;
-height:180px;
+height:160px;
 object-fit:cover;
 border-radius:10px;
 }
 
-/* PUSTAKA */
-.pustaka-card{
-flex:0 0 80%;
-background:#ffffff12;
-padding:14px;
-border-radius:14px;
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:10px;
 }
 
-/* ADMIN BUTTON FIX (NO BUG CLICK) */
+.box{
+background:#ffffff12;
+padding:12px;
+border-radius:10px;
+text-align:center;
+}
+
+/* ADMIN */
 .admin-btn{
 position:fixed;
-right:16px;
-bottom:16px;
-width:60px;
-height:60px;
+bottom:15px;
+right:15px;
+width:55px;
+height:55px;
 border-radius:50%;
 background:linear-gradient(45deg,#14b8a6,#d4af37);
 border:none;
-z-index:99999;
 cursor:pointer;
-font-size:20px;
+z-index:99999;
 }
 
-/* PANEL FIX */
 .panel{
 position:fixed;
 inset:0;
@@ -107,30 +101,29 @@ background:rgba(0,0,0,.85);
 display:none;
 justify-content:center;
 align-items:center;
-z-index:999999;
 }
 
-.box{
+.box-panel{
 background:#111;
-padding:18px;
+padding:15px;
 width:90%;
-max-width:420px;
-border-radius:12px;
+max-width:400px;
+border-radius:10px;
 }
 
 input,textarea{
 width:100%;
-padding:10px;
-margin:6px 0;
-border-radius:8px;
+padding:8px;
+margin:5px 0;
 border:none;
+border-radius:6px;
 }
 
 button{
 width:100%;
 padding:10px;
 border:none;
-border-radius:8px;
+border-radius:6px;
 background:#14b8a6;
 color:#fff;
 cursor:pointer;
@@ -144,27 +137,69 @@ cursor:pointer;
 <div>🕌 AR-ROHMAN</div>
 </nav>
 
-<section class="hero">
+<div class="hero">
 <h1>Mushola AR-ROHMAN</h1>
-<p>Web Informasi Jamaah</p>
+<p>Web Jamaah Full System</p>
+</div>
+
+<!-- PENGAJIAN -->
+<section>
+<h2>Pengajian</h2>
+<div class="carousel">
+<div class="card"><b>Yasinan</b><p>Kamis malam</p></div>
+<div class="card"><b>TPQ Anak</b><p>Setiap sore</p></div>
+<div class="card"><b>Dzikir</b><p>Ba'da Maghrib</p></div>
+</div>
 </section>
 
+<!-- FASILITAS -->
 <section>
-<h2>Galeri Kegiatan</h2>
+<h2>Fasilitas</h2>
+<div class="grid">
+<div class="box">🚿 Wudhu</div>
+<div class="box">📶 WiFi</div>
+<div class="box">🅿 Parkir</div>
+<div class="box">📖 Kajian</div>
+</div>
+</section>
+
+<!-- DKM -->
+<section>
+<h2>DKM</h2>
+<div class="carousel">
+<div class="card"><b>Ketua</b><p>Ahmad</p></div>
+<div class="card"><b>Sekretaris</b><p>Fikri</p></div>
+<div class="card"><b>Bendahara</b><p>Rohman</p></div>
+</div>
+</section>
+
+<!-- KAS -->
+<section>
+<h2>Kas</h2>
+<div class="grid">
+<div class="box">Saldo<br>Rp 6.500.000</div>
+<div class="box">Masuk<br>Rp 450.000</div>
+<div class="box">Keluar<br>Rp 200.000</div>
+</div>
+</section>
+
+<!-- GALERI -->
+<section>
+<h2>Galeri</h2>
 <div class="carousel" id="gallery"></div>
 </section>
 
+<!-- PUSTAKA -->
 <section>
-<h2>Pustaka Ilmu</h2>
+<h2>Pustaka</h2>
 <div class="carousel" id="pustaka"></div>
 </section>
 
-<!-- ADMIN BUTTON -->
+<!-- ADMIN -->
 <button class="admin-btn" onclick="openAdmin()">⚙</button>
 
-<!-- PANEL -->
 <div class="panel" id="panel">
-<div class="box">
+<div class="box-panel">
 
 <h3>Login Admin</h3>
 <input type="password" id="pass">
@@ -188,11 +223,9 @@ cursor:pointer;
 </div>
 
 <script>
-/* SAFE STORAGE (ANTI ERROR HP) */
 let gallery = JSON.parse(localStorage.getItem("gallery") || "[]");
 let pustaka = JSON.parse(localStorage.getItem("pustaka") || "[]");
 
-/* RENDER */
 function render(){
 
 document.getElementById("gallery").innerHTML =
@@ -201,38 +234,32 @@ gallery.length ? gallery.map(x=>`
 <img src="${x.url}">
 <p>${x.title}</p>
 </div>
-`).join("") : "<p style='opacity:.6'>Belum ada galeri</p>";
+`).join("") : "<p>Belum ada galeri</p>";
 
 document.getElementById("pustaka").innerHTML =
 pustaka.length ? pustaka.map(x=>`
-<div class="pustaka-card">
+<div class="card">
 <b>${x.title}</b>
 <p>${x.text}</p>
 </div>
-`).join("") : "<p style='opacity:.6'>Belum ada pustaka</p>";
+`).join("") : "<p>Belum ada pustaka</p>";
 
 }
 
-/* ADMIN */
 function openAdmin(){
-document.getElementById("panel").style.display="flex";
+panel.style.display="flex";
 }
 
 function login(){
-if(document.getElementById("pass").value==="123456"){
-document.getElementById("adminArea").style.display="block";
+if(pass.value==="123456"){
+adminArea.style.display="block";
 }
 }
 
-/* ADD DATA */
 function addGallery(){
 if(!gtitle.value || !gurl.value) return;
 
-gallery.unshift({
-title:gtitle.value,
-url:gurl.value
-});
-
+gallery.unshift({title:gtitle.value,url:gurl.value});
 localStorage.setItem("gallery",JSON.stringify(gallery));
 render();
 }
@@ -240,16 +267,11 @@ render();
 function addPustaka(){
 if(!ptitle.value || !ptext.value) return;
 
-pustaka.unshift({
-title:ptitle.value,
-text:ptext.value
-});
-
+pustaka.unshift({title:ptitle.value,text:ptext.value});
 localStorage.setItem("pustaka",JSON.stringify(pustaka));
 render();
 }
 
-/* INIT */
 render();
 </script>
 
