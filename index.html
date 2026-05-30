@@ -233,6 +233,32 @@ background:black;
 object-fit:contain;
 }
 
+/* Running text modern */
+.running-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin-top:12px;
+}
+.running-text{
+  width: min(900px, 100%);
+  border-radius:16px;
+  padding:10px 14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.running-text span{
+  display:inline-block;
+  white-space:nowrap;
+  color:rgba(255,255,255,.9);
+  animation: runText 14s linear infinite;
+}
+@keyframes runText{
+  from{ transform: translateX(100%); }
+  to{ transform: translateX(-100%); }
+}
+
 
 .card-content{padding:18px;}
 .card-content h3{margin-bottom:10px;color:#f7d774;}
@@ -556,7 +582,15 @@ height:180px;
 <div class="jadwal-mini"><h4>Maghrib</h4><p id="sholatMaghrib">—</p></div>
 <div class="jadwal-mini"><h4>Isya</h4><p id="sholatIsya">—</p></div>
 </div>
-<div style="margin-top:16px;opacity:.9" id="countdownSholat">Menuju Sholat: —</div>
+<div style="margin-top:16px;opacity:.95" id="countdownSholat">Menuju Sholat: —</div>
+
+<!-- Running Text (modern, bukan marquee jadul) -->
+<div class="running-wrap" aria-label="Pengumuman berjalan">
+  <div class="running-text" id="runningText">
+    <span>🕌 Semoga ibadah kita diterima Allah SWT • Sabar dan Shalat •</span>
+  </div>
+</div>
+
 </section>
 
 <section id="visi-misi">
