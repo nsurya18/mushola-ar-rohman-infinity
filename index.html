@@ -1300,8 +1300,9 @@ async function saveCloudinaryJson(publicId, data){
   formData.append('file', file);
   formData.append('upload_preset', UPLOAD_PRESET_JSON);
   formData.append('public_id', `${publicId}.json`);
-  formData.append('overwrite', 'true');
+  // preset unsigned: overwrite tidak diizinkan => jangan kirim overwrite
   formData.append('resource_type', 'raw');
+
 
 
   const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, {
@@ -1310,9 +1311,24 @@ async function saveCloudinaryJson(publicId, data){
   });
 
 
-  const out = await res.json();
-  if(!res.ok) throw new Error(out?.error?.message || 'Upload JSON gagal');
+  const out = await res.json().catch(()=>null);
+  if(!res.ok){
+    // coba baca semua field error yang mungkin ada
+    const errObj = out?.error || null;
+    console.error('Cloudinary JSON upload failed:', {
+      publicId,
+      status: res.status,
+      out,
+      errMessage: errObj?.message,
+      errName: errObj?.error,
+      moreInfo: errObj?.more_info,
+      hint: out
+    });
+    throw new Error(errObj?.message || 'Upload JSON gagal');
+  }
   return out;
+
+
 }
 
 async function syncFromCloud(){
