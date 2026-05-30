@@ -1382,16 +1382,33 @@ async function syncFromCloud(){
 async function syncToCloudOnce(forceSave=false){
   if(syncInProgress) return;
   syncInProgress = true;
+  console.log('[syncToCloudOnce] start', { forceSave });
   try{
     // Pastikan data default tersimpan ke cloud (sekali saja) atau jika forceSave=true.
     if(!forceSave){
+      let allExist = true;
       try {
         await loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID);
-        await loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID);
-        await loadCloudinaryJson(KAS_JSON_PUBLIC_ID);
-        return;
       } catch(e){
-        // tidak ada => simpan
+        allExist = false;
+        console.warn('[syncToCloudOnce] gallery not on cloud, will save');
+      }
+      try {
+        await loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID);
+      } catch(e){
+        allExist = false;
+        console.warn('[syncToCloudOnce] pustaka not on cloud, will save');
+      }
+      try {
+        await loadCloudinaryJson(KAS_JSON_PUBLIC_ID);
+      } catch(e){
+        allExist = false;
+        console.warn('[syncToCloudOnce] kas not on cloud, will save');
+      }
+
+      if(allExist){
+        console.log('[syncToCloudOnce] cloud data already exists; skip upload');
+        return;
       }
     }
 
@@ -1406,6 +1423,8 @@ async function syncToCloudOnce(forceSave=false){
     await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
     await saveCloudinaryJson(KAS_JSON_PUBLIC_ID, kas);
 
+    console.log('[syncToCloudOnce] done uploading');
+
   } catch(e){
     console.error('[syncToCloudOnce] failed:', e);
   } finally {
@@ -1413,6 +1432,7 @@ async function syncToCloudOnce(forceSave=false){
   }
 
 }
+
 
 function renderKasDashboard(){
   const dash = document.getElementById('kasDashboard');
