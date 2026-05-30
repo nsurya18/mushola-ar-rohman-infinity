@@ -1469,101 +1469,16 @@ function startCountdownSholat() {
   countdownTimer = setInterval(tick, 1000);
 }
 
-
-  const parseHHMM = (t) => {
-    const m = String(t || '').trim().match(/^(\d{1,2}):(\d{2})$/);
-    if (!m) return null;
-    const hh = Number(m[1]);
-    const mm = Number(m[2]);
-    if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
-    return { hh, mm };
-  };
-
-  const names = ['Subuh','Dzuhur','Ashar','Maghrib','Isya'];
-  const map = {
-    Subuh: 'sholatSubuh',
-    Dzuhur: 'sholatDzuhur',
-    Ashar: 'sholatAshar',
-    Maghrib: 'sholatMaghrib',
-    Isya: 'sholatIsya'
-  };
-
-  const getTimeHHMM = (name) => {
-    const node = document.getElementById(map[name]);
-    return node ? node.textContent.trim() : '';
-  };
-
-  const now = new Date();
-  const cur = { hh: now.getHours(), mm: now.getMinutes() };
-  const curMinutes = cur.hh * 60 + cur.mm;
-
-  // cari sholat berikutnya (hari ini). kalau semua sudah lewat -> next hari (Subuh)
-  let nextName = null;
-  let nextMinutes = null;
-  for (let i = 0; i < names.length; i++) {
-    const nm = names[i];
-    const parsed = parseHHMM(getTimeHHMM(nm));
-    if (!parsed) continue;
-    const m = parsed.hh * 60 + parsed.mm;
-    if (m >= curMinutes) {
-      nextName = nm;
-      nextMinutes = m;
-      break;
-    }
-  }
-
-  if (!nextName || nextMinutes == null) {
-    // next hari Subuh
-    nextName = 'Subuh';
-    const parsedSubuh = parseHHMM(getTimeHHMM('Subuh'));
-    if (!parsedSubuh) {
-      el.textContent = 'Menuju Sholat: —';
-      return;
-    }
-    nextMinutes = parsedSubuh.hh * 60 + parsedSubuh.mm + 24 * 60;
-  } else {
-    // ubah ke basis menit absolut untuk countdown
-    nextMinutes = nextMinutes;
-  }
-
-  let targetMinutesAbs;
-  if (nextMinutes >= curMinutes) {
-    targetMinutesAbs = (Math.floor(now.getTime()/60000) * 1) - (now.getSeconds()/60) + (nextMinutes - curMinutes);
-    // di atas cukup untuk rounding; tapi kita pakai pendekatan langsung di bawah yang lebih stabil
-  }
-
-  const target = new Date(now);
-  const parsedNext = parseHHMM(getTimeHHMM(nextName));
-  if (!parsedNext) {
-    el.textContent = 'Menuju Sholat: —';
-    return;
-  }
-
-  const targetH = parsedNext.hh;
-  const targetM = parsedNext.mm;
-
-  target.setHours(targetH, targetM, 0, 0);
-  if (target.getTime() <= now.getTime()) {
-    target.setDate(target.getDate() + 1);
-  }
-
-  const diffMs = target.getTime() - now.getTime();
-  const diffSec = Math.max(0, Math.floor(diffMs / 1000));
-  const hh = String(Math.floor(diffSec / 3600)).padStart(2, '0');
-  const mm = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
-  const ss = String(diffSec % 60).padStart(2, '0');
-
-  el.textContent = `Menuju Sholat: ${nextName} (${hh}:${mm}:${ss})`;
-}
-
 function startHighlightSholat() {
   // hitung menit sekarang
   const now = new Date();
   const curMin = now.getHours() * 60 + now.getMinutes();
 
 
-  // update countdown (opsional, jalan setelah jam diisi)
+  // update countdown (jalan setelah jam diisi)
   startCountdownSholat();
+
+
 
 
   const getTime = (id) => {
