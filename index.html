@@ -154,7 +154,15 @@ margin-bottom:3px;
 .jadwal-mini p{
 font-size:.82rem;
 font-weight:600;
+transition:all .25s ease;
 }
+
+.jadwal-mini.jadwal-now{
+background:rgba(20,184,166,.20);
+border:1px solid rgba(20,184,166,.65);
+box-shadow:0 0 0 2px rgba(20,184,166,.18) inset;
+}
+
 
 section{padding:75px 5%;}
 
@@ -1341,10 +1349,98 @@ function renderKasDashboard(){
 
 
 
+function setJadwalHijau(statusMap) {
+  // statusMap: { Subuh:true/false, Dzuhur:true/false, Ashar:true/false, Maghrib:true/false, Isya:true/false }
+  const map = {
+    Subuh: 'sholatSubuh',
+    Dzuhur: 'sholatDzuhur',
+    Ashar: 'sholatAshar',
+    Maghrib: 'sholatMaghrib',
+    Isya: 'sholatIsya'
+  };
+
+  Object.keys(map).forEach((k) => {
+    const id = map[k];
+    const el = document.getElementById(id);
+    if (!el) return;
+    const card = el.closest('.jadwal-mini');
+    if (!card) return;
+    if (statusMap[k]) card.classList.add('jadwal-now');
+    else card.classList.remove('jadwal-now');
+  });
+}
+
+function timeToMinutes(hhmm) {
+  // expects HH:mm
+  const m = String(hhmm || '').trim().match(/^(\d{1,2}):(\d{2})$/);
+  if (!m) return null;
+  const hh = Number(m[1]);
+  const mm = Number(m[2]);
+  if (Number.isNaN(hh) || Number.isNaN(mm)) return null;
+  return hh * 60 + mm;
+}
+
+function startHighlightSholat() {
+  // hitung menit sekarang
+  const now = new Date();
+  const curMin = now.getHours() * 60 + now.getMinutes();
+
+  const getTime = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.textContent.trim() : '';
+  };
+
+  const times = {
+    Subuh: timeToMinutes(getTime('sholatSubuh')),
+    Dzuhur: timeToMinutes(getTime('sholatDzuhur')),
+    Ashar: timeToMinutes(getTime('sholatAshar')),
+    Maghrib: timeToMinutes(getTime('sholatMaghrib')),
+    Isya: timeToMinutes(getTime('sholatIsya')),
+  };
+
+  // Fallback interval (tidak perlu ngerti tanggal; pakai urutan sholat hari ini)
+  // Anggap sholat aktif mulai 10 menit sebelum waktunya sampai 10 menit sebelum sholat berikutnya.
+
+  const order = ['Subuh','Dzuhur','Ashar','Maghrib','Isya'];
+  const getMinutes = (name) => times[name];
+
+  const windowBefore = 10; // menit
+  const windowAfter = 0;   // tidak perlu tambahan; cukup dari interval antar sholat
+
+  const boundaries = {};
+  for (let i = 0; i < order.length; i++) {
+    const curName = order[i];
+    const nextName = order[i + 1];
+
+    const curTime = getMinutes(curName);
+    const nextTime = nextName ? getMinutes(nextName) : null;
+
+    if (curTime == null) continue;
+
+    const start = curTime - windowBefore;
+    const end = nextTime == null ? (curTime + 6 * 60) : (nextTime - windowBefore);
+
+    boundaries[curName] = { start, end };
+  }
+
+  const statusMap = {};
+  order.forEach((n) => {
+    const b = boundaries[n];
+    if (!b) {
+      statusMap[n] = false;
+      return;
+    }
+    statusMap[n] = curMin >= b.start && curMin < b.end;
+  });
+
+  setJadwalHijau(statusMap);
+}
+
 async function loadJadwalSholat() {
   // Koordinat mushola dari user: -6.892767, 108.483086
   const lat = -6.892767;
   const lon = 108.483086;
+
 
   // Gunakan API online tanpa key (format response mengikuti Aladhan v1)
   // Endpoint: https://api.aladhan.com/v1/timings/{date}?latitude=...&longitude=...&method=11
