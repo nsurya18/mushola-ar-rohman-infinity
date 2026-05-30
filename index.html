@@ -1534,6 +1534,7 @@ function startHighlightSholat() {
 
 async function loadJadwalSholat() {
   // Koordinat mushola dari user: -6.892767, 108.483086
+
   const lat = -6.892767;
   const lon = 108.483086;
 
@@ -1567,6 +1568,10 @@ async function loadJadwalSholat() {
     setText('sholatAshar', timings.Asr);
     setText('sholatMaghrib', timings.Maghrib);
     setText('sholatIsya', timings.Isha);
+
+    // setelah angka terisi, jalankan highlight + countdown
+    startHighlightSholat();
+    startCountdownSholat();
   } catch (e) {
     // fallback: tampilkan default agar UI tidak kosong
     console.warn('Gagal load jadwal sholat:', e);
@@ -1599,6 +1604,10 @@ async function loadJadwalSholat() {
   // setelah sync dari cloud pastikan kas ter-render
   renderKas();
   renderKasDashboard();
+
+  // jalankan countdown/hijau juga (agar tidak tergantung urutan async)
+  startHighlightSholat();
+  startCountdownSholat();
 })();
 </script>
 
