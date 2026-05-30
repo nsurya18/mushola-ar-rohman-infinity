@@ -777,6 +777,8 @@ Kecamatan Cilimus - Kabupaten Kuningan
 <script>
 const CLOUD_NAME='dqx4y6l8l';
 const UPLOAD_PRESET='mushola_upload';
+const UPLOAD_PRESET_JSON='mushola_json';
+
 
 // Public ID base untuk sinkron data via Cloudinary JSON
 // Gallery disimpan di: mushola_gallery.json
@@ -1293,14 +1295,16 @@ async function saveCloudinaryJson(publicId, data){
 
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', UPLOAD_PRESET);
+  formData.append('upload_preset', UPLOAD_PRESET_JSON);
   formData.append('public_id', publicId);
   formData.append('overwrite', 'true');
+  formData.append('resource_type', 'raw');
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`, {
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, {
     method: 'POST',
     body: formData
   });
+
 
   const out = await res.json();
   if(!res.ok) throw new Error(out?.error?.message || 'Upload JSON gagal');
