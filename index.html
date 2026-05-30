@@ -841,18 +841,25 @@ function renderPustaka(){
     const title = escapeHtml(item.title || 'Tanpa Judul');
     const text = String(item.text || '');
     const preview = text.length > 100 ? text.substring(0,100) + '...' : text;
-    const safeForOnclick = String(item.text || '').replace(/'/g,"\\'");
 
+    // Pakai index supaya tidak terganggu quote/apostrophe pada text.
     wrap.innerHTML+=`
-<div class="card pustaka-card" onclick="openPustaka('${escapeHtml(item.title || 'Tanpa Judul').replace(/'/g,"\\'")}', '${safeForOnclick}')">
-<div class="card-content">
-<h3>${title}</h3>
-<p>${escapeHtml(preview)}</p>
-<div class="date">Pustaka Islami</div>
-</div>
+<div class="card pustaka-card" onclick="openPustakaByIndex(${index})">
+  <div class="card-content">
+    <h3>${title}</h3>
+    <p>${escapeHtml(preview)}</p>
+    <div class="date">Pustaka Islami</div>
+  </div>
 </div>`;
   });
 }
+
+function openPustakaByIndex(index){
+  const item = pustaka[index];
+  if(!item) return;
+  openPustaka(String(item.title || 'Tanpa Judul'), String(item.text || ''));
+}
+
 
 
 function openPustaka(title,text){
@@ -936,8 +943,14 @@ async function loadCloudinaryJson(publicId){
   const res = await fetch(url, { cache: 'no-store' });
   if(!res.ok) throw new Error(`Gagal fetch JSON ${publicId}. Status ${res.status}`);
   const txt = await res.text();
-  return JSON.parse(txt);
+  try{
+    return JSON.parse(txt);
+  }catch(e){
+    // Kalau ternyata tersaji HTML error page (mis. 404), jangan bikin crash.
+    throw new Error(`JSON invalid untuk ${publicId}`);
+  }
 }
+
 
 async function saveCloudinaryJson(publicId, data){
   // Upload JSON ke Cloudinary sebagai raw.
