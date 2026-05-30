@@ -310,11 +310,12 @@ position:relative;
 
 .pustaka-close{
 position:absolute;
-top:14px;
-right:18px;
+top:8px;
+right:14px;
 font-size:1.8rem;
 cursor:pointer;
 }
+
 
 .pustaka-content h2{margin-bottom:14px;color:#f7d774;}
 .pustaka-content p{line-height:1.9;color:rgba(255,255,255,.82);}
@@ -537,20 +538,36 @@ height:180px;
 <section id="dkm">
 <div class="section-title"><h2>Struktur DKM</h2><p>Dewan Kemakmuran Mushola</p></div>
 <div class="dkm-wrap">
-<div class="card dkm-card"><div class="card-content"><h3>Ketua DKM</h3><p>Bapak Kurdi</p></div></div>
-<div class="card dkm-card"><div class="card-content"><h3>Sekretaris</h3><p>Bapak Radi</p></div></div>
-<div class="card dkm-card"><div class="card-content"><h3>Bendahara</h3><p>Bapak Nana</p></div></div>
+  <div class="card dkm-card"><div class="card-content"><h3>Ketua DKM</h3><p>Bapak Kurdi</p></div></div>
+  <div class="card dkm-card"><div class="card-content"><h3>Sekretaris</h3><p>Bapak Radi</p></div></div>
+  <div class="card dkm-card"><div class="card-content"><h3>Bendahara</h3><p>Bapak Nana</p></div></div>
+
+  <div class="card dkm-card"><div class="card-content"><h3>Seksi Perawatan</h3><p>Bapak Madu</p></div></div>
+  <div class="card dkm-card"><div class="card-content"><h3>Seksi Pengembangan</h3><p>Bapak Junadi</p></div></div>
+  <div class="card dkm-card"><div class="card-content"><h3>Seksi Humas</h3><p>Bapak Ade</p></div></div>
+  <div class="card dkm-card"><div class="card-content"><h3>Seksi Pemeliharaan</h3><p>Bapak Nanang</p></div></div>
 </div>
 </section>
+
 
 <section id="kas">
 <div class="section-title"><h2>Kas Mushola</h2><p>Transparansi dana umat</p></div>
 <div class="grid">
-<div class="grid-box"><h3>Saldo Saat Ini</h3><p style="text-align:center">Rp 6.500.000</p></div>
-<div class="grid-box"><h3>Pemasukan</h3><p style="text-align:center">Rp 450.000</p></div>
-<div class="grid-box"><h3>Pengeluaran</h3><p style="text-align:center">Rp 200.000</p></div>
+  <div class="grid-box"><h3>Saldo Saat Ini</h3><p id="kasSaldo" style="text-align:center">Rp 0</p></div>
+  <div class="grid-box"><h3>Pemasukan</h3><p id="kasMasuk" style="text-align:center">Rp 0</p></div>
+  <div class="grid-box"><h3>Pengeluaran</h3><p id="kasKeluar" style="text-align:center">Rp 0</p></div>
+</div>
+
+
+<div style="margin-top:22px" class="grid" id="kasTransactionsWrap">
+  <div class="grid-box" style="grid-column:1/-1">
+    <h3>Riwayat Transaksi</h3>
+    <p style="opacity:.7" id="kasTransactionsEmpty">Belum ada transaksi</p>
+    <div id="kasTransactions"></div>
+  </div>
 </div>
 </section>
+
 
 <section id="galeri">
 <div class="section-title"><h2>Galeri Kegiatan</h2><p>Dokumentasi kegiatan mushola<br>klik icon IG</p></div>
@@ -601,11 +618,34 @@ height:180px;
 <textarea id="pustakaIsi" placeholder="Isi pustaka"></textarea>
 <button onclick="addPustaka()">Tambah Pustaka</button>
 
+<h2 style="margin-top:25px">Kelola KAS</h2>
+
+<div style="margin-bottom:12px">
+  <div style="font-weight:700;margin-bottom:8px">Saldo Awal</div>
+  <input type="number" id="kasSaldoAwal" placeholder="Contoh: 6500000" step="1000">
+  <button onclick="setKasSaldoAwal()">Simpan Saldo Awal</button>
+</div>
+
+<div style="margin-top:10px">
+  <div style="font-weight:700;margin-bottom:8px">Tambah Transaksi</div>
+  <input type="date" id="kasTanggal">
+  <select id="kasJenis" style="width:100%;padding:14px;margin-bottom:14px;border:none;border-radius:14px;background:#f3f7f7">
+    <option value="masuk">Masuk</option>
+    <option value="keluar">Keluar</option>
+  </select>
+  <input type="text" id="kasKategori" placeholder="Kategori (mis. Infak, Beli Kebutuhan, dll)">
+  <input type="number" id="kasNominal" placeholder="Nominal" step="1000">
+  <input type="text" id="kasKeterangan" placeholder="Keterangan" >
+  <button onclick="addKasTransaksi()">Tambah Transaksi</button>
+</div>
+
 <button onclick="closePanel()">Tutup</button>
 
 <div id="dashboard"></div>
 <div id="pustakaDashboard"></div>
+<div id="kasDashboard" style="margin-top:18px"></div>
 </div>
+
 </div>
 </div>
 
@@ -634,6 +674,9 @@ const GALLERY_JSON_PUBLIC_ID = 'mushola_gallery';
 // Pustaka disimpan di: mushola_pustaka.json
 const PUSTAKA_JSON_PUBLIC_ID = 'mushola_pustaka';
 
+// Kas disimpan di: mushola_kas.json
+const KAS_JSON_PUBLIC_ID = 'mushola_kas';
+
 // Pastikan format URL JSON bisa diakses publik (private/public tergantung setup Cloudinary kamu)
 function cloudinaryJsonUrl(publicId){
   // format: https://res.cloudinary.com/<cloud>/raw/upload/<public_id>.json
@@ -643,8 +686,13 @@ function cloudinaryJsonUrl(publicId){
 let gallery = [];
 let pustaka = [];
 
+// kas model: { saldoAwal: number, transaksi: [{id,tanggal,jenis,kategori,nominal,keterangan}] }
+let kas = { saldoAwal: 6500000, transaksi: [] };
+
+
 // gate sync agar tidak race
 let syncInProgress = false;
+
 
 function safeParseArray(key){
   try{
@@ -655,8 +703,28 @@ function safeParseArray(key){
   }
 }
 
+function safeParseObject(key){
+  try{
+    const v = JSON.parse(localStorage.getItem(key));
+    return v && typeof v === 'object' ? v : null;
+  }catch(e){
+    return null;
+  }
+}
+
 gallery = safeParseArray('gallery');
 pustaka = safeParseArray('pustaka');
+
+// kas init dari localStorage
+const kasLocal = safeParseObject('kas');
+if(kasLocal && typeof kasLocal === 'object'){
+  kas = {
+    saldoAwal: Number(kasLocal.saldoAwal || kas.saldoAwal || 0) || 0,
+    transaksi: Array.isArray(kasLocal.transaksi) ? kasLocal.transaksi : []
+  };
+}
+
+
 
 // Seed pustaka biar selalu ada konten awal (fallback local)
 if(pustaka.length === 0){
@@ -675,8 +743,12 @@ document.getElementById('navMenu').classList.toggle('active');
 }
 
 function openPanel(){
-document.getElementById('panel').style.display='flex';
+  document.getElementById('panel').style.display='flex';
+  renderKas();
+  renderKasDashboard();
 }
+
+
 
 function closePanel(){
 document.getElementById('panel').style.display='none';
@@ -899,6 +971,63 @@ function addPustaka(){
   syncToCloudOnce(true).catch(()=>{});
 }
 
+function setKasSaldoAwal(){
+  const v = document.getElementById('kasSaldoAwal').value;
+  const n = Number(v);
+  if(!v || Number.isNaN(n) || n < 0){
+    alert('Saldo Awal tidak valid');
+    return;
+  }
+  kas.saldoAwal = n;
+  localStorage.setItem('kas', JSON.stringify(kas));
+  renderKas();
+  syncToCloudOnce(true).catch(()=>{});
+}
+
+function addKasTransaksi(){
+  const tanggal = document.getElementById('kasTanggal').value;
+  const jenis = document.getElementById('kasJenis').value;
+  const kategori = (document.getElementById('kasKategori').value || '').trim();
+  const nominalRaw = document.getElementById('kasNominal').value;
+  const keterangan = (document.getElementById('kasKeterangan').value || '').trim();
+  const nominal = Number(nominalRaw);
+
+  if(!tanggal || !jenis || !nominalRaw || Number.isNaN(nominal) || nominal <= 0){
+    alert('Lengkapi transaksi kas (tanggal, jenis, nominal > 0)');
+    return;
+  }
+
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2);
+  kas.transaksi.unshift({
+    id,
+    tanggal,
+    jenis,
+    kategori,
+    nominal,
+    keterangan
+  });
+
+  localStorage.setItem('kas', JSON.stringify(kas));
+  renderKas();
+  renderKasDashboard();
+  syncToCloudOnce(true).catch(()=>{});
+}
+
+function renderKasDashboard(){
+  const dash = document.getElementById('kasDashboard');
+  if(!dash) return;
+  // Dashboard kas sederhana (readonly)
+  const { totalMasuk, totalKeluar, saldo } = calcKas();
+  dash.innerHTML = `
+    <h3 style="margin:18px 0 10px; color:#f7d774">Ringkasan Kas</h3>
+    <div class="dashboard-item"><div>Saldo</div><div style="color:#f7d774; font-weight:800">${formatRupiah(saldo)}</div></div>
+    <div class="dashboard-item"><div>Pemasukan</div><div style="color:#14b8a6; font-weight:800">${formatRupiah(totalMasuk)}</div></div>
+    <div class="dashboard-item"><div>Pengeluaran</div><div style="color:#ef4444; font-weight:800">${formatRupiah(totalKeluar)}</div></div>
+  `;
+}
+
+
+
 
 
 
@@ -917,6 +1046,71 @@ dash.innerHTML+=`
 </div>`;
 });
 }
+
+function formatRupiah(n){
+  const num = Number(n || 0);
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+function calcKas(){
+  const totalMasuk = kas.transaksi
+    .filter(t=>t.jenis === 'masuk')
+    .reduce((a,b)=>a + Number(b.nominal||0), 0);
+  const totalKeluar = kas.transaksi
+    .filter(t=>t.jenis === 'keluar')
+    .reduce((a,b)=>a + Number(b.nominal||0), 0);
+  const saldo = Number(kas.saldoAwal||0) + totalMasuk - totalKeluar;
+  return { totalMasuk, totalKeluar, saldo };
+}
+
+function renderKas(){
+  const elSaldo = document.getElementById('kasSaldo');
+  const elMasuk = document.getElementById('kasMasuk');
+  const elKeluar = document.getElementById('kasKeluar');
+  const empty = document.getElementById('kasTransactionsEmpty');
+  const wrap = document.getElementById('kasTransactions');
+
+  if(!elSaldo || !elMasuk || !elKeluar || !wrap || !empty) return;
+
+  const { totalMasuk, totalKeluar, saldo } = calcKas();
+  elSaldo.innerText = formatRupiah(saldo);
+  elMasuk.innerText = formatRupiah(totalMasuk);
+  elKeluar.innerText = formatRupiah(totalKeluar);
+
+  wrap.innerHTML = '';
+
+  if(!kas.transaksi || kas.transaksi.length === 0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  // terbaru dulu
+  const sorted = [...kas.transaksi].sort((a,b)=> String(b.tanggal||'').localeCompare(String(a.tanggal||'')));
+
+  sorted.forEach((t)=>{
+    const nominal = Number(t.nominal||0);
+    const badgeColor = t.jenis === 'masuk' ? 'rgba(20,184,166,.18)' : 'rgba(239,68,68,.18)';
+    const badgeText = t.jenis === 'masuk' ? 'Masuk' : 'Keluar';
+
+    wrap.innerHTML += `
+      <div class="dashboard-item" style="background:rgba(255,255,255,.06)">
+        <div>
+          <div style="font-weight:700">${t.kategori || '-'}</div>
+          <div style="opacity:.75;font-size:.9rem">${t.tanggal || '-'} • ${t.keterangan || ''}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="display:inline-block;padding:6px 10px;border-radius:14px;background:${badgeColor};font-weight:700">
+            ${badgeText}
+          </div>
+          <div style="margin-top:8px;font-weight:800;color:#f7d774">
+            ${formatRupiah(nominal)}
+          </div>
+        </div>
+      </div>`;
+  });
+}
+
 
 function editPustaka(index){
   const title=prompt('Edit judul',pustaka[index].title);
@@ -987,29 +1181,38 @@ async function syncFromCloud(){
   if(syncInProgress) return;
   syncInProgress = true;
   try {
-    const [g, p] = await Promise.all([
+    const [g, p, k] = await Promise.all([
       loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID),
-      loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID)
+      loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID),
+      loadCloudinaryJson(KAS_JSON_PUBLIC_ID)
     ]);
 
     gallery = Array.isArray(g) ? g : [];
     pustaka = Array.isArray(p) ? p : [];
+    kas = k && typeof k === 'object' ? {
+      saldoAwal: Number(k.saldoAwal || 0) || 0,
+      transaksi: Array.isArray(k.transaksi) ? k.transaksi : []
+    } : kas;
 
     localStorage.setItem('gallery', JSON.stringify(gallery));
     localStorage.setItem('pustaka', JSON.stringify(pustaka));
+    localStorage.setItem('kas', JSON.stringify(kas));
 
     renderGallery();
     renderPustaka();
     renderPustakaDashboard();
+    renderKas();
   } catch(err){
     // kalau belum ada JSON di cloud, pakai fallback local
     renderGallery();
     renderPustaka();
     renderPustakaDashboard();
+    renderKas();
   } finally {
     syncInProgress = false;
   }
 }
+
 
 
 async function syncToCloudOnce(forceSave=false){
@@ -1021,6 +1224,7 @@ async function syncToCloudOnce(forceSave=false){
       try {
         await loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID);
         await loadCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID);
+        await loadCloudinaryJson(KAS_JSON_PUBLIC_ID);
         return;
       } catch(e){
         // tidak ada => simpan
@@ -1029,6 +1233,7 @@ async function syncToCloudOnce(forceSave=false){
 
     await saveCloudinaryJson(GALLERY_JSON_PUBLIC_ID, gallery);
     await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
+    await saveCloudinaryJson(KAS_JSON_PUBLIC_ID, kas);
   } catch(e){
     // ignore kalau preset/permission tidak mengizinkan raw upload
   } finally {
@@ -1036,16 +1241,36 @@ async function syncToCloudOnce(forceSave=false){
   }
 }
 
+function renderKasDashboard(){
+  const dash = document.getElementById('kasDashboard');
+  if(!dash) return;
+  const { totalMasuk, totalKeluar, saldo } = calcKas();
+  dash.innerHTML = `
+    <h3 style="margin:18px 0 10px; color:#f7d774">Ringkasan Kas</h3>
+    <div class="dashboard-item"><div>Saldo</div><div style="color:#f7d774; font-weight:800">${formatRupiah(saldo)}</div></div>
+    <div class="dashboard-item"><div>Pemasukan</div><div style="color:#14b8a6; font-weight:800">${formatRupiah(totalMasuk)}</div></div>
+    <div class="dashboard-item"><div>Pengeluaran</div><div style="color:#ef4444; font-weight:800">${formatRupiah(totalKeluar)}</div></div>
+  `;
+}
+
+
+
 
 (async () => {
   // 1) render dulu dengan local fallback
   renderGallery();
   renderPustaka();
   renderPustakaDashboard();
+  renderKas();
+  renderKasDashboard();
+
 
   // 2) sync dari cloud untuk data terbaru
   await syncToCloudOnce();
   await syncFromCloud();
+  // setelah sync dari cloud pastikan kas ter-render
+  renderKas();
+  renderKasDashboard();
 })();
 </script>
 
