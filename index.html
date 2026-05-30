@@ -789,12 +789,20 @@ const PUSTAKA_JSON_PUBLIC_ID = 'mushola_pustaka';
 // Kas disimpan di: mushola_kas.json
 const KAS_JSON_PUBLIC_ID = 'mushola_kas';
 
-// Pastikan format URL JSON bisa diakses publik (private/public tergantung setup Cloudinary kamu)
+  // URL raw JSON yang akan di-load.
+  // Catatan: parameter cloudinaryJsonUrl dipakai dengan publicId base (tanpa .json)
+  // sehingga selalu ditambah suffix .json di sini.
 function cloudinaryJsonUrl(publicId){
-  // Kita upload JSON raw dengan public_id = `${publicId}.json`
-  // Jadi URL yang di-load harus memakai `${publicId}.json` (suffix sudah ada)
-  return `https://res.cloudinary.com/${CLOUD_NAME}/raw/upload/${publicId}.json`;
+  const base = String(publicId || '');
+  return `https://res.cloudinary.com/${CLOUD_NAME}/raw/upload/${base}.json`;
 }
+
+function cloudinaryJsonPublicId(publicId){
+  // public_id untuk raw JSON ditulis tanpa ekstensi .json
+  return String(publicId || '');
+}
+
+
 
 
 let gallery = [];
@@ -1299,7 +1307,9 @@ async function saveCloudinaryJson(publicId, data){
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', UPLOAD_PRESET_JSON);
-  formData.append('public_id', `${publicId}.json`);
+  formData.append('public_id', cloudinaryJsonPublicId(publicId));
+
+
   // preset unsigned: overwrite tidak diizinkan => jangan kirim overwrite
   formData.append('resource_type', 'raw');
 
