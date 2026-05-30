@@ -108,7 +108,6 @@ to{transform:scale(1.08)}
 
 .hero-content{position:relative;z-index:2;max-width:850px;}
 
-
 .hero h1{font-size:4rem;margin-bottom:18px;}
 .hero p{line-height:1.8;color:#f3f3f3;}
 
@@ -315,45 +314,10 @@ top:14px;
 right:18px;
 font-size:1.8rem;
 cursor:pointer;
-z-index:1000001;
-background:rgba(0,0,0,.55);
-backdrop-filter:blur(10px);
--webkit-backdrop-filter:blur(10px);
-padding:6px 12px;
-border-radius:16px;
-line-height:1;
-box-shadow:0 8px 20px rgba(0,0,0,.35);
 }
-
-/* HP: buat tombol lebih besar supaya tidak ketutupan/di-swipe area */
-@media(max-width:768px){
-  .pustaka-close{
-    top:10px;
-    right:10px;
-    font-size:2rem;
-    padding:8px 14px;
-  }
-}
-
 
 .pustaka-content h2{margin-bottom:14px;color:#f7d774;}
-.pustaka-content p{
-line-height:1.9;
-color:rgba(255,255,255,.86);
-white-space:pre-wrap;
-word-break:break-word;
-}
-
-/* Rapikan tampilan pustaka modal */
-#pustakaText{
-margin-top:6px;
-font-size:1rem;
-}
-
-#pustakaTitle{
-word-break:break-word;
-}
-
+.pustaka-content p{line-height:1.9;color:rgba(255,255,255,.82);}
 
 .admin-btn{
 position:fixed;
@@ -633,8 +597,6 @@ height:180px;
 
 <div id="dashboard"></div>
 <div id="pustakaDashboard"></div>
-
-<div style="height:8px"></div>
 </div>
 </div>
 </div>
@@ -671,41 +633,34 @@ function cloudinaryJsonUrl(publicId){
 }
 
 let gallery = [];
-
-try {
-  gallery = JSON.parse(localStorage.getItem('gallery'));
-  if(!Array.isArray(gallery)) gallery = [];
-} catch(e){
-  gallery = [];
-}
-
-
-
 let pustaka = [];
 
-try {
-  pustaka = JSON.parse(localStorage.getItem('pustaka'));
-  if(!Array.isArray(pustaka)) pustaka = [];
-} catch(e){
-  pustaka = [];
+// gate sync agar tidak race
+let syncInProgress = false;
+
+function safeParseArray(key){
+  try{
+    const v = JSON.parse(localStorage.getItem(key));
+    return Array.isArray(v) ? v : [];
+  }catch(e){
+    return [];
+  }
 }
+
+gallery = safeParseArray('gallery');
+pustaka = safeParseArray('pustaka');
 
 // Seed pustaka biar selalu ada konten awal (fallback local)
 if(pustaka.length === 0){
   pustaka = [
-    {
-      title: 'Dzikir Pagi',
-      text: 'Dzikir pagi memberi ketenangan hati dan perlindungan sepanjang hari.'
-    },
-    {
-      title: 'Doa Sebelum Tidur',
-      text: 'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ.'
-    }
+    { title: 'Dzikir Pagi', text: 'Dzikir pagi memberi ketenangan hati dan perlindungan sepanjang hari.' },
+    { title: 'Doa Sebelum Tidur', text: 'Membaca doa sebelum tidur merupakan sunnah Rasulullah ﷺ.' }
   ];
 }
 
 // Saat sinkron Cloudinary belum ter-load, simpan fallback local
 localStorage.setItem('pustaka', JSON.stringify(pustaka));
+
 
 function toggleMenu(){
 document.getElementById('navMenu').classList.toggle('active');
@@ -740,18 +695,22 @@ function renderGallery(){
     return;
   }
 
-gallery.forEach((item,index)=>{
+  gallery.forEach((item,index)=>{
     if(!item) return;
 
     const firstMedia = Array.isArray(item.media) && item.media.length > 0 ? item.media[0] : null;
     const previewUrl = firstMedia && firstMedia.url ? firstMedia.url : '';
 
+    const title = item.title || 'Tanpa Judul';
+    const desc = item.desc || '';
+    const descPreview = desc.length > 120 ? desc.substring(0,120) + '...' : desc;
+
     wrap.innerHTML += `
       <div class="card">
-        <img src="${previewUrl}" alt="${item.title || 'Galeri'}" style="width:100%;height:230px;object-fit:cover;background:black;display:block;">
+        <img src="${previewUrl}" alt="${title}" style="width:100%;height:230px;object-fit:cover;background:black;display:block;">
         <div class="card-content">
-          <h3>${item.title || 'Tanpa Judul'}</h3>
-          <p>${item.desc ? item.desc.substring(0,120) : ''}${item.desc && item.desc.length > 120 ? '...' : ''}</p>
+          <h3>${title}</h3>
+          <p>${descPreview}</p>
           <div class="date">${item.date || ''}</div>
           <div class="event-count">📁 ${Array.isArray(item.media) ? item.media.length : 0} Media</div>
           <button class="open-btn" onclick="openEvent(${index})">Lihat Kegiatan</button>
@@ -759,10 +718,8 @@ gallery.forEach((item,index)=>{
       </div>
     `;
   });
-
-
-  renderDashboard();
 }
+
 
 
 function openEvent(index){
@@ -770,30 +727,22 @@ const viewer=document.getElementById('eventViewer');
 const slider=document.getElementById('eventSlider');
 const title=document.getElementById('eventTitle');
 
-if(index === undefined || index === null) return;
-if(!Array.isArray(gallery) || index < 0 || index >= gallery.length) return;
+slider.innerHTML='';
 
 const event=gallery[index];
-if(!event) return;
-if(!Array.isArray(event.media)) event.media = [];
+title.innerText=event.title;
 
-slider.innerHTML='';
-title.innerText = event.title || 'Kegiatan';
-
-event.media.forEach((media)=>{
-if(!media || !media.url) return;
-const isImage = media.type === 'image' || media.type === undefined;
-slider.innerHTML += `
+event.media.forEach(media=>{
+slider.innerHTML+=`
 <div class="event-slide">
-${isImage
-? `<img src="${media.url}" alt="${event.title ? event.title : 'Kegiatan'}">`
+${media.type==='image'
+? `<img src="${media.url}">`
 : `<video controls><source src="${media.url}"></video>`}
 </div>`;
 });
 
 viewer.style.display='flex';
 }
-
 
 function closeEvent(){
 document.getElementById('eventViewer').style.display='none';
@@ -833,14 +782,8 @@ type:file.type.startsWith('video')?'video':'image'
 gallery.unshift({title,desc,date,media:mediaArray});
 localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
-
-syncToCloudOnce(true).then(()=>{
-  alert('Upload berhasil + sinkron');
-}).catch(()=>{
-  alert('Upload berhasil (sinkron cloud gagal/terbatas preset)');
-});
+alert('Upload berhasil');
 }
-
 
 function renderDashboard(){
 const dash=document.getElementById('dashboard');
@@ -862,10 +805,9 @@ renderPustakaDashboard();
 
 function deleteGallery(index){
 if(confirm('Hapus kegiatan?')){
-  gallery.splice(index,1);
-  localStorage.setItem('gallery',JSON.stringify(gallery));
-  renderGallery();
-  syncToCloudOnce(true).catch(()=>{});
+gallery.splice(index,1);
+localStorage.setItem('gallery',JSON.stringify(gallery));
+renderGallery();
 }
 }
 
@@ -879,34 +821,44 @@ item.title=title;
 item.desc=desc;
 localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
-syncToCloudOnce(true).catch(()=>{});
 }
 
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'<')
+    .replace(/>/g,'>')
+    .replace(/"/g,'"')
+    .replace(/'/g,'&#039;');
+}
 
 function renderPustaka(){
-const wrap=document.getElementById('pustakaContainer');
-wrap.innerHTML='';
+  const wrap=document.getElementById('pustakaContainer');
+  if(!wrap) return;
+  wrap.innerHTML='';
 
-pustaka.forEach((item,index)=>{
-wrap.innerHTML+=`
-<div class="card pustaka-card" onclick="openPustaka(${index})">
+  pustaka.forEach((item,index)=>{
+    const title = escapeHtml(item.title || 'Tanpa Judul');
+    const text = String(item.text || '');
+    const preview = text.length > 100 ? text.substring(0,100) + '...' : text;
+    const safeForOnclick = String(item.text || '').replace(/'/g,"\\'");
+
+    wrap.innerHTML+=`
+<div class="card pustaka-card" onclick="openPustaka('${escapeHtml(item.title || 'Tanpa Judul').replace(/'/g,"\\'")}', '${safeForOnclick}')">
 <div class="card-content">
-<h3>${item.title}</h3>
-<p>${item.text.substring(0,100)}...</p>
+<h3>${title}</h3>
+<p>${escapeHtml(preview)}</p>
 <div class="date">Pustaka Islami</div>
 </div>
 </div>`;
-});
+  });
 }
 
-function openPustaka(index){
-if(index === undefined || index === null) return;
-if(!Array.isArray(pustaka) || index < 0 || index >= pustaka.length) return;
-const item=pustaka[index];
-if(!item) return;
-document.getElementById('pustakaTitle').innerText=item.title || 'Pustaka';
-document.getElementById('pustakaText').innerText=item.text || '';
-document.getElementById('pustakaModal').style.display='flex';
+
+function openPustaka(title,text){
+  document.getElementById('pustakaTitle').innerText=title;
+  document.getElementById('pustakaText').innerText=text;
+  document.getElementById('pustakaModal').style.display='flex';
 }
 
 
@@ -915,26 +867,23 @@ document.getElementById('pustakaModal').style.display='none';
 }
 
 function addPustaka(){
-const title=document.getElementById('pustakaJudul').value.trim();
-const text=document.getElementById('pustakaIsi').value.trim();
+  const title=document.getElementById('pustakaJudul').value.trim();
+  const text=document.getElementById('pustakaIsi').value.trim();
 
-if(!title||!text){
-alert('Lengkapi pustaka');
-return;
+  if(!title||!text){
+    alert('Lengkapi pustaka');
+    return;
+  }
+
+  pustaka.unshift({title,text});
+  localStorage.setItem('pustaka',JSON.stringify(pustaka));
+  renderPustaka();
+  renderPustakaDashboard();
+
+  // sinkron ke cloud (agar laptop<->HP konsisten)
+  syncToCloudOnce(true).catch(()=>{});
 }
 
-pustaka.unshift({title,text});
-localStorage.setItem('pustaka',JSON.stringify(pustaka));
-renderPustaka();
-renderPustakaDashboard();
-
-// Simpan ke Cloudinary agar HP/laptop sinkron (paksa update)
-syncToCloudOnce(true).then(()=>{
-  alert('Pustaka berhasil ditambah (sinkron)');
-}).catch(()=>{
-  alert('Pustaka ditambah. Sinkron cloud gagal/terbatas preset.');
-});
-}
 
 
 
@@ -955,27 +904,30 @@ dash.innerHTML+=`
 }
 
 function editPustaka(index){
-const title=prompt('Edit judul',pustaka[index].title);
-if(title===null)return;
-const text=prompt('Edit isi',pustaka[index].text);
-if(text===null)return;
-pustaka[index]={title,text};
-localStorage.setItem('pustaka',JSON.stringify(pustaka));
-renderPustaka();
-renderPustakaDashboard();
+  const title=prompt('Edit judul',pustaka[index].title);
+  if(title===null)return;
+  const text=prompt('Edit isi',pustaka[index].text);
+  if(text===null)return;
+
+  pustaka[index]={title,text};
+  localStorage.setItem('pustaka',JSON.stringify(pustaka));
+  renderPustaka();
+  renderPustakaDashboard();
+
+  syncToCloudOnce(true).catch(()=>{});
 }
+
 
 function deletePustaka(index){
-if(confirm('Hapus pustaka?')){
-pustaka.splice(index,1);
-localStorage.setItem('pustaka',JSON.stringify(pustaka));
-renderPustaka();
-renderPustakaDashboard();
+  if(confirm('Hapus pustaka?')){
+    pustaka.splice(index,1);
+    localStorage.setItem('pustaka',JSON.stringify(pustaka));
+    renderPustaka();
+    renderPustakaDashboard();
 
-syncToCloudOnce(true).catch(()=>{});
+    syncToCloudOnce(true).catch(()=>{});
+  }
 }
-}
-
 
 
 
@@ -1011,6 +963,8 @@ async function saveCloudinaryJson(publicId, data){
 }
 
 async function syncFromCloud(){
+  if(syncInProgress) return;
+  syncInProgress = true;
   try {
     const [g, p] = await Promise.all([
       loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID),
@@ -1022,21 +976,26 @@ async function syncFromCloud(){
 
     localStorage.setItem('gallery', JSON.stringify(gallery));
     localStorage.setItem('pustaka', JSON.stringify(pustaka));
+
+    renderGallery();
+    renderPustaka();
+    renderPustakaDashboard();
   } catch(err){
     // kalau belum ada JSON di cloud, pakai fallback local
+    renderGallery();
+    renderPustaka();
+    renderPustakaDashboard();
+  } finally {
+    syncInProgress = false;
   }
-
-  // render setelah data final
-  renderGallery();
-  renderPustaka();
-  renderPustakaDashboard();
 }
 
 
-function syncToCloudOnce(forceSave=false){
-  // Pastikan data default tersimpan ke cloud (sekali saja) atau jika forceSave=true.
-  // Return Promise so callers can await.
-  return (async () => {
+async function syncToCloudOnce(forceSave=false){
+  if(syncInProgress) return;
+  syncInProgress = true;
+  try{
+    // Pastikan data default tersimpan ke cloud (sekali saja) atau jika forceSave=true.
     if(!forceSave){
       try {
         await loadCloudinaryJson(GALLERY_JSON_PUBLIC_ID);
@@ -1047,29 +1006,27 @@ function syncToCloudOnce(forceSave=false){
       }
     }
 
-    try{
-      await saveCloudinaryJson(GALLERY_JSON_PUBLIC_ID, gallery);
-      await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
-    }catch(e){
-      // ignore kalau preset/permission tidak mengizinkan raw upload
-    }
-  })();
+    await saveCloudinaryJson(GALLERY_JSON_PUBLIC_ID, gallery);
+    await saveCloudinaryJson(PUSTAKA_JSON_PUBLIC_ID, pustaka);
+  } catch(e){
+    // ignore kalau preset/permission tidak mengizinkan raw upload
+  } finally {
+    syncInProgress = false;
+  }
 }
 
 
-
 (async () => {
-  // render dulu dengan local fallback
+  // 1) render dulu dengan local fallback
   renderGallery();
   renderPustaka();
   renderPustakaDashboard();
 
-  // sync dari cloud untuk data terbaru
+  // 2) sync dari cloud untuk data terbaru
   await syncToCloudOnce();
   await syncFromCloud();
 })();
 </script>
-
 
 
 </body>
