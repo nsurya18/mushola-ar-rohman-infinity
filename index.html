@@ -1004,7 +1004,10 @@ type:file.type.startsWith('video')?'video':'image'
 gallery.unshift({title,desc,date,media:mediaArray});
 localStorage.setItem('gallery',JSON.stringify(gallery));
 renderGallery();
+// pastikan sync ke cloud benar-benar jalan
+syncToCloudOnce(true).catch((e)=>console.error('sync after upload failed', e));
 alert('Upload berhasil');
+
 }
 
 function renderDashboard(){
@@ -1110,7 +1113,8 @@ function addPustaka(){
   renderPustakaDashboard();
 
   // sinkron ke cloud (agar laptop<->HP konsisten)
-  syncToCloudOnce(true).catch(()=>{});
+  syncToCloudOnce(true).catch((e)=>console.error('sync after addPustaka failed', e));
+
 }
 
 function setKasSaldoAwal(){
@@ -1276,8 +1280,9 @@ function deletePustaka(index){
     renderPustaka();
     renderPustakaDashboard();
 
-    syncToCloudOnce(true).catch(()=>{});
+    syncToCloudOnce(true).catch((e)=>console.error('sync after deletePustaka failed', e));
   }
+
 }
 
 
@@ -1368,6 +1373,7 @@ async function syncFromCloud(){
     renderKas();
   } catch(err){
     // kalau belum ada JSON di cloud, pakai fallback local
+    console.warn('[syncFromCloud] using local fallback:', err);
     renderGallery();
     renderPustaka();
     renderPustakaDashboard();
@@ -1375,6 +1381,7 @@ async function syncFromCloud(){
   } finally {
     syncInProgress = false;
   }
+
 }
 
 
@@ -1708,10 +1715,10 @@ async function loadJadwalSholat() {
   // 1b) load jadwal sholat
   await loadJadwalSholat();
 
-  // 2) sync dari cloud untuk data terbaru
-  await syncToCloudOnce();
-  await syncFromCloud();
-  // setelah sync dari cloud pastikan kas ter-render
+  // 2) hapus sync cloud (supaya update hanya dari HP/admin)
+  // await syncToCloudOnce();
+  // await syncFromCloud();
+  // kas sudah dirender dari localStorage
   renderKas();
   renderKasDashboard();
 
