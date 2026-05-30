@@ -351,6 +351,24 @@ padding:20px;
 z-index:999999;
 }
 
+.login-box{
+position:relative;
+padding:20px 20px 16px;
+border-radius:18px;
+max-width:420px;
+width:100%;
+}
+
+.login-close{
+position:absolute;
+top:8px;
+right:12px;
+font-size:1.6rem;
+cursor:pointer;
+opacity:.9;
+user-select:none;
+}
+
 .box{
 width:100%;
 max-width:560px;
@@ -603,7 +621,7 @@ height:180px;
 
 
 <section id="galeri">
-<div class="section-title"><h2>Galeri Kegiatan</h2><p>Dokumentasi kegiatan DKM</p></div>
+<div class="section-title"><h2>Galeri Kegiatan</h2><p>Dokumentasi kegiatan mushola<br>klik icon IG</p></div>
 <div class="carousel" id="gallery"></div>
 </section>
 
@@ -632,10 +650,11 @@ height:180px;
 
 <div class="panel" id="panel">
 <div class="box">
-<div id="loginForm">
-<h2>Login Admin</h2>
-<input type="password" id="adminPassword" placeholder="Masukkan password admin">
-<button onclick="loginAdmin()">Masuk Dashboard</button>
+<div id="loginForm" class="login-box">
+  <h2>Login Admin</h2>
+<div class="login-close" onclick="closeLoginAdmin();">✕</div>
+<input type="password" id="adminPassword" placeholder="Masukkan password admin" autocomplete="current-password"/>
+<button type="button" onclick="loginAdmin()">Masuk Dashboard</button>
 </div>
 
 <div id="adminContent" style="display:none">
@@ -777,6 +796,9 @@ document.getElementById('navMenu').classList.toggle('active');
 
 function openPanel(){
   document.getElementById('panel').style.display='flex';
+  // pastikan tampilan login awal
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('adminContent').style.display = 'none';
   renderKas();
   renderKasDashboard();
 }
@@ -786,6 +808,23 @@ function openPanel(){
 function closePanel(){
 document.getElementById('panel').style.display='none';
 }
+
+function closeLoginAdmin(){
+  // Pastikan benar-benar tertutup (dan bukan hanya ganti layar login)
+  const panel = document.getElementById('panel');
+  if(panel) panel.style.display = 'none';
+
+  const passEl = document.getElementById('adminPassword');
+  if(passEl) passEl.value = '';
+
+  const loginEl = document.getElementById('loginForm');
+  if(loginEl) loginEl.style.display = 'block';
+
+  const adminEl = document.getElementById('adminContent');
+  if(adminEl) adminEl.style.display = 'none';
+}
+
+
 
 function loginAdmin(){
 const pass=document.getElementById('adminPassword').value;
