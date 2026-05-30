@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mushola AR-ROHMAN V8</title>
+<title>Mushola AR-ROHMAN</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -315,7 +315,26 @@ top:14px;
 right:18px;
 font-size:1.8rem;
 cursor:pointer;
+z-index:1000001;
+background:rgba(0,0,0,.55);
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+padding:6px 12px;
+border-radius:16px;
+line-height:1;
+box-shadow:0 8px 20px rgba(0,0,0,.35);
 }
+
+/* HP: buat tombol lebih besar supaya tidak ketutupan/di-swipe area */
+@media(max-width:768px){
+  .pustaka-close{
+    top:10px;
+    right:10px;
+    font-size:2rem;
+    padding:8px 14px;
+  }
+}
+
 
 .pustaka-content h2{margin-bottom:14px;color:#f7d774;}
 .pustaka-content p{
@@ -614,6 +633,8 @@ height:180px;
 
 <div id="dashboard"></div>
 <div id="pustakaDashboard"></div>
+
+<div style="height:8px"></div>
 </div>
 </div>
 </div>
