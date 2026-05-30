@@ -589,6 +589,7 @@ height:180px;
   <div class="running-text" id="runningText">
     <span>🕌 "Cukuplah Allah sebagai penolong kami dan Allah adalah sebaik-baik pelindung."
 QS. Al-Baqarah: 286 •</span>
+
   </div>
 </div>
 
@@ -1533,10 +1534,14 @@ function startHighlightSholat() {
   // Anggap sholat aktif mulai 10 menit sebelum waktunya sampai 10 menit sebelum sholat berikutnya.
 
   const order = ['Subuh','Dzuhur','Ashar','Maghrib','Isya'];
+
   const getMinutes = (name) => times[name];
 
-  const windowBefore = 10; // menit
-  const windowAfter = 0;   // tidak perlu tambahan; cukup dari interval antar sholat
+  // Hijau = sholat yang akan dimulai (window sebelum waktu sholat)
+  const windowBefore = 10; // menit sebelum waktu sholat
+  const windowAfter = 0;   // tidak ikut mewarnai setelah waktu sholat
+
+
 
   const boundaries = {};
   for (let i = 0; i < order.length; i++) {
@@ -1549,9 +1554,15 @@ function startHighlightSholat() {
     if (curTime == null) continue;
 
     const start = curTime - windowBefore;
+    // hijau hanya sampai 10 menit sebelum sholat berikutnya dimulai
     const end = nextTime == null ? (curTime + 6 * 60) : (nextTime - windowBefore);
 
-    boundaries[curName] = { start, end };
+
+    // Hijau untuk sholat yang akan dimulai: rentang (waktu sholat - windowBefore) .. waktu sholat
+    boundaries[curName] = { start, end: curTime };
+
+
+
   }
 
   const statusMap = {};
@@ -1562,6 +1573,7 @@ function startHighlightSholat() {
       return;
     }
     statusMap[n] = curMin >= b.start && curMin < b.end;
+
   });
 
   setJadwalHijau(statusMap);
