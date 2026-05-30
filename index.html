@@ -541,12 +541,12 @@ height:180px;
 <a href="#galeri" class="btn">Lihat Galeri</a>
 </div>
 
-<div class="hero-jadwal">
-<div class="jadwal-mini"><h4>Subuh</h4><p>04:28</p></div>
-<div class="jadwal-mini"><h4>Dzuhur</h4><p>11:55</p></div>
-<div class="jadwal-mini"><h4>Ashar</h4><p>15:17</p></div>
-<div class="jadwal-mini"><h4>Maghrib</h4><p>17:47</p></div>
-<div class="jadwal-mini"><h4>Isya</h4><p>18:58</p></div>
+<div class="hero-jadwal" id="jadwalSholat">
+<div class="jadwal-mini"><h4>Subuh</h4><p id="sholatSubuh">—</p></div>
+<div class="jadwal-mini"><h4>Dzuhur</h4><p id="sholatDzuhur">—</p></div>
+<div class="jadwal-mini"><h4>Ashar</h4><p id="sholatAshar">—</p></div>
+<div class="jadwal-mini"><h4>Maghrib</h4><p id="sholatMaghrib">—</p></div>
+<div class="jadwal-mini"><h4>Isya</h4><p id="sholatIsya">—</p></div>
 </div>
 </section>
 
@@ -726,7 +726,7 @@ Kecamatan Cilimus - Kabupaten Kuningan
 <a href="https://instagram.com/arrohmanpahing" target="_blank"><i class="fab fa-instagram"></i></a>
 </div>
 
-<div class="footer-copy">© 2026 By Zayn Digital Abadi</div>
+<div class="footer-copy">© 2026 By Zayn DNA</div>
 </footer>
 
 <script>
@@ -1341,6 +1341,55 @@ function renderKasDashboard(){
 
 
 
+async function loadJadwalSholat() {
+  // Koordinat mushola dari user: -6.892767, 108.483086
+  const lat = -6.892767;
+  const lon = 108.483086;
+
+  // Gunakan API online tanpa key (format response mengikuti Aladhan v1)
+  // Endpoint: https://api.aladhan.com/v1/timings/{date}?latitude=...&longitude=...&method=11
+  // method=11 (perkiraan Imams/ Kemenag style; sesuaikan bila kamu punya metode lain)
+  const date = new Date();
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  const d = `${dd}-${mm}-${yyyy}`;
+
+  try {
+    const url = `https://api.aladhan.com/v1/timings/${d}?latitude=${lat}&longitude=${lon}&method=11&school=0`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const timings = data?.data?.timings;
+    if (!timings) throw new Error('timings kosong');
+
+    // Aladhan format: Fajr, Dhuhr, Asr, Maghrib, Isha
+    const setText = (id, val) => {
+      const el = document.getElementById(id);
+      if (el && val) el.textContent = String(val);
+    };
+
+    setText('sholatSubuh', timings.Fajr);
+    setText('sholatDzuhur', timings.Dhuhr);
+    setText('sholatAshar', timings.Asr);
+    setText('sholatMaghrib', timings.Maghrib);
+    setText('sholatIsya', timings.Isha);
+  } catch (e) {
+    // fallback: tampilkan default agar UI tidak kosong
+    console.warn('Gagal load jadwal sholat:', e);
+    const setText = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
+    setText('sholatSubuh', '04:28');
+    setText('sholatDzuhur', '11:55');
+    setText('sholatAshar', '15:17');
+    setText('sholatMaghrib', '17:47');
+    setText('sholatIsya', '18:58');
+  }
+}
+
 (async () => {
   // 1) render dulu dengan local fallback
   renderGallery();
@@ -1349,6 +1398,8 @@ function renderKasDashboard(){
   renderKas();
   renderKasDashboard();
 
+  // 1b) load jadwal sholat
+  await loadJadwalSholat();
 
   // 2) sync dari cloud untuk data terbaru
   await syncToCloudOnce();
@@ -1358,6 +1409,7 @@ function renderKasDashboard(){
   renderKasDashboard();
 })();
 </script>
+
 
 
 </body>
